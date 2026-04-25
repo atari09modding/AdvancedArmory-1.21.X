@@ -1,5 +1,6 @@
 package net.atari09.atarisadvancedarmory.effect;
 
+import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisnewmegamodproject.AtariMod;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,7 +14,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModEffects {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS =
-            DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, AtariMod.MOD_ID);
+            DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, AtarisAdvancedArmory.MOD_ID);
 /*
     public static final Holder<MobEffect> SLIMEY_EFFECT = MOB_EFFECTS.register("slimey",
             ()-> new SlimeyEffect(MobEffectCategory.NEUTRAL, 0x36ebab)
