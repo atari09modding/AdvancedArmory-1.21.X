@@ -1,0 +1,128 @@
+smithing table:
+- geckolib animated block, mb animated "villager but as smith" and item renderer for weapon beeing upgraded
+- separate smith for armor, with armor renderer if possible
+- wizard table with also animated "villager" for rare/powerful enchantments
+- dark magic to make EVIL enchantments or bind a demons soul to your weapon (blood rituals, collect blood of different mobs for different rituals)
+- different upgrading templates and new weapon types
+- JSON configurable upgrades
+- (mb with curious API bonus perks or so for necklaces)
+- NOTE:!!! for the itemrenderer you might have to use a geckolib renderer,
+    that 3d item models with 2d inventory texture can be displayed in 3d
+    and also change in the itemrenderer (find example for pedestal) ItemDisplayContext from Fixed to THIRD_PERSON_RIGHTHAND
+    also add of course an override to render function preserven super.render() to still render
+    the geckolib block but add the itemrender code from the pedestal to it -> also example below
+    (mb try out doing an interpolation for the item to spin and hover if finished like first it is laying, and then it is like hovering if done)
+
+
+weapons -> features:
+- secondary special attacks
+- new enchantments -> with special wizard to get books cuz don't show up on enchantment table
+- special features like automatic poisoning or applying fire or so ... (also elemental variants -> see elements)
+- demon possesion of your weapon -> evil altar -> mb something like that your weapon grows stronger with every kill you make
+- EVIL enchantments -> evil altar
+
+weapon types:
+- better swords (made from , obvieously, swords)
+- better bows (made from , obvieously, bows)
+- battleaxes made from axes
+- scythes made from hoe
+- new special weapons that do things that can be influenced by vanilla features
+- gauntlets
+- (perk system? if yes then try out using getTooltip image to mb add perk icons on bottom of tooltip -> already done in swissarmyknife item with custom tooltip component and custom renderer for tooltipcomponent)
+- custom maces (made from maces)
+
+armor:
+- armors for mob types or terrain
+- biome related buffs/debuffs
+    example (yes it runs on both client and server):
+
+        if(level.getBiome(entity.blockPosition()).is(Biomes.FOREST)){
+            System.out.println("aaa");
+        }
+- armor variants
+- mb special abilities for armor
+
+elements for weapons:
+    kryonic (frost):
+        1: slows down enemys with frost effect
+        2: special freeze ability attack that creates ice pillars like evoker attack (i i'll find out how to code that probl just summon entity that works like evoker fang) this makes enemys freeze like powder snow
+        3: deal more damage to players with frost
+    inferno/infernal(fire):
+        1: ignites enemy
+        2: ability to shoot fire charge(s)
+        3: deal more damage in to enemys on fire, also disable fire resistance from enemys
+    Noxious (toxic/poison):
+        1: poisons enemy
+        2: ability to spread poison spores in air
+        3: chance to infect target with wither effect
+    abyssal (void) (purple "enderman" color sceme):
+        1: ALWAYS infect target with void effect which i dont know what it should do yet
+        2: apply darkness effect for 5 secounds to all surrounding enemys and infect them with void effect
+        3: always deal critical hits to infected targets
+    aerial(wind/air):
+        1: increased knockback
+        2: ability to shoot wind charge(s)
+        3:
+    terrestrial (earth/stone):
+        1: (apply an irreasonable screenshake to the target)
+        2: ability to grab chunks of dirt/stone and shoot them
+        3: deals more damage if your y-pos is lower (like deeper underground = more damage ...)
+    aquatic (water):
+        1: attack faster in water/rain
+        2:
+        3: deal more damage to entitys in water/rain and extra damage the less oxygen the target has
+    chronal (time): (only mb)
+        1:
+        2: ability to slow time down
+        3: small chance to freeze time for one enemy
+
+
+
+
+more:
+- mb custom bosses to obtain some items for strong upgrades or so
+- mb also important: in ItemStack method get Tooltip lines (and the method add attribute Tooltips)
+- kind of progression trees for weapons and armor
+- the whole thing should be like some weapon system similar to minecraft dungeons
+- JEI compatibility
+
+
+
+
+
+
+
+important:
+- if particles are used in animation of geckolib add particlekeyframecontroller and mb also look into soundkeyframecontroller -> https://github.com/bernie-g/geckolib/wiki/Keyframe-Triggers-(Geckolib4)
+
+here example of geckolib renderer that also renders an item:
+
+public class LogMineBlockRenderer extends GeoBlockRenderer<LogMineBlockEntity> {
+    public LogMineBlockRenderer(BlockEntityRendererProvider.Context context, int id) {
+        super(new LogMineModel(id));
+    }
+
+    @Override
+    public void render(LogMineBlockEntity animatable, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+        super.render(animatable, partialTick, poseStack, bufferSource, packedLight, packedOverlay);
+        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        ItemStack stack = new ItemStack(ModItems.RADIATION_STAFF.get());
+
+        poseStack.pushPose();
+        poseStack.translate(0.5f, 1.15f, 0.5f);
+        poseStack.scale(0.5f, 0.5f, 0.5f);
+
+        itemRenderer.renderStatic(stack, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, getLightLevel(animatable.getLevel(),
+                animatable.getBlockPos()), OverlayTexture.NO_OVERLAY, poseStack, bufferSource, animatable.getLevel(), 1);
+        poseStack.popPose();
+    }
+
+    private int getLightLevel(Level level, BlockPos pos) {
+        int bLight = level.getBrightness(LightLayer.BLOCK, pos);
+        int sLight = level.getBrightness(LightLayer.SKY, pos);
+        return LightTexture.pack(bLight, sLight);
+    }
+}
+
+
+
