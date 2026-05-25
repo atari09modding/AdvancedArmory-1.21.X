@@ -1,6 +1,13 @@
 package net.atari09.atarisadvancedarmory;
 
+import net.atari09.atarisadvancedarmory.block.ModBlocks;
+import net.atari09.atarisadvancedarmory.block.client.WeaponSmithBaseBlockRenderer;
+import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
+import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
+import net.atari09.atarisadvancedarmory.item.ModItems;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -47,9 +54,16 @@ public class AtarisAdvancedArmory {
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
 
-
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
 
+    }
+
+    public static ResourceLocation res(String loc) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, loc);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
@@ -72,6 +86,13 @@ public class AtarisAdvancedArmory {
     static class ClientModEvents {
         @SubscribeEvent
         static void onClientSetup(FMLClientSetupEvent event) {
+
+
+        }
+
+        @SubscribeEvent
+        public static void registerBER(EntityRenderersEvent.RegisterRenderers event){
+            event.registerBlockEntityRenderer(ModBlockEntities.WEAPONSMITHBLOCK_BE.get(), WeaponSmithBaseBlockRenderer::new);
 
         }
     }

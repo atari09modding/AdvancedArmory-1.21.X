@@ -1,7 +1,6 @@
 package net.atari09.atarisadvancedarmory.effect;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
-import net.atari09.atarisnewmegamodproject.AtariMod;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
