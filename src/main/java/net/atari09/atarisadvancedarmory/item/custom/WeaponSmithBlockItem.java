@@ -13,6 +13,7 @@ import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceC
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.function.Consumer;
 
@@ -46,5 +47,10 @@ public class WeaponSmithBlockItem extends BlockItem implements GeoItem {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
+    }
+
+    @Override
+    public double getTick(Object itemStack) {
+        return RenderUtil.getCurrentTick();
     }
 }

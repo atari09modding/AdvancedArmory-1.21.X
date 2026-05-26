@@ -1,9 +1,13 @@
 package net.atari09.atarisadvancedarmory.datagen;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.datagen.recipebuilders.WeaponSmithRecipeBuilder;
+import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
@@ -18,6 +22,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
+
+    new WeaponSmithRecipeBuilder(
+            new ItemStack(Items.NETHERITE_SWORD),
+            Ingredient.of(Items.DIAMOND_SWORD), // 1st Ingredient
+            Ingredient.of(Items.NETHERITE_INGOT), // 2nd Ingredient
+            Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE) // TEMPLATE
+    ).save(recipeOutput);
     }
 
     protected static void oreSmelting(RecipeOutput recipeOutput, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult,

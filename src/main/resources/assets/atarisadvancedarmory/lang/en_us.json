@@ -1,3 +1,6 @@
 {
-  "block.atarisadvancedarmory.weaponsmithbaseblock" : "Weaponsmith"
+  "block.atarisadvancedarmory.weaponsmithbaseblock" : "Weaponsmith",
+
+
+  "item.atarisadvancedarmory.weaponsmithbaseblockitem" : "Weaponsmith"
 }
