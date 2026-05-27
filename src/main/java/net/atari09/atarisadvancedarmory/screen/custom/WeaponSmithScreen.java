@@ -2,15 +2,19 @@ package net.atari09.atarisadvancedarmory.screen.custom;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
+import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class WeaponSmithScreen extends AbstractContainerScreen<WeaponSmithMenu> {
     private static final ResourceLocation GUI_TEXTURE = AtarisAdvancedArmory.res("textures/gui/weaponsmith/weapon_smith_gui.png");
+
 
 
     public WeaponSmithScreen(WeaponSmithMenu menu, Inventory playerInventory, Component title) {
@@ -34,12 +38,13 @@ public class WeaponSmithScreen extends AbstractContainerScreen<WeaponSmithMenu> 
         renderSmithingButton(guiGraphics,x,y,mouseX,mouseY);
 
 
+
     }
 
+
     private void renderSmithingButton(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY) {
-        boolean active = menu.hasRecipe();
         boolean hover = mouseX >= x+99 && mouseX <= x+117 && mouseY >= y+34 && mouseY <= y+53;
-        if(active){
+        if(menu.hasRecipe()){
             if(hover){
                 guiGraphics.blit(GUI_TEXTURE,x+99,y+34,0,218,19,20);
             } else{
@@ -63,4 +68,24 @@ public class WeaponSmithScreen extends AbstractContainerScreen<WeaponSmithMenu> 
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics,mouseX,mouseY);
     }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+
+        if (mouseX >= x+99 && mouseX <= x+117 && mouseY >= y+34 && mouseY <= y+53){
+            sendStartSmithingPacket();
+            return true;
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
+
+    }
+
+    private void sendStartSmithingPacket() {
+        PacketDistributor.sendToServer(new StartSmithingPacket(menu.getPos()));
+    }
+
+
 }

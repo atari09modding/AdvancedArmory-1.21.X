@@ -59,6 +59,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     protected final ContainerData data;
     private int progress = 0;
     private int maxprogress = 72;
+    private boolean shouldCraft = false;
     private int hasRecipe = 0;
 
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
@@ -151,8 +152,9 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     }
 
     public void tick(Level level, BlockPos pos, BlockState blockState){
-        data.set(2,hasRecipe()?1:0);
-        if(hasRecipe()){
+        hasRecipe = hasRecipe()?1:0;
+
+        if(hasRecipe() && shouldCraft){
             increaseCraftingProgress();
             setChanged(level,pos,blockState);
 
@@ -194,13 +196,14 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     private void resetProgress() {
         progress = 0;
         maxprogress = 72;
+        shouldCraft = false;
     }
 
     private boolean canInsertItemIntoOutputSlot() {
         return itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty();
     }
 
-    private boolean hasRecipe() {
+    public boolean hasRecipe() {
         Optional<RecipeHolder<WeaponSmithRecipe>> recipe = getCurrentRecipe();
 
         if(recipe.isEmpty()){
@@ -217,5 +220,9 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     @Override
     public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    public void startCrafting() {
+        shouldCraft = true;
     }
 }

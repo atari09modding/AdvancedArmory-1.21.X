@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.block;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.block.custom.WeaponSmithPieceBlock;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -20,6 +21,9 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> WEAPONSMITHBASEBLOCK = BLOCKS.register("weaponsmithbaseblock",
             ()->new WeaponSmithBaseBlock(BlockBehaviour.Properties.of().strength(4f).sound(SoundType.ANVIL).noOcclusion()));
+
+    public static final DeferredBlock<Block> WEAPONSMITHPIECEBLOCK = BLOCKS.register("weaponsmithpieceblock",
+            ()->new WeaponSmithPieceBlock(BlockBehaviour.Properties.of().strength(4f).sound(SoundType.ANVIL).noOcclusion().noLootTable()));
 
 
 

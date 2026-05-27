@@ -3,6 +3,7 @@ package net.atari09.atarisadvancedarmory.screen.custom;
 import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -29,16 +30,19 @@ public class WeaponSmithMenu extends AbstractContainerMenu {
         this.level = inv.player.level();
         this.data = data;
 
+
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 0,33,12));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1,33,34));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2,64,28));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3,102,12));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 0,34,13));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1,34,36));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2,65,29));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3,103,13));
 
         addDataSlots(data);
     }
+
+
 
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
@@ -48,12 +52,16 @@ public class WeaponSmithMenu extends AbstractContainerMenu {
         }
     }
 
-    public boolean isCrafting() {
-        return data.get(0) > 0;
+    public BlockPos getPos(){
+        return blockEntity.getBlockPos();
     }
 
-    public boolean hasRecipe(){
-        return data.get(2) == 1;
+    public BlockEntity getEntity(){
+        return blockEntity;
+    }
+
+    public boolean isCrafting() {
+        return data.get(0) > 0;
     }
 
     public int getScaledArrowProgress() {
@@ -125,5 +133,9 @@ public class WeaponSmithMenu extends AbstractContainerMenu {
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
                 player, ModBlocks.WEAPONSMITHBASEBLOCK.get());
+    }
+
+    public boolean hasRecipe() {
+        return data.get(2) == 1;
     }
 }
