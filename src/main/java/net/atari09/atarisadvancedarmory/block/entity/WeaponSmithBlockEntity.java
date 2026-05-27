@@ -3,6 +3,7 @@ package net.atari09.atarisadvancedarmory.block.entity;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipeInput;
+import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -58,6 +59,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     protected final ContainerData data;
     private int progress = 0;
     private int maxprogress = 72;
+    private int hasRecipe = 0;
 
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
@@ -69,6 +71,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
                 return switch (i){
                     case 0 -> WeaponSmithBlockEntity.this.progress;
                     case 1 -> WeaponSmithBlockEntity.this.maxprogress;
+                    case 2 -> WeaponSmithBlockEntity.this.hasRecipe;
                     default -> 0;
                 };
             }
@@ -78,6 +81,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
                 switch (i){
                     case 0 : WeaponSmithBlockEntity.this.progress = value;
                     case 1 : WeaponSmithBlockEntity.this.maxprogress = value;
+                    case 2 : WeaponSmithBlockEntity.this.hasRecipe = value;
                 }
 
             }
@@ -125,7 +129,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return null;
+        return new WeaponSmithMenu(i,inventory,this,this.data);
     }
 
     @Override
@@ -147,6 +151,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     }
 
     public void tick(Level level, BlockPos pos, BlockState blockState){
+        data.set(2,hasRecipe()?1:0);
         if(hasRecipe()){
             increaseCraftingProgress();
             setChanged(level,pos,blockState);
@@ -163,6 +168,13 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     }
 
     private void craft() {
+        Optional<RecipeHolder<WeaponSmithRecipe>> recipe = getCurrentRecipe();
+        ItemStack output = recipe.get().value().output();
+        itemHandler.extractItem(INPUT_SLOT_1,1,false);
+        itemHandler.extractItem(INPUT_SLOT_2,1,false);
+        itemHandler.extractItem(TEMPLATE_SLOT,1,false);
+        itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(output.getItem(),
+                output.getCount()));
 
     }
 
@@ -194,7 +206,6 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
         if(recipe.isEmpty()){
             return false;
         }
-        ItemStack output = recipe.get().value().output();
         return canInsertItemIntoOutputSlot();
     }
 

@@ -7,8 +7,12 @@ import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
+import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
+import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
+import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -61,7 +65,7 @@ public class AtarisAdvancedArmory {
         ModBlockEntities.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModRecipes.register(modEventBus);
-
+        ModMenuTypes.register(modEventBus);
     }
 
     public static ResourceLocation res(String loc) {
@@ -96,6 +100,11 @@ public class AtarisAdvancedArmory {
         public static void registerBER(EntityRenderersEvent.RegisterRenderers event){
             event.registerBlockEntityRenderer(ModBlockEntities.WEAPONSMITHBLOCK_BE.get(), WeaponSmithBaseBlockRenderer::new);
 
+        }
+
+        @SubscribeEvent
+        public static void registerScreens(RegisterMenuScreensEvent event){
+                event.register(ModMenuTypes.WEAPONSMITH_MENU.get(), WeaponSmithScreen::new);
         }
     }
 }

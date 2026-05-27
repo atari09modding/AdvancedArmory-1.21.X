@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -88,6 +89,27 @@ public class WeaponSmithBaseBlock extends BaseEntityBlock {
         }
 
         return ItemInteractionResult.sidedSuccess(level.isClientSide());
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if(!level.isClientSide()){
+            BlockEntity entity = level.getBlockEntity(pos);
+            if(entity instanceof WeaponSmithBlockEntity weaponSmithBlockEntity){
+                ((ServerPlayer) player).openMenu(new SimpleMenuProvider(weaponSmithBlockEntity, Component.literal("Weaponsmith")),pos);
+            } else {
+                throw new IllegalStateException("Our Container provider is missing");
+            }
+        }
+
+        return InteractionResult.sidedSuccess(level.isClientSide());
+    }
+
+
+
+    @Override
+    protected boolean useShapeForLightOcclusion(BlockState state) {
+        return false;
     }
 
     @Override
