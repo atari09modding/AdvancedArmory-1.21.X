@@ -6,11 +6,11 @@ import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
 import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -29,7 +29,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.event.level.NoteBlockEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -65,6 +64,19 @@ public class WeaponSmithBaseBlock extends BaseEntityBlock {
         }
         return createTickerHelper(blockEntityType,ModBlockEntities.WEAPONSMITHBLOCK_BE.get(),
                 (level1,blockPos,blockState, blockEntity)->blockEntity.tick(level1,blockPos,blockState));
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        Direction facing = state.getValue(WeaponSmithBaseBlock.FACING);
+        Direction direction = facing.getClockWise().getOpposite();
+        BlockPos particlePos = pos.relative(direction);
+        level.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE,
+                particlePos.getX()+switch (facing){case EAST -> 0.3; case WEST -> 0.7;default -> 0.5;},
+                particlePos.getY()+0.7,
+                particlePos.getZ()+switch (facing){case NORTH -> 0.7; case SOUTH -> 0.3;default -> 0.5;},
+                0,0.05,0);
+        super.animateTick(state, level, pos, random);
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

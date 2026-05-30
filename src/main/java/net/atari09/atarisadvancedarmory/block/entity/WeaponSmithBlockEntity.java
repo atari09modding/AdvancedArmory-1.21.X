@@ -1,12 +1,14 @@
 package net.atari09.atarisadvancedarmory.block.entity;
 
+import ca.weblite.objc.Client;
 import net.atari09.atarisadvancedarmory.block.custom.WeaponSmithBaseBlock;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipeInput;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
-import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -22,24 +24,21 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 
 import java.util.Optional;
-import java.util.Properties;
+import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntity, MenuProvider {
     public final ItemStackHandler itemHandler = new ItemStackHandler(4){
@@ -56,6 +55,8 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     public static final int INPUT_SLOT_2 = 1;
     public static final int TEMPLATE_SLOT = 2;
     public static final int OUTPUT_SLOT = 3;
+    private float outputRotation;
+    private float outputHeight;
 
 
     protected final ContainerData data;
@@ -103,6 +104,23 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
 
     private PlayState predicate(AnimationState<WeaponSmithBlockEntity> state) {
         return state.setAndContinue( isWorking() ? RawAnimation.begin().thenLoop("animation_smithing") : RawAnimation.begin().thenLoop("animation_idle"));
+    }
+
+    public float getRenderingRotationForOutput() {
+        outputRotation += 0.5f;
+        if(outputRotation >= 360) {
+            outputRotation = 0;
+        }
+        return outputRotation;
+    }
+
+    public float getRenderingExtraHeightForOutput() {
+        outputHeight += 0.05f;
+        if(outputHeight >= 18) {
+            outputHeight = 0;
+        }
+
+        return (float) (0.2 * Math.sin(Math.toRadians(outputHeight*10)));
     }
 
 
@@ -159,6 +177,10 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     public void tick(Level level, BlockPos pos, BlockState blockState){
         hasRecipe = hasRecipe()?1:0;
         level.setBlock(pos,blockState.setValue(WeaponSmithBaseBlock.WORKING, progress>0),3);
+
+
+
+
 
 
 

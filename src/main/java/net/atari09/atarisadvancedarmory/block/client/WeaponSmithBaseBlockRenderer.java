@@ -9,6 +9,7 @@ import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -18,8 +19,10 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.AABB;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
@@ -53,11 +56,13 @@ public class WeaponSmithBaseBlockRenderer extends GeoBlockRenderer<WeaponSmithBl
         ItemRenderer itemRenderer2 = Minecraft.getInstance().getItemRenderer();
         ItemRenderer itemRenderertemplate = Minecraft.getInstance().getItemRenderer();
         ItemRenderer itemRendererout = Minecraft.getInstance().getItemRenderer();
+        BlockRenderDispatcher fireRenderer = Minecraft.getInstance().getBlockRenderer();
 
         ItemStack stack = animatable.itemHandler.getStackInSlot(WeaponSmithBlockEntity.INPUT_SLOT_1);
         ItemStack stack2 = animatable.itemHandler.getStackInSlot(WeaponSmithBlockEntity.INPUT_SLOT_2);
         ItemStack stacktemplate = animatable.itemHandler.getStackInSlot(WeaponSmithBlockEntity.TEMPLATE_SLOT);
         ItemStack stackout = animatable.itemHandler.getStackInSlot(WeaponSmithBlockEntity.OUTPUT_SLOT);
+        BlockState fire = Blocks.FIRE.defaultBlockState();
 
         assert animatable.getLevel() != null;
         Direction facing = animatable.getLevel().getBlockState(animatable.getBlockPos()).getValue(HorizontalDirectionalBlock.FACING);
@@ -155,24 +160,61 @@ public class WeaponSmithBaseBlockRenderer extends GeoBlockRenderer<WeaponSmithBl
         //ITEMRENDERER OUTPUT
 
         poseStack.pushPose();
-        poseStack.translate(0.5f, 1.15f, 0.5f);
+        poseStack.translate(0.5f, 1.15f+animatable.getRenderingExtraHeightForOutput(), 0.5f);
         switch(facing){
             case NORTH:
-                poseStack.mulPose(Axis.YP.rotationDegrees(90));
+                poseStack.mulPose(Axis.YP.rotationDegrees(90+animatable.getRenderingRotationForOutput()));
                 break;
             case SOUTH:
-                poseStack.mulPose(Axis.YP.rotationDegrees(-90));
+                poseStack.mulPose(Axis.YP.rotationDegrees(-90+animatable.getRenderingRotationForOutput()));
                 break;
             case EAST:
-                //poseStack.mulPose(Axis.YP.rotationDegrees(-90));
+                poseStack.mulPose(Axis.YP.rotationDegrees(animatable.getRenderingRotationForOutput()));
                 break;
             case WEST:
-                poseStack.mulPose(Axis.YP.rotationDegrees(180));
+                poseStack.mulPose(Axis.YP.rotationDegrees(180+animatable.getRenderingRotationForOutput()));
                 break;
         }
         poseStack.scale(0.5f, 0.5f, 0.5f);
         itemRendererout.renderStatic(stackout, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, getLightLevel(animatable.getLevel(),
                 animatable.getBlockPos()), OverlayTexture.NO_OVERLAY, poseStack, bufferSource, animatable.getLevel(), 1);
         poseStack.popPose();
+
+
+        //Render fire
+        poseStack.pushPose();
+        switch(facing){
+            case NORTH:
+                poseStack.translate(-14.5/16f,8/16f,10.5/16f);
+
+                poseStack.mulPose(Axis.YP.rotationDegrees(42.5f));
+                break;
+            case SOUTH:
+                poseStack.translate(1f,0f,1f);
+                poseStack.translate(14.5/16f,8/16f,-10.5/16f);
+
+
+                poseStack.mulPose(Axis.YP.rotationDegrees(-137.5f));
+                break;
+            case EAST:
+                poseStack.translate(1f,0f,0f);
+                poseStack.translate(-10.5/16f ,8/16f,-14.5/16f);
+
+
+                poseStack.mulPose(Axis.YP.rotationDegrees(-47.5f));
+                break;
+            case WEST:
+                poseStack.translate(0f,0f,1f);
+                poseStack.translate(10.5/16f ,8/16f,14.5/16f);
+
+
+                poseStack.mulPose(Axis.YP.rotationDegrees(132.5f));
+                break;
+        }
+        poseStack.scale(0.5f,0.5f,0.5f);
+        fireRenderer.renderSingleBlock(fire,poseStack,bufferSource,getLightLevel(animatable.getLevel(),animatable.getBlockPos()),OverlayTexture.NO_OVERLAY);
+        poseStack.popPose();
+
+
     }
 }
