@@ -1,5 +1,6 @@
 package net.atari09.atarisadvancedarmory.block.entity;
 
+import net.atari09.atarisadvancedarmory.block.custom.WeaponSmithBaseBlock;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipeInput;
@@ -7,6 +8,7 @@ import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -50,10 +52,10 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
         }
     };
 
-    private static final int INPUT_SLOT_1 = 0;
-    private static final int INPUT_SLOT_2 = 1;
-    private static final int TEMPLATE_SLOT = 2;
-    private static final int OUTPUT_SLOT = 3;
+    public static final int INPUT_SLOT_1 = 0;
+    public static final int INPUT_SLOT_2 = 1;
+    public static final int TEMPLATE_SLOT = 2;
+    public static final int OUTPUT_SLOT = 3;
 
 
     protected final ContainerData data;
@@ -103,8 +105,11 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
         return state.setAndContinue( isWorking() ? RawAnimation.begin().thenLoop("animation_smithing") : RawAnimation.begin().thenLoop("animation_idle"));
     }
 
+
+
+
     public boolean isWorking(){
-        return progress > 0;
+        return this.getBlockState().getValue(WeaponSmithBaseBlock.WORKING);
     }
 
 
@@ -153,6 +158,9 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
 
     public void tick(Level level, BlockPos pos, BlockState blockState){
         hasRecipe = hasRecipe()?1:0;
+        level.setBlock(pos,blockState.setValue(WeaponSmithBaseBlock.WORKING, progress>0),3);
+
+
 
         if(hasRecipe() && shouldCraft){
             increaseCraftingProgress();

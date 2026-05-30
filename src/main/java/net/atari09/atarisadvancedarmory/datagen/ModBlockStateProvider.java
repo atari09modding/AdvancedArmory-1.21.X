@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.datagen;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 
+import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +27,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+
+
 
     }
 

@@ -6,7 +6,10 @@ import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
 import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,9 +25,11 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.event.level.NoteBlockEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -32,10 +37,11 @@ import java.util.List;
 public class WeaponSmithBaseBlock extends BaseEntityBlock {
     public MapCodec<WeaponSmithBaseBlock> CODEC = simpleCodec(WeaponSmithBaseBlock::new);
     public static final DirectionProperty FACING;
+    public static final BooleanProperty WORKING = BooleanProperty.create("working");
 
     public WeaponSmithBaseBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState((BlockState)((BlockState)((BlockState)this.stateDefinition.any()).setValue(FACING, Direction.NORTH)));
+        this.registerDefaultState((BlockState)((BlockState)((BlockState)this.stateDefinition.any()).setValue(FACING, Direction.NORTH).setValue(WORKING, false)));
     }
 
     @Override
@@ -62,27 +68,41 @@ public class WeaponSmithBaseBlock extends BaseEntityBlock {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, WORKING);
     }
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
 
-        if (state.getBlock() != newState.getBlock()) {
+        if (state.getBlock() != newState.getBlock() && !(newState.getBlock() instanceof WeaponSmithBaseBlock)) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof WeaponSmithBlockEntity be) {
                 be.drops();
                 level.removeBlockEntity(pos);
             }
+            if(!level.isClientSide()){
+                destroyChildren(level, pos, state);
+            }
         }
-
-        if(!level.isClientSide()) destroyChildren(level, pos);
 
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     public List<BlockPos> getStructure(Level level, BlockPos pos) {
         Direction d = level.getBlockState(pos).getValue(FACING).getOpposite();
+        Direction right = d.getClockWise();
+        Direction left = d.getCounterClockWise();
+
+        return List.of(
+                pos.relative(d),
+                pos.relative(d).relative(right).relative(d.getOpposite()),
+                pos.relative(d).relative(left),
+                pos.relative(d).above()
+        );
+    }
+
+    public List<BlockPos> getStructureforState(Level level, BlockState state, BlockPos pos){
+        Direction d = state.getValue(FACING).getOpposite();
         Direction right = d.getClockWise();
         Direction left = d.getCounterClockWise();
 
@@ -123,7 +143,16 @@ public class WeaponSmithBaseBlock extends BaseEntityBlock {
         return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
-
+    public void openMenu(Level level, BlockPos pos, Player player){
+        if(!level.isClientSide()){
+            BlockEntity entity = level.getBlockEntity(pos);
+            if(entity instanceof WeaponSmithBlockEntity weaponSmithBlockEntity){
+                ((ServerPlayer) player).openMenu(new SimpleMenuProvider(weaponSmithBlockEntity, Component.literal("Weaponsmith")),pos);
+            } else {
+                throw new IllegalStateException("Our Container provider is missing");
+            }
+        }
+    }
 
     @Override
     protected boolean useShapeForLightOcclusion(BlockState state) {
@@ -145,15 +174,17 @@ public class WeaponSmithBaseBlock extends BaseEntityBlock {
         Direction left =  direction.getClockWise().getOpposite();
 
         if (!level.getBlockState(pos2).canBeReplaced()
-                &&!level.getBlockState(pos2.above()).canBeReplaced()
-                &&!level.getBlockState(pos2.relative(right).relative(direction)).canBeReplaced()
-                &&!level.getBlockState(pos2.relative(left)).canBeReplaced()
+                ||!level.getBlockState(pos2.above()).canBeReplaced()
+                ||!level.getBlockState(pos2.relative(right).relative(direction)).canBeReplaced()
+                ||!level.getBlockState(pos2.relative(left)).canBeReplaced()
         ) {
             return null;
         }
 
         return this.defaultBlockState().setValue(FACING, direction.getOpposite());
     }
+
+
 
     @Override
     public @Nullable PushReaction getPistonPushReaction(BlockState state) {
@@ -176,15 +207,22 @@ public class WeaponSmithBaseBlock extends BaseEntityBlock {
         }
     }
 
-    public void destroyChildren(Level level, BlockPos pos){
-        if(!level.isClientSide()){
-            for(BlockPos p : getStructure(level,pos)){
-                if(level.getBlockState(pos).getBlock().equals(ModBlocks.WEAPONSMITHPIECEBLOCK.get())){
+    public void destroyChildren(Level level, BlockPos pos,BlockState state){
+        if(!level.isClientSide() && state.getValues().containsKey(FACING)){
+            for(BlockPos p : getStructureforState(level,state,pos)){
+                if(level.getBlockState(p).getBlock() instanceof WeaponSmithPieceBlock){
                     level.removeBlock(p,false);
 
                 }
             }
 
+        }
+    }
+
+    @Override
+    protected void spawnDestroyParticles(Level level, Player player, BlockPos pos, BlockState state) {
+        if(!level.isClientSide()){
+        ((ServerLevel) level).sendParticles(ParticleTypes.POOF, pos.getX(),pos.getY(),pos.getZ(),50,0,0,0,1);
         }
     }
 

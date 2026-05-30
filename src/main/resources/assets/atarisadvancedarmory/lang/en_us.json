@@ -2,5 +2,7 @@
   "block.atarisadvancedarmory.weaponsmithbaseblock" : "Weaponsmith",
 
 
-  "item.atarisadvancedarmory.weaponsmithbaseblockitem" : "Weaponsmith"
+  "item.atarisadvancedarmory.weaponsmithbaseblockitem" : "Weaponsmith",
+
+  "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing"
 }
