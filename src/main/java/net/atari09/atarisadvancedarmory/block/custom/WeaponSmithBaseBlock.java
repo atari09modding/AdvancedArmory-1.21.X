@@ -231,13 +231,6 @@ public class WeaponSmithBaseBlock extends BaseEntityBlock {
         }
     }
 
-    @Override
-    protected void spawnDestroyParticles(Level level, Player player, BlockPos pos, BlockState state) {
-        if(!level.isClientSide()){
-        ((ServerLevel) level).sendParticles(ParticleTypes.POOF, pos.getX(),pos.getY(),pos.getZ(),50,0,0,0,1);
-        }
-    }
-
     static {
         FACING = HorizontalDirectionalBlock.FACING;
     }

@@ -117,24 +117,6 @@
 						}
 					}
 				}
-			},
-			"particle_effects": {
-				"0.0": {
-					"effect": "weaponsmith_flame",
-					"locator": "fire_particle_locator"
-				},
-				"0.0417": {
-					"effect": "smith_smoke_particle",
-					"locator": "smoke_particle_locator"
-				},
-				"0.7083": {
-					"effect": "smith_smoke_particle",
-					"locator": "smoke_particle_locator"
-				},
-				"1.7917": {
-					"effect": "smith_smoke_particle",
-					"locator": "smoke_particle_locator"
-				}
 			}
 		},
 		"animation_smithing": {
@@ -651,40 +633,6 @@
 							"vector": [0, 0, 0]
 						}
 					}
-				}
-			},
-			"particle_effects": {
-				"0.0": {
-					"effect": "weaponsmith_flame",
-					"locator": "fire_particle_locator"
-				},
-				"0.0417": {
-					"effect": "smith_smoke_particle",
-					"locator": "smoke_particle_locator"
-				},
-				"0.7083": {
-					"effect": "smith_smoke_particle",
-					"locator": "smoke_particle_locator"
-				},
-				"1.7917": {
-					"effect": "smith_smoke_particle",
-					"locator": "smoke_particle_locator"
-				},
-				"2.0": {
-					"effect": "weaponsmith_flame",
-					"locator": "fire_particle_locator"
-				},
-				"2.0417": {
-					"effect": "smith_smoke_particle",
-					"locator": "smoke_particle_locator"
-				},
-				"2.7083": {
-					"effect": "smith_smoke_particle",
-					"locator": "smoke_particle_locator"
-				},
-				"3.7917": {
-					"effect": "smith_smoke_particle",
-					"locator": "smoke_particle_locator"
 				}
 			}
 		}

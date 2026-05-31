@@ -3,6 +3,7 @@ package net.atari09.atarisadvancedarmory;
 import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.atari09.atarisadvancedarmory.block.client.WeaponSmithBaseBlockRenderer;
 import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
+import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
@@ -10,6 +11,7 @@ import net.atari09.atarisadvancedarmory.network.handler.StartSmithingPacketHandl
 import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
+import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.minecraft.resources.ResourceLocation;
@@ -70,6 +72,7 @@ public class AtarisAdvancedArmory {
         ModCreativeModeTabs.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+        ModDataComponents.register(modEventBus);
     }
 
     public static ResourceLocation res(String loc) {
@@ -109,6 +112,7 @@ public class AtarisAdvancedArmory {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event){
                 event.register(ModMenuTypes.WEAPONSMITH_MENU.get(), WeaponSmithScreen::new);
+                event.register(ModMenuTypes.SPECIALSMITHINGTEMPLATE_MENU.get(), SpecialSmithingTemplateScreen::new);
         }
 
         @SubscribeEvent

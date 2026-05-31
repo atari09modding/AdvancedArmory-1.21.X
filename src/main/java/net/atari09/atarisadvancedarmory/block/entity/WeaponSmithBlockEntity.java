@@ -2,9 +2,8 @@ package net.atari09.atarisadvancedarmory.block.entity;
 
 import ca.weblite.objc.Client;
 import net.atari09.atarisadvancedarmory.block.custom.WeaponSmithBaseBlock;
-import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
-import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
-import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipeInput;
+import net.atari09.atarisadvancedarmory.item.custom.SpecialSmithingTemplateItem;
+import net.atari09.atarisadvancedarmory.recipe.*;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -25,7 +24,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -200,8 +201,16 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     }
 
     private void craft() {
-        Optional<RecipeHolder<WeaponSmithRecipe>> recipe = getCurrentRecipe();
-        ItemStack output = recipe.get().value().output();
+        Optional<RecipeHolder<?>> recipe = getCurrentRecipe();
+        ItemStack output = null;
+        if(recipe.get().value() instanceof WeaponSmithRecipe v){
+            output = v.output();
+        }
+        if(recipe.get().value() instanceof WeaponSmithTemplateTypeRecipe v){
+            output = v.output();
+        }
+
+
         itemHandler.extractItem(INPUT_SLOT_1,1,false);
         itemHandler.extractItem(INPUT_SLOT_2,1,false);
         itemHandler.extractItem(TEMPLATE_SLOT,1,false);
@@ -210,9 +219,14 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
 
     }
 
-    private Optional<RecipeHolder<WeaponSmithRecipe>> getCurrentRecipe() {
-        return this.level.getRecipeManager().getRecipeFor(ModRecipes.WEAPONSMITH_TYPE.get(),
-                new WeaponSmithRecipeInput(itemHandler.getStackInSlot(INPUT_SLOT_1), itemHandler.getStackInSlot(INPUT_SLOT_2), itemHandler.getStackInSlot(TEMPLATE_SLOT)), level);
+    @SuppressWarnings("unchecked")
+    private Optional<RecipeHolder<?>> getCurrentRecipe() {
+        if(!(itemHandler.getStackInSlot(TEMPLATE_SLOT).getItem() instanceof SpecialSmithingTemplateItem templateItem)){
+            return (Optional<RecipeHolder<?>>)(Optional<?>) this.level.getRecipeManager().getRecipeFor(ModRecipes.WEAPONSMITH_TYPE.get(),
+                    new WeaponSmithRecipeInput(itemHandler.getStackInSlot(INPUT_SLOT_1), itemHandler.getStackInSlot(INPUT_SLOT_2), itemHandler.getStackInSlot(TEMPLATE_SLOT)), level);
+        }
+        return (Optional<RecipeHolder<?>>)(Optional<?>) this.level.getRecipeManager().getRecipeFor(ModRecipes.WEAPONSMITH_TT_TYPE.get(),
+                new WeaponSmithRecipeTemplateTypeInput(itemHandler.getStackInSlot(INPUT_SLOT_1), itemHandler.getStackInSlot(INPUT_SLOT_2), templateItem.getType(itemHandler.getStackInSlot(TEMPLATE_SLOT))), level);
     }
 
     private boolean hasCraftingFinished() {
@@ -234,7 +248,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     }
 
     public boolean hasRecipe() {
-        Optional<RecipeHolder<WeaponSmithRecipe>> recipe = getCurrentRecipe();
+        Optional<RecipeHolder<?>> recipe = getCurrentRecipe();
 
         if(recipe.isEmpty()){
             return false;
@@ -254,5 +268,8 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
 
     public void startCrafting() {
         shouldCraft = true;
+    }
+
+    public interface WeaponSmithingRecipe<T extends RecipeInput> extends Recipe<T>{
     }
 }

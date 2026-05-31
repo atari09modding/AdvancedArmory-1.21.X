@@ -3,6 +3,11 @@
 
 
   "item.atarisadvancedarmory.weaponsmithbaseblockitem" : "Weaponsmith",
+  "item.atarisadvancedarmory.specialsmithingtemplate" : "Smithing Template",
 
-  "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing"
+  "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing",
+  "creativetab.atarisadvancedarmory.armory_tab" : "Ataris Advanced Armory",
+
+  "atarisadvancedarmory.specialsmithingtemplatetype.none" : "Empty",
+  "atarisadvancedarmory.specialsmithingtemplatetype.debug" : "Debug"
 }

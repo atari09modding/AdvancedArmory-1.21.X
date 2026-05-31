@@ -42,6 +42,12 @@ armor:
 - armor variants
 - mb special abilities for armor
 
+
+templates:
+    - craftable with ink and paper
+    - on rightclick you can select what kind of template it is supposed to be (mb there is an item required or sth like that)
+
+
 elements for weapons:
     kryonic (frost):
         1: slows down enemys with frost effect

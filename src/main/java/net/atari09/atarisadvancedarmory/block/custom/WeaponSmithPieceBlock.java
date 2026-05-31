@@ -59,13 +59,6 @@ public class WeaponSmithPieceBlock extends Block {
         }
     }
 
-    @Override
-    protected void spawnDestroyParticles(Level level, Player player, BlockPos selfpos, BlockState state) {
-        if(!level.isClientSide()){
-            BlockPos pos = getParentPos(level, selfpos);
-            ((ServerLevel) level).sendParticles(ParticleTypes.POOF, pos.getX(),pos.getY(),pos.getZ(),50,0,0,0,1);
-        }
-    }
 
     public BlockPos getParentPos(Level level, BlockPos ownPos){
         if (!level.isClientSide()) {

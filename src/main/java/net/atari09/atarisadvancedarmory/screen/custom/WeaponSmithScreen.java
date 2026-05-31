@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.screen.custom;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
@@ -13,7 +14,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class WeaponSmithScreen extends AbstractContainerScreen<WeaponSmithMenu> {
-    private static final ResourceLocation GUI_TEXTURE = AtarisAdvancedArmory.res("textures/gui/weaponsmith/weapon_smith_gui.png");
+    public static final ResourceLocation GUI_TEXTURE = AtarisAdvancedArmory.res("textures/gui/weaponsmith/weapon_smith_gui.png");
+    private int tickcount;
 
 
 
@@ -22,7 +24,13 @@ public class WeaponSmithScreen extends AbstractContainerScreen<WeaponSmithMenu> 
     }
 
     @Override
+    protected void containerTick() {
+        tickcount++;
+    }
+
+    @Override
     protected void renderBg(GuiGraphics guiGraphics, float v, int mouseX, int mouseY) {
+
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1f,1f,1f,1f);
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
@@ -65,8 +73,18 @@ public class WeaponSmithScreen extends AbstractContainerScreen<WeaponSmithMenu> 
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        //opening animation
+        PoseStack pose = guiGraphics.pose();
+        pose.pushPose();
+        float scaling = ((tickcount)*10>90?1:((float) Math.sin(Math.toRadians((tickcount) * 10))));
+        pose.translate(imageWidth/2-(imageWidth*scaling)/2,0,0);
+        pose.scale(scaling,1,1);
+
+
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics,mouseX,mouseY);
+
+        pose.popPose();
     }
 
     @Override

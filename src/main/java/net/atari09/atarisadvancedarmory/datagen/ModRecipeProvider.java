@@ -2,6 +2,8 @@ package net.atari09.atarisadvancedarmory.datagen;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.datagen.recipebuilders.WeaponSmithRecipeBuilder;
+import net.atari09.atarisadvancedarmory.datagen.recipebuilders.WeaponSmithTemplateTypeRecipeBuilder;
+import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -28,7 +30,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             Ingredient.of(Items.DIAMOND_SWORD), // 1st Ingredient
             Ingredient.of(Items.NETHERITE_INGOT), // 2nd Ingredient
             Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE) // TEMPLATE
-    ).save(recipeOutput);
+    ).unlockedBy("has_ugrade_smithing_template",has(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)).save(recipeOutput);
+
+    new WeaponSmithTemplateTypeRecipeBuilder(
+            new ItemStack(Items.DIAMOND_AXE),
+            Ingredient.of(Items.WOODEN_AXE),
+            Ingredient.of(Items.DIAMOND),
+            SpecialSmithingTemplateType.TEMPORARY_DEBUG
+    ).unlockedBy("has_diamond",has(Items.DIAMOND)).save(recipeOutput);
+
+
+
     }
 
     protected static void oreSmelting(RecipeOutput recipeOutput, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult,

@@ -26,6 +26,17 @@ public class ModRecipes {
                 }
             });
 
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<WeaponSmithTemplateTypeRecipe>> WEAPONSMITH_TT_SERIALIZER =
+            SERIALIZERS.register("weaponsmith_tt", WeaponSmithTemplateTypeRecipe.Serializer::new);
+
+    public static final DeferredHolder<RecipeType<?>, RecipeType<WeaponSmithTemplateTypeRecipe>> WEAPONSMITH_TT_TYPE =
+            TYPES.register("weaponsmith_tt", ()-> new RecipeType<WeaponSmithTemplateTypeRecipe>() {
+                @Override
+                public String toString() {
+                    return "weaponsmith_TT";
+                }
+            });
+
 
 
 

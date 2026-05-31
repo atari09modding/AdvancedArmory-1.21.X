@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.screen;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateMenu;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,6 +19,9 @@ public class ModMenuTypes {
 
     public static final DeferredHolder<MenuType<?>, MenuType<WeaponSmithMenu>> WEAPONSMITH_MENU =
             registerMenuType("weaponsmith_menu", WeaponSmithMenu::new);
+
+    public static final DeferredHolder<MenuType<?>, MenuType<SpecialSmithingTemplateMenu>> SPECIALSMITHINGTEMPLATE_MENU =
+            registerMenuType("specialsmithingtemplate_menu", SpecialSmithingTemplateMenu::new);
 
 
 

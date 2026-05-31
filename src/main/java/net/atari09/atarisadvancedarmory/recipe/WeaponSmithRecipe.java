@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -13,7 +14,9 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-public record WeaponSmithRecipe(Ingredient inputItem, Ingredient inputItem2, Ingredient template, ItemStack output) implements Recipe<WeaponSmithRecipeInput> {
+public record WeaponSmithRecipe(Ingredient inputItem, Ingredient inputItem2, Ingredient template, ItemStack output) implements Recipe<WeaponSmithRecipeInput>,
+        WeaponSmithBlockEntity.WeaponSmithingRecipe<WeaponSmithRecipeInput> {
+
     @Override
     public boolean matches(WeaponSmithRecipeInput input, Level level) {
         if (level.isClientSide)return false;
