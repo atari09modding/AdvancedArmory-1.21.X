@@ -8,6 +8,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
+import net.atari09.atarisadvancedarmory.recipe.WeaponSmithTemplateTypeRecipe;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -32,14 +33,20 @@ public class JEIAtarisAdvancedArmoryPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
-        List<WeaponSmithRecipe> growthChamberRecipes = recipeManager
+        List<WeaponSmithRecipe> weaponSmithRecipes = recipeManager
                 .getAllRecipesFor(ModRecipes.WEAPONSMITH_TYPE.get()).stream().map(RecipeHolder::value).toList();
-        registration.addRecipes(WeaponSmithRecipeCategory.WEAPON_SMITH_RECIPE_RECIPE_TYPE, growthChamberRecipes);
+        registration.addRecipes(WeaponSmithRecipeCategory.WEAPON_SMITH_RECIPE_RECIPE_TYPE, weaponSmithRecipes);
+
+        List<WeaponSmithTemplateTypeRecipe> weaponSmithTTRecipes = recipeManager
+                .getAllRecipesFor(ModRecipes.WEAPONSMITH_TT_TYPE.get()).stream().map(RecipeHolder::value).toList();
+        registration.addRecipes(WeaponSmithTemplateTypeRecipeCategory.WEAPON_SMITH_TEMPLATE_TYPE_RECIPE_RECIPE_TYPE, weaponSmithTTRecipes);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(WeaponSmithScreen.class, 63, 12, 26, 14,
                 WeaponSmithRecipeCategory.WEAPON_SMITH_RECIPE_RECIPE_TYPE); // this controls which area to click to show JEI recipes
+        registration.addRecipeClickArea(WeaponSmithScreen.class, 63, 12, 26, 14,
+                WeaponSmithTemplateTypeRecipeCategory.WEAPON_SMITH_TEMPLATE_TYPE_RECIPE_RECIPE_TYPE);
     }
 }
