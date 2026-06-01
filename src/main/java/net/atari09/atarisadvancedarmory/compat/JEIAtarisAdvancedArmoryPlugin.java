@@ -27,6 +27,7 @@ public class JEIAtarisAdvancedArmoryPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new WeaponSmithRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new WeaponSmithTemplateTypeRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -45,8 +46,7 @@ public class JEIAtarisAdvancedArmoryPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(WeaponSmithScreen.class, 63, 12, 26, 14,
-                WeaponSmithRecipeCategory.WEAPON_SMITH_RECIPE_RECIPE_TYPE); // this controls which area to click to show JEI recipes
-        registration.addRecipeClickArea(WeaponSmithScreen.class, 63, 12, 26, 14,
-                WeaponSmithTemplateTypeRecipeCategory.WEAPON_SMITH_TEMPLATE_TYPE_RECIPE_RECIPE_TYPE);
+                WeaponSmithRecipeCategory.WEAPON_SMITH_RECIPE_RECIPE_TYPE,WeaponSmithTemplateTypeRecipeCategory.WEAPON_SMITH_TEMPLATE_TYPE_RECIPE_RECIPE_TYPE); // this controls which area to click to show JEI recipes
+
     }
 }

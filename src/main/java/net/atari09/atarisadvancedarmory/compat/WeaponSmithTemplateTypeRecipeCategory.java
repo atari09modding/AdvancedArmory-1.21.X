@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class WeaponSmithTemplateTypeRecipeCategory implements IRecipeCategory<WeaponSmithTemplateTypeRecipe> {
-    public static final ResourceLocation UID = AtarisAdvancedArmory.res("weaponsmithtemplatetype");
+    public static final ResourceLocation UID = AtarisAdvancedArmory.res("weaponsmith");
     public static final ResourceLocation TEXTURE = WeaponSmithRecipeCategory.TEXTURE;
 
     public static final RecipeType<WeaponSmithTemplateTypeRecipe> WEAPON_SMITH_TEMPLATE_TYPE_RECIPE_RECIPE_TYPE =
