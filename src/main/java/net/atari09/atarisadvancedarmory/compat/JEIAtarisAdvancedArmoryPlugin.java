@@ -1,4 +1,4 @@
-package net.atari09.compat;
+package net.atari09.atarisadvancedarmory.compat;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;

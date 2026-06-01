@@ -1,4 +1,4 @@
-package net.atari09.compat;
+package net.atari09.atarisadvancedarmory.compat;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -15,7 +15,6 @@ import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class WeaponSmithRecipeCategory implements IRecipeCategory<WeaponSmithRecipe> {
