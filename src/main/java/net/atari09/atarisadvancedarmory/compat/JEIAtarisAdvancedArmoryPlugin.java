@@ -41,6 +41,7 @@ public class JEIAtarisAdvancedArmoryPlugin implements IModPlugin {
         List<WeaponSmithTemplateTypeRecipe> weaponSmithTTRecipes = recipeManager
                 .getAllRecipesFor(ModRecipes.WEAPONSMITH_TT_TYPE.get()).stream().map(RecipeHolder::value).toList();
         registration.addRecipes(WeaponSmithTemplateTypeRecipeCategory.WEAPON_SMITH_TEMPLATE_TYPE_RECIPE_RECIPE_TYPE, weaponSmithTTRecipes);
+
     }
 
     @Override
