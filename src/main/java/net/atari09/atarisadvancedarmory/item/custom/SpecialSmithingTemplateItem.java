@@ -54,10 +54,11 @@ public class SpecialSmithingTemplateItem extends Item{
         return stack.get(ModDataComponents.SPECIALSMITHINGTEMPLATETYPES.get());
     }
 
+    @SuppressWarnings("Unhandled exception: java.lang.Exception")
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        if(getType(player.getMainHandItem()) == SpecialSmithingTemplateType.NONE){
-            player.openMenu(new SimpleMenuProvider(SpecialSmithingTemplateMenu::new, Component.translatable("item.atarisadvancedarmory.specialsmithingtemplate")));
+        if(getType(player.getItemInHand(usedHand)) == SpecialSmithingTemplateType.NONE){
+            player.openMenu(new SimpleMenuProvider((i,inv,player1)->new SpecialSmithingTemplateMenu(i,inv,player,player.getItemInHand(usedHand)), Component.translatable("item.atarisadvancedarmory.specialsmithingtemplate")));
             //player.getMainHandItem().set(ModDataComponents.SPECIALSMITHINGTEMPLATETYPES.get(), SpecialSmithingTemplateType.TEMPORARY_DEBUG);
         }
         return InteractionResultHolder.success(player.getItemInHand(usedHand));

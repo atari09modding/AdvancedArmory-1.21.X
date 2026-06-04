@@ -1,11 +1,14 @@
 package net.atari09.atarisadvancedarmory.screen.custom;
 
 import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
+import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.custom.SpecialSmithingTemplateItem;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -13,29 +16,42 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class SpecialSmithingTemplateMenu extends AbstractContainerMenu {
-    //public final ItemStackHandler itemHandler = new ItemStackHandler(1);
     private final Level level;
+    private final ItemStack stack;
+    public final Container container = new SimpleContainer(1);
 
-    public SpecialSmithingTemplateMenu(int i, Inventory inv, FriendlyByteBuf buf) {
-        this(i,inv,inv.player);
+    public SpecialSmithingTemplateMenu(int i, Inventory inv, FriendlyByteBuf buf){
+        this(i,inv,inv.player,inv.player.getItemInHand(inv.player.swingingArm));
     }
 
-    public SpecialSmithingTemplateMenu(int containerId, Inventory inv, Player player) {
+    public SpecialSmithingTemplateMenu(int containerId, Inventory inv, Player player,ItemStack stack){
         super(ModMenuTypes.SPECIALSMITHINGTEMPLATE_MENU.get(), containerId);
         this.level = inv.player.level();
+        this.stack = stack;
 
+        this.addSlot(new Slot(container, 0,36,34));
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
-        //this.addSlot(new SlotItemHandler(itemHandler, 0,20,20));
     }
 
+    @Override
+    public void removed(Player player) {
+        super.removed(player);
 
+        if (!player.level().isClientSide()) {
+            ItemStack stack = container.getItem(0);
+            if (!stack.isEmpty()) {
+                player.getInventory().placeItemBackInInventory(stack);
+            }
+        }
+    }
 
     private void addPlayerHotbar(Inventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
@@ -50,6 +66,8 @@ public class SpecialSmithingTemplateMenu extends AbstractContainerMenu {
             }
         }
     }
+
+
 
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
