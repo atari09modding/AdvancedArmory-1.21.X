@@ -1,9 +1,11 @@
 package net.atari09.atarisadvancedarmory.item.custom;
 
-import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
+import net.atari09.atarisadvancedarmory.item.client.SpecialSmithingTemplateItemRenderer;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateMenu;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -20,14 +22,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
-public class SpecialSmithingTemplateItem extends Item{
+public class SpecialSmithingTemplateItem extends Item {
     protected final ContainerData data;
-    public static final int COST_SLOT = 0;
+
 
 
     public SpecialSmithingTemplateItem(Properties properties) {
@@ -72,6 +76,11 @@ public class SpecialSmithingTemplateItem extends Item{
         }
     }
 
+    @SuppressWarnings("removal")
+    @Override
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new SpecialSmithingTemplateItemClientExtensions());
+    }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
@@ -81,6 +90,15 @@ public class SpecialSmithingTemplateItem extends Item{
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
+
+    private class SpecialSmithingTemplateItemClientExtensions implements IClientItemExtensions{
+        private final SpecialSmithingTemplateItemRenderer SPECIAL_SMITHING_TEMPLATE_ITEM_RENDERER =
+                new SpecialSmithingTemplateItemRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
+        @Override
+        public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+            return SPECIAL_SMITHING_TEMPLATE_ITEM_RENDERER;
+        }
+    }
 
 
 }

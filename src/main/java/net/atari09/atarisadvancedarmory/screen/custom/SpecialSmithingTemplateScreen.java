@@ -3,6 +3,7 @@ package net.atari09.atarisadvancedarmory.screen.custom;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.atari09.atarisadvancedarmory.network.payload.CraftTemplatePacket;
@@ -155,7 +156,10 @@ public class SpecialSmithingTemplateScreen extends AbstractContainerScreen<Speci
                     boolean hover = mouseX >=coordsX+73 && mouseX <= coordsX+18+73 && mouseY>=coordsY+verticalDisplacement &&mouseY<=coordsY+18+verticalDisplacement;
                     boolean showTooltip = mouseX >= x+71+spacingSides && mouseY >= 51 && mouseX <= x+500 && mouseY <=y+5+64;
                     guiGraphics.blit(GUI_TEXTURE,coordsX,coordsY,0, 178,18,18);
-                    guiGraphics.renderItem(new ItemStack(ModItems.SPECIAL_SMITHING_TEMPLATE.get(),1),coordsX,coordsY+1);
+                    ItemStack stack = new ItemStack(ModItems.SPECIAL_SMITHING_TEMPLATE.get(),1);
+                    stack.set(ModDataComponents.SPECIALSMITHINGTEMPLATETYPES,SpecialSmithingTemplateType.values()[slotsDrawn]);
+                    guiGraphics.renderItem(stack,coordsX,coordsY+1);
+                    guiGraphics.renderItemDecorations(this.font,stack,coordsX,coordsY+1);
                     guiGraphics.disableScissor();
                     if(hover&&showTooltip){
                         hoveredTooltip = Component.literal("Type: ").append(Component.translatable("atarisadvancedarmory.specialsmithingtemplatetype." + SpecialSmithingTemplateType.values()[slotsDrawn].name).getString());

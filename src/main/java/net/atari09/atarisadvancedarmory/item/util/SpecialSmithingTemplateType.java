@@ -1,8 +1,10 @@
 package net.atari09.atarisadvancedarmory.item.util;
 
 import com.mojang.serialization.Codec;
+import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -100,6 +102,7 @@ public enum SpecialSmithingTemplateType {
     }
 
 
-
-
+    public ResourceLocation getTexture() {
+        return AtarisAdvancedArmory.res("textures/item/specialsmithingtemplate_variant/"+name+".png");
+    }
 }

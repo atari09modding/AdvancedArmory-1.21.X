@@ -14,7 +14,6 @@ import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScreen;
-import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -26,7 +25,6 @@ import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
 
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -118,10 +116,11 @@ public class AtarisAdvancedArmory {
         }
 
         @SubscribeEvent
-        public static void register(final RegisterPayloadHandlersEvent event) {
+        public static void registerPayloadHandlers(final RegisterPayloadHandlersEvent event) {
             final PayloadRegistrar registrar = event.registrar("1");
             registrar.playToServer(StartSmithingPacket.TYPE, StartSmithingPacket.STREAM_CODEC, StartSmithingPacketHandler::handle);
             registrar.playToServer(CraftTemplatePacket.TYPE,CraftTemplatePacket.STREAM_CODEC,CraftTemplatePacketHandler::handle);
         }
+
     }
 }
