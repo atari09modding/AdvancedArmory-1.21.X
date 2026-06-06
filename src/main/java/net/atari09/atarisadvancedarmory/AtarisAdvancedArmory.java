@@ -15,6 +15,7 @@ import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
+import net.atari09.atarisadvancedarmory.util.ModItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -99,7 +100,7 @@ public class AtarisAdvancedArmory {
     static class ClientModEvents {
         @SubscribeEvent
         static void onClientSetup(FMLClientSetupEvent event) {
-
+            ModItemProperties.addCustomProperties();
 
         }
 
