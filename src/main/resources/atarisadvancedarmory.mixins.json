@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.atari09.atarisadvancedarmory.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "EnchantCommandMixin",
+    "EnchantmentMixin",
+    "PlayerMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

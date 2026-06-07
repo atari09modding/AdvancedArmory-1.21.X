@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.component;
 
 import com.mojang.serialization.Codec;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.item.util.ElementalVariant;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -24,6 +25,9 @@ public class ModDataComponents {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<SpecialSmithingTemplateType>> SPECIALSMITHINGTEMPLATETYPES = register("specialsmithingtemplatetypes",
             builder -> builder.persistent(SpecialSmithingTemplateType.CODEC));
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ElementalVariant>> ELEMENTAL_VARIANT = register("elemental_variant",
+            builder -> builder.persistent(ElementalVariant.CODEC));
 
 
 
