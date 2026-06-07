@@ -3,6 +3,7 @@ package net.atari09.atarisadvancedarmory.util;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
+import net.atari09.atarisadvancedarmory.item.custom.ElementalMaceItem;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.minecraft.client.renderer.item.ItemProperties;
 

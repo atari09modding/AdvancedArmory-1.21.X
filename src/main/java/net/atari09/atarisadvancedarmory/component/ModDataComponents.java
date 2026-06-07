@@ -29,6 +29,9 @@ public class ModDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ElementalVariant>> ELEMENTAL_VARIANT = register("elemental_variant",
             builder -> builder.persistent(ElementalVariant.CODEC));
 
+    public static DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> ELEMENTAL_LEVEL = register("elemental_level",
+            builder -> builder.persistent(Codec.INT));
+
 
 
 
