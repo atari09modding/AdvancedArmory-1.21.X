@@ -9,6 +9,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -27,6 +28,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -210,12 +212,17 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
             output = v.output();
         }
 
+        ItemStack in = itemHandler.getStackInSlot(INPUT_SLOT_1);
+        if(in.has(DataComponents.STORED_ENCHANTMENTS)){
+            for
+        }
+
 
         itemHandler.extractItem(INPUT_SLOT_1,1,false);
         itemHandler.extractItem(INPUT_SLOT_2,1,false);
         itemHandler.extractItem(TEMPLATE_SLOT,1,false);
-        itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(output.getItem(),
-                output.getCount()));
+        assert output != null;
+        itemHandler.setStackInSlot(OUTPUT_SLOT, output);
 
     }
 

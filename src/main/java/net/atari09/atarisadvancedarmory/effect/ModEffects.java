@@ -21,6 +21,13 @@ public class ModEffects {
                             ResourceLocation.fromNamespaceAndPath(AtariMod.MOD_ID, "slimey"),
                             -0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));*/
 
+    public static final Holder<MobEffect> FREEZE_EFFECT = MOB_EFFECTS.register("freezing",
+            ()->new FreezeEffect(MobEffectCategory.HARMFUL,0x00D0FF)
+                    .addAttributeModifier(Attributes.MOVEMENT_SPEED,
+                            AtarisAdvancedArmory.res("freezing"),
+                            -0.2f,
+                            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+
     public static void register(IEventBus eventBus){
         MOB_EFFECTS.register(eventBus);
     }

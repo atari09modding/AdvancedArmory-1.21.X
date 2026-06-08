@@ -23,8 +23,10 @@ public class ModItems {
             ()->new SpecialSmithingTemplateItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> INFERNAL_MACE = ITEMS.register("infernal_mace",
-            ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.INFERNAL).stacksTo(1).attributes(ElementalMaceItem.createAttributes())));
+            ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.INFERNAL).stacksTo(1).durability(700).attributes(ElementalMaceItem.createAttributes())));
 
+    public static final DeferredItem<Item> KRYONIC_MACE = ITEMS.register("infernal_mace",
+            ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.KRYONIC).stacksTo(1).durability(700).attributes(ElementalMaceItem.createAttributes())));
 
 
 

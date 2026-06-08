@@ -26,13 +26,17 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
     }
 
     @Override
-    public int getElementalLevel() {
+    public int getElementalLevel(ItemStack stack) {
+        if(stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())){
+            return stack.get(ModDataComponents.ELEMENTAL_LEVEL.get());
+
+        }
         return 0;
     }
 
     @Override
     public ElementalVariant getElement() {
-        return null;
+        return this.element;
     }
 
     @Override
