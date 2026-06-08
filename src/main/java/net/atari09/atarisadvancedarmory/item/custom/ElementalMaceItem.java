@@ -43,14 +43,13 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         super.inventoryTick(stack, level, entity, slotId, isSelected);
         if(!stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())){
-            stack.set(ModDataComponents.ELEMENTAL_LEVEL.get(),0);
+            stack.set(ModDataComponents.ELEMENTAL_LEVEL.get(),1);
         }
     }
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         this.element.abilitylv1.accept(stack,target,attacker);
-
         if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
             if(stack.get(ModDataComponents.ELEMENTAL_LEVEL)>=3){
                 this.element.abilitylv3.accept(stack,target,attacker);

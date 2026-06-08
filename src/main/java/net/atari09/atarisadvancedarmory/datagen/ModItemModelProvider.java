@@ -46,6 +46,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         specialSmithingTemplate(ModItems.SPECIAL_SMITHING_TEMPLATE);
 
         withExistingParent(ModItems.INFERNAL_MACE.getId().getPath(),mcLoc("item/mace"));
+        withExistingParent(ModItems.KRYONIC_MACE.getId().getPath(),mcLoc("item/mace"));
+        withExistingParent(ModItems.NOXIOUS_MACE.getId().getPath(),mcLoc("item/mace"));
 
 
     }

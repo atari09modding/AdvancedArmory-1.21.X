@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.block.entity;
 
 import ca.weblite.objc.Client;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.atari09.atarisadvancedarmory.block.custom.WeaponSmithBaseBlock;
 import net.atari09.atarisadvancedarmory.item.custom.SpecialSmithingTemplateItem;
 import net.atari09.atarisadvancedarmory.recipe.*;
@@ -8,6 +9,7 @@ import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -28,6 +30,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -39,6 +43,7 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.random.RandomGenerator;
@@ -213,8 +218,14 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
         }
 
         ItemStack in = itemHandler.getStackInSlot(INPUT_SLOT_1);
-        if(in.has(DataComponents.STORED_ENCHANTMENTS)){
-            for
+        if(in.has(DataComponents.ENCHANTMENTS)){
+            for(Object2IntMap.Entry<Holder<Enchantment>> e :in.get(DataComponents.ENCHANTMENTS).entrySet()){
+                assert output != null;
+                if (output.supportsEnchantment(e.getKey())){
+                    output.enchant(e.getKey(),e.getIntValue());
+                }
+
+            }
         }
 
 

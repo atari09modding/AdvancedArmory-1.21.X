@@ -24,10 +24,14 @@ public static final Supplier<CreativeModeTab> SMITHING_TAB = CREATIVE_MODE_TAB.r
                 .build());
     public static final Supplier<CreativeModeTab> ARMORY_TAB = CREATIVE_MODE_TAB.register("armory_tab",
             ()-> CreativeModeTab.builder()
-                    .icon(()->new ItemStack(ModItems.SPECIAL_SMITHING_TEMPLATE.get())) //change this later
+                    .icon(()->new ItemStack(ModItems.INFERNAL_MACE.get())) //change this later
                     .title(Component.translatable("creativetab.atarisadvancedarmory.armory_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.SPECIAL_SMITHING_TEMPLATE); //change this later
+                        output.accept(ModItems.SPECIAL_SMITHING_TEMPLATE);
+                        output.accept(ModItems.INFERNAL_MACE);
+                        output.accept(ModItems.KRYONIC_MACE);
+                        output.accept(ModItems.NOXIOUS_MACE);
+
                     })
                     .build());
 

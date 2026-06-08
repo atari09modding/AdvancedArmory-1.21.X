@@ -25,8 +25,11 @@ public class ModItems {
     public static final DeferredItem<Item> INFERNAL_MACE = ITEMS.register("infernal_mace",
             ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.INFERNAL).stacksTo(1).durability(700).attributes(ElementalMaceItem.createAttributes())));
 
-    public static final DeferredItem<Item> KRYONIC_MACE = ITEMS.register("infernal_mace",
+    public static final DeferredItem<Item> KRYONIC_MACE = ITEMS.register("kryonic_mace",
             ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.KRYONIC).stacksTo(1).durability(700).attributes(ElementalMaceItem.createAttributes())));
+
+    public static final DeferredItem<Item> NOXIOUS_MACE = ITEMS.register("noxious_mace",
+            ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.NOXIOUS).stacksTo(1).durability(700).attributes(ElementalMaceItem.createAttributes())));
 
 
 
