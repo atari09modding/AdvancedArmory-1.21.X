@@ -45,6 +45,8 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         specialSmithingTemplate(ModItems.SPECIAL_SMITHING_TEMPLATE);
 
+        withExistingParent(ModItems.INFERNAL_MACE.getId().getPath(),mcLoc("item/mace"));
+
 
     }
 

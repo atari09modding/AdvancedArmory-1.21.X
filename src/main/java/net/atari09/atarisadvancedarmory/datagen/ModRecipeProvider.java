@@ -3,6 +3,7 @@ package net.atari09.atarisadvancedarmory.datagen;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.datagen.recipebuilders.WeaponSmithRecipeBuilder;
 import net.atari09.atarisadvancedarmory.datagen.recipebuilders.WeaponSmithTemplateTypeRecipeBuilder;
+import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
 import net.minecraft.core.HolderLookup;
@@ -36,8 +37,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             new ItemStack(Items.DIAMOND_AXE),
             Ingredient.of(Items.WOODEN_AXE),
             Ingredient.of(Items.DIAMOND),
-            SpecialSmithingTemplateType.TEMPORARY_DEBUG
+            SpecialSmithingTemplateType.TEMPORARY_DEBUG2
     ).unlockedBy("has_diamond",has(Items.DIAMOND)).save(recipeOutput);
+
+        new WeaponSmithTemplateTypeRecipeBuilder(
+                new ItemStack(ModItems.INFERNAL_MACE.get()),
+                Ingredient.of(Items.MACE),
+                Ingredient.of(Items.MAGMA_BLOCK),
+                SpecialSmithingTemplateType.INFERNAL
+        ).unlockedBy("has_mace",has(Items.MACE)).save(recipeOutput);
 
 
 

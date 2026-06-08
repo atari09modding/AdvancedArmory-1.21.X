@@ -9,10 +9,12 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Player.class)
 public class PlayerMixin {
+
 
     @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/common/CommonHooks;fireCriticalHit(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/entity/Entity;ZF)Lnet/neoforged/neoforge/event/entity/player/CriticalHitEvent;"))
     private static CriticalHitEvent overrideCrit(Player player, Entity target, boolean vanillaCritical, float damageModifier){

@@ -10,7 +10,7 @@ import net.minecraft.world.item.Items;
 
 public enum SpecialSmithingTemplateType {
     NONE(0,"none",ItemStack.EMPTY),
-    TEMPORARY_DEBUG(1,"debug",new ItemStack(Items.TNT,23)),
+    INFERNAL(1,"debug",new ItemStack(Items.FIRE_CHARGE,16)),
     TEMPORARY_DEBUG2(2,"debug",new ItemStack(Items.DIAMOND,5)),
     TEMPORARY_DEBUG3(3,"debug",ItemStack.EMPTY),
     TEMPORARY_DEBUG4(4,"debug",ItemStack.EMPTY),
