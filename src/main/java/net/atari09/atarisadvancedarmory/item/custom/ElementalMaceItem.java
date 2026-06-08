@@ -1,5 +1,6 @@
 package net.atari09.atarisadvancedarmory.item.custom;
 
+import net.atari09.atarisadvancedarmory.item.util.ElementalProperties;
 import net.atari09.atarisadvancedarmory.item.util.ElementalVariant;
 import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 

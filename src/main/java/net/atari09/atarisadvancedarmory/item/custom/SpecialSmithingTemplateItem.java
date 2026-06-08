@@ -1,25 +1,33 @@
 package net.atari09.atarisadvancedarmory.item.custom;
 
+import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateMenu;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlag;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SpecialSmithingTemplateItem extends Item {
+public class SpecialSmithingTemplateItem extends Item{
     protected final ContainerData data;
-
+    public static final int COST_SLOT = 0;
 
 
     public SpecialSmithingTemplateItem(Properties properties) {
@@ -46,10 +54,9 @@ public class SpecialSmithingTemplateItem extends Item {
         return stack.get(ModDataComponents.SPECIALSMITHINGTEMPLATETYPES.get());
     }
 
-    @SuppressWarnings("Unhandled exception: java.lang.Exception")
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        if(getType(player.getItemInHand(usedHand)) == SpecialSmithingTemplateType.NONE){
+        if(getType(player.getMainHandItem()) == SpecialSmithingTemplateType.NONE){
             player.openMenu(new SimpleMenuProvider((i,inv,player1)->new SpecialSmithingTemplateMenu(i,inv,player,player.getItemInHand(usedHand)), Component.translatable("item.atarisadvancedarmory.specialsmithingtemplate")));
             //player.getMainHandItem().set(ModDataComponents.SPECIALSMITHINGTEMPLATETYPES.get(), SpecialSmithingTemplateType.TEMPORARY_DEBUG);
         }
@@ -72,8 +79,6 @@ public class SpecialSmithingTemplateItem extends Item {
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
-
-    
 
 
 

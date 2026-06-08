@@ -41,6 +41,8 @@ public class SpecialSmithingTemplateMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
     }
 
+
+
     @Override
     public void removed(Player player) {
         super.removed(player);

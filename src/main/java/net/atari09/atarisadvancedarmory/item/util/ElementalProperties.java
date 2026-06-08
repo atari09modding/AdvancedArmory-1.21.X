@@ -4,12 +4,17 @@ import net.minecraft.world.item.Item;
 
 public class ElementalProperties extends Item.Properties {
     ElementalVariant element;
+    int level;
 
-    public void setElement(ElementalVariant element){
+    public ElementalProperties setElement(ElementalVariant element){
         this.element = element;
+        return this;
     }
 
-    public void setLevel()
+    public ElementalProperties setLevel(int level){
+        this.level = level;
+        return this;
+    }
 
 
 }
