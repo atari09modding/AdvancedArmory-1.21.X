@@ -4,8 +4,10 @@ import com.mojang.serialization.Codec;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -32,14 +34,14 @@ import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
 public enum ElementalVariant {
-    INFERNAL(0, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3),
-    KRYONIC(1, ElementalVariant::kryonic1,ElementalVariant::kryonic2,ElementalVariant::kryonic3),
-    NOXIOUS(2, ElementalVariant::noxious1,ElementalVariant::noxious2,ElementalVariant::noxious3),
-    ABYSSAL(3, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3),
-    AERIAL(4, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3),
-    TERRESTRIAL(5, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3),
-    AQUATIC(6, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3),
-    CHRONAL(7, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3);
+    INFERNAL(0, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,80),
+    KRYONIC(1, ElementalVariant::kryonic1,ElementalVariant::kryonic2,ElementalVariant::kryonic3,300),
+    NOXIOUS(2, ElementalVariant::noxious1,ElementalVariant::noxious2,ElementalVariant::noxious3,200),
+    ABYSSAL(3, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
+    AERIAL(4, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
+    TERRESTRIAL(5, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
+    AQUATIC(6, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
+    CHRONAL(7, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200);
 
     public int id;
     public static final Codec<ElementalVariant> CODEC =
@@ -50,14 +52,15 @@ public enum ElementalVariant {
     public final AbilityLv1Executor abilitylv1;
     public final AbilityLv2Executor abilitylv2;
     public final AbilityLv3Executor abilitylv3;
+    public int abilityCooldown;
 
 
-    ElementalVariant(int id, AbilityLv1Executor abilitylv1, AbilityLv2Executor abilityLv2, AbilityLv3Executor abilityLv3){
+    ElementalVariant(int id, AbilityLv1Executor abilitylv1, AbilityLv2Executor abilityLv2, AbilityLv3Executor abilityLv3, int abilityCooldown){
         this.id = id;
         this.abilitylv1 = abilitylv1;
         this.abilitylv2 = abilityLv2;
         this.abilitylv3 = abilityLv3;
-
+        this.abilityCooldown = abilityCooldown;
 
     }
 
@@ -143,6 +146,11 @@ public enum ElementalVariant {
 
     public static void infernal1(ItemStack stack, LivingEntity target, LivingEntity attacker){
         target.igniteForTicks(40);
+        Level level = target.level();
+        if(!level.isClientSide()){
+            ((ServerLevel) level).sendParticles(ParticleTypes.FLAME,target.getX(),target.getY(),target.getZ(),200,0,0,0,2);
+        }
+
     }
 
     public static void infernal2(Level level, Player player, InteractionHand usedHand){

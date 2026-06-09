@@ -7,6 +7,9 @@ import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
+import net.atari09.atarisadvancedarmory.item.client.AbilityCooldownDecorator;
+import net.atari09.atarisadvancedarmory.item.custom.ElementalMaceItem;
+import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 import net.atari09.atarisadvancedarmory.network.handler.CraftTemplatePacketHandler;
 import net.atari09.atarisadvancedarmory.network.handler.StartSmithingPacketHandler;
 import net.atari09.atarisadvancedarmory.network.payload.CraftTemplatePacket;
@@ -18,6 +21,7 @@ import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.atari09.atarisadvancedarmory.util.ModItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -121,6 +125,16 @@ public class AtarisAdvancedArmory {
             final PayloadRegistrar registrar = event.registrar("1");
             registrar.playToServer(StartSmithingPacket.TYPE, StartSmithingPacket.STREAM_CODEC, StartSmithingPacketHandler::handle);
             registrar.playToServer(CraftTemplatePacket.TYPE,CraftTemplatePacket.STREAM_CODEC,CraftTemplatePacketHandler::handle);
+        }
+
+        @SubscribeEvent
+        public static void registerItemDecorators(final RegisterItemDecorationsEvent event){
+            ModItems.ITEMS.getEntries().stream().forEach((item)->{
+                if(item.get() instanceof ElementalWeapon){
+                    event.register(item.get(),new AbilityCooldownDecorator());
+                }
+            });
+
         }
 
     }

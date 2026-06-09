@@ -4,6 +4,9 @@ import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.util.ElementalProperties;
 import net.atari09.atarisadvancedarmory.item.util.ElementalVariant;
 import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -13,8 +16,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
     private final ElementalVariant element;
@@ -45,13 +51,21 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
         if(!stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())){
             stack.set(ModDataComponents.ELEMENTAL_LEVEL.get(),1);
         }
+        if(stack.has(ModDataComponents.ABILITY_COOLDOWN)){
+            int cooldown = stack.get(ModDataComponents.ABILITY_COOLDOWN.get());
+            if(cooldown > 0){
+                cooldown--;
+                stack.set(ModDataComponents.ABILITY_COOLDOWN,cooldown);
+            }
+        }
     }
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         this.element.abilitylv1.accept(stack,target,attacker);
         if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
-            if(stack.get(ModDataComponents.ELEMENTAL_LEVEL)>=3){
+            if(stack.get(ModDataComponents.ELEMENTAL_LEVEL.get())>=3){
+
                 this.element.abilitylv3.accept(stack,target,attacker);
             }
         }
@@ -62,10 +76,15 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
+        int cooldown = 0;
+        if(stack.has(ModDataComponents.ABILITY_COOLDOWN)){
+            cooldown = stack.get(ModDataComponents.ABILITY_COOLDOWN.get());
+        }
         if(stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())){
             int elementalLevel = stack.get(ModDataComponents.ELEMENTAL_LEVEL.get());
-            if(elementalLevel >=2&&!level.isClientSide()){
+            if(elementalLevel >=2&&!level.isClientSide()  && cooldown==0){
                 this.element.abilitylv2.accept(level,player,usedHand);
+                stack.set(ModDataComponents.ABILITY_COOLDOWN,element.abilityCooldown);
             }
         }
 

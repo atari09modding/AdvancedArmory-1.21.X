@@ -32,6 +32,9 @@ public class ModDataComponents {
     public static DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> ELEMENTAL_LEVEL = register("elemental_level",
             builder -> builder.persistent(Codec.INT));
 
+    public static DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> ABILITY_COOLDOWN = register("ability_cooldown",
+            builder -> builder.persistent(Codec.INT));
+
 
 
 
