@@ -6,6 +6,7 @@ import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
+import net.atari09.atarisadvancedarmory.entity.client.BlockProjectileEntityRenderer;
 import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.client.AbilityCooldownDecorator;
@@ -22,6 +23,7 @@ import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.atari09.atarisadvancedarmory.util.ModItemProperties;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
@@ -110,6 +112,7 @@ public class AtarisAdvancedArmory {
         static void onClientSetup(FMLClientSetupEvent event) {
             ModItemProperties.addCustomProperties();
 
+            EntityRenderers.register(ModEntities.BLOCK_PROJECTILE_ENTITY.get(), BlockProjectileEntityRenderer::new);
         }
 
         @SubscribeEvent
@@ -141,6 +144,8 @@ public class AtarisAdvancedArmory {
             });
 
         }
+
+
 
     }
 }
