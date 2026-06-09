@@ -31,6 +31,9 @@ public static final Supplier<CreativeModeTab> SMITHING_TAB = CREATIVE_MODE_TAB.r
                         output.accept(ModItems.INFERNAL_MACE);
                         output.accept(ModItems.KRYONIC_MACE);
                         output.accept(ModItems.NOXIOUS_MACE);
+                        output.accept(ModItems.ABYSSAL_MACE);
+                        output.accept(ModItems.AERIAL_MACE);
+                        output.accept(ModItems.TERRESTRIAL_MACE);
 
                     })
                     .build());

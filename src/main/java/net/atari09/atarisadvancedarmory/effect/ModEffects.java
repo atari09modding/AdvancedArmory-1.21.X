@@ -28,6 +28,11 @@ public class ModEffects {
                             -0.2f,
                             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
+    public static final Holder<MobEffect> VOID_EFFECT = MOB_EFFECTS.register("void",
+            ()->new FreezeEffect(MobEffectCategory.HARMFUL,0xFFD0FF)
+                    .addAttributeModifier(Attributes.MAX_HEALTH,
+                            AtarisAdvancedArmory.res("void"),-2, AttributeModifier.Operation.ADD_VALUE));
+
     public static void register(IEventBus eventBus){
         MOB_EFFECTS.register(eventBus);
     }

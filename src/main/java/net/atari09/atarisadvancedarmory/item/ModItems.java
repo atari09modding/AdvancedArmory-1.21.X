@@ -31,7 +31,14 @@ public class ModItems {
     public static final DeferredItem<Item> NOXIOUS_MACE = ITEMS.register("noxious_mace",
             ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.NOXIOUS).stacksTo(1).durability(700).attributes(ElementalMaceItem.createAttributes())));
 
+    public static final DeferredItem<Item> ABYSSAL_MACE = ITEMS.register("abyssal_mace",
+            ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.ABYSSAL).stacksTo(1).durability(700).attributes(ElementalMaceItem.createAttributes())));
 
+    public static final DeferredItem<Item> AERIAL_MACE = ITEMS.register("aerial_mace",
+            ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.AERIAL).stacksTo(1).durability(700).attributes(ElementalMaceItem.createAttributes())));
+
+    public static final DeferredItem<Item> TERRESTRIAL_MACE = ITEMS.register("terrestrial_mace",
+            ()-> new ElementalMaceItem(new ElementalProperties().setLevel(1).setElement(ElementalVariant.TERRESTRIAL).stacksTo(1).durability(700).attributes(ElementalMaceItem.createAttributes())));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

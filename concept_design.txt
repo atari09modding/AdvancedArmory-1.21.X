@@ -63,7 +63,7 @@ elements for weapons:
         3: chance to infect target with wither effect
     abyssal (void) (purple "enderman" color sceme):
         1: ALWAYS infect target with void effect which i dont know what it should do yet
-        2: apply darkness effect for 5 secounds to all surrounding enemys and infect them with void effect
+        2: apply darkness effect for 6 secounds to all surrounding enemys and infect them with void effect
         3: always deal critical hits to infected targets
     aerial(wind/air):
         1: increased knockback

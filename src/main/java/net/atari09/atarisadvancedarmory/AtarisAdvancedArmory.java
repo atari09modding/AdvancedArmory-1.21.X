@@ -5,14 +5,17 @@ import net.atari09.atarisadvancedarmory.block.client.WeaponSmithBaseBlockRendere
 import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
+import net.atari09.atarisadvancedarmory.entity.ModEntities;
 import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.client.AbilityCooldownDecorator;
 import net.atari09.atarisadvancedarmory.item.custom.ElementalMaceItem;
 import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 import net.atari09.atarisadvancedarmory.network.handler.CraftTemplatePacketHandler;
+import net.atari09.atarisadvancedarmory.network.handler.ScreenShakePacketHandler;
 import net.atari09.atarisadvancedarmory.network.handler.StartSmithingPacketHandler;
 import net.atari09.atarisadvancedarmory.network.payload.CraftTemplatePacket;
+import net.atari09.atarisadvancedarmory.network.payload.ScreenShakePacket;
 import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
@@ -73,6 +76,7 @@ public class AtarisAdvancedArmory {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
+        ModEntities.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModRecipes.register(modEventBus);
@@ -125,6 +129,7 @@ public class AtarisAdvancedArmory {
             final PayloadRegistrar registrar = event.registrar("1");
             registrar.playToServer(StartSmithingPacket.TYPE, StartSmithingPacket.STREAM_CODEC, StartSmithingPacketHandler::handle);
             registrar.playToServer(CraftTemplatePacket.TYPE,CraftTemplatePacket.STREAM_CODEC,CraftTemplatePacketHandler::handle);
+            registrar.playToClient(ScreenShakePacket.TYPE,ScreenShakePacket.STREAM_CODEC, ScreenShakePacketHandler::handle);
         }
 
         @SubscribeEvent

@@ -3,11 +3,13 @@ package net.atari09.atarisadvancedarmory.item.util;
 import com.mojang.serialization.Codec;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
+import net.atari09.atarisadvancedarmory.network.payload.ScreenShakePacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -17,12 +19,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.EvokerFangs;
 import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +41,9 @@ public enum ElementalVariant {
     INFERNAL(0, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,80),
     KRYONIC(1, ElementalVariant::kryonic1,ElementalVariant::kryonic2,ElementalVariant::kryonic3,300),
     NOXIOUS(2, ElementalVariant::noxious1,ElementalVariant::noxious2,ElementalVariant::noxious3,200),
-    ABYSSAL(3, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
-    AERIAL(4, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
-    TERRESTRIAL(5, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
+    ABYSSAL(3, ElementalVariant::abyssal1,ElementalVariant::abyssal2,ElementalVariant::abyssal3,200),
+    AERIAL(4, ElementalVariant::aerial1,ElementalVariant::aerial2,ElementalVariant::aerial3,80),
+    TERRESTRIAL(5, ElementalVariant::terrestrial1,ElementalVariant::terrestrial2,ElementalVariant::terrestrial3,200),
     AQUATIC(6, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
     CHRONAL(7, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200);
 
@@ -64,7 +68,66 @@ public enum ElementalVariant {
 
     }
 
+    public static void terrestrial1(ItemStack stack, LivingEntity target, LivingEntity attacker){
+        if(target instanceof ServerPlayer player){
+            PacketDistributor.sendToPlayer(player,new ScreenShakePacket(50,5));
+        }
+        if(attacker instanceof ServerPlayer player){
+            PacketDistributor.sendToPlayer(player,new ScreenShakePacket(50,5));
+        }
+    }
 
+    public static void terrestrial2(Level level, Player player, InteractionHand usedHand){
+
+    }
+
+    public static void terrestrial3(ItemStack stack, LivingEntity target, LivingEntity attacker){
+        float damage = (float) ((1-(attacker.position().y/attacker.level().getMaxBuildHeight()))*20);
+        target.hurt(target.damageSources().generic(),damage);
+    }
+
+    public static void aerial1(ItemStack stack, LivingEntity target, LivingEntity attacker){
+        target.knockback(3,attacker.getX()-target.getX(),attacker.getZ()-target.getZ());
+    }
+
+    public static void aerial2(Level level, Player player, InteractionHand usedHand){
+        Vec3 pos = player.position();
+        WindCharge charge = new WindCharge(player,level,pos.x,pos.y+1.5,pos.z);
+        charge.setDeltaMovement(player.getLookAngle());
+        level.addFreshEntity(charge);
+    }
+
+    public static void aerial3(ItemStack stack, LivingEntity target, LivingEntity attacker){
+        //have not had a good idea yet
+    }
+
+    public static void abyssal1(ItemStack stack, LivingEntity target, LivingEntity attacker){
+        if (stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())) {
+            target.addEffect(new MobEffectInstance(ModEffects.VOID_EFFECT,40));//change this later to VOID effect
+
+        }
+    }
+
+    public static void abyssal2(Level level, Player player, InteractionHand usedHand){
+        int x = player.getBlockX();
+        int y = player.getBlockY();
+        int z = player.getBlockZ();
+        List<Entity> entities =  level.getEntities(player,new AABB(x-5,y-2,z-5,x+5,y+2,z+5));
+        for(Entity entity : entities){
+            if(entity instanceof LivingEntity living){
+                living.addEffect(new MobEffectInstance(MobEffects.DARKNESS,120,2));
+                living.addEffect(new MobEffectInstance(ModEffects.VOID_EFFECT,120,2));//void
+            }
+        }
+    }
+
+    public static void abyssal3(ItemStack stack, LivingEntity target, LivingEntity attacker){
+        if(target.hasEffect(ModEffects.VOID_EFFECT)){
+            stack.set(ModDataComponents.DO_CRIT,true);
+
+        }
+
+    }
 
     public static void noxious1(ItemStack stack, LivingEntity target, LivingEntity attacker){
         if (stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())) {

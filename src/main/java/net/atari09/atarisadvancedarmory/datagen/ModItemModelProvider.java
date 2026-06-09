@@ -48,6 +48,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.INFERNAL_MACE.getId().getPath(),mcLoc("item/mace"));
         withExistingParent(ModItems.KRYONIC_MACE.getId().getPath(),mcLoc("item/mace"));
         withExistingParent(ModItems.NOXIOUS_MACE.getId().getPath(),mcLoc("item/mace"));
+        withExistingParent(ModItems.ABYSSAL_MACE.getId().getPath(),mcLoc("item/mace"));
+        withExistingParent(ModItems.AERIAL_MACE.getId().getPath(),mcLoc("item/mace"));
+        withExistingParent(ModItems.TERRESTRIAL_MACE.getId().getPath(),mcLoc("item/mace"));
 
 
     }
