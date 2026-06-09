@@ -3,13 +3,17 @@ package net.atari09.atarisadvancedarmory.item.util;
 import com.mojang.serialization.Codec;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
+import net.atari09.atarisadvancedarmory.entity.custom.BlockProjectileEntity;
 import net.atari09.atarisadvancedarmory.network.payload.ScreenShakePacket;
+import net.atari09.atarisadvancedarmory.util.ModTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -22,12 +26,16 @@ import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +51,7 @@ public enum ElementalVariant {
     NOXIOUS(2, ElementalVariant::noxious1,ElementalVariant::noxious2,ElementalVariant::noxious3,200),
     ABYSSAL(3, ElementalVariant::abyssal1,ElementalVariant::abyssal2,ElementalVariant::abyssal3,200),
     AERIAL(4, ElementalVariant::aerial1,ElementalVariant::aerial2,ElementalVariant::aerial3,80),
-    TERRESTRIAL(5, ElementalVariant::terrestrial1,ElementalVariant::terrestrial2,ElementalVariant::terrestrial3,200),
+    TERRESTRIAL(5, ElementalVariant::terrestrial1,null,ElementalVariant::terrestrial3,100),
     AQUATIC(6, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
     CHRONAL(7, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200);
 
@@ -77,7 +85,26 @@ public enum ElementalVariant {
         }
     }
 
-    public static void terrestrial2(Level level, Player player, InteractionHand usedHand){
+    public static void terrestrial2(UseOnContext context){
+        Player player = context.getPlayer();
+        Level level = context.getLevel();
+        if(level.getBlockState(context.getClickedPos()).is(ModTags.Blocks.TERRESTRIAL_THROWABLE)){
+            BlockState state = level.getBlockState(context.getClickedPos());
+            BlockProjectileEntity projectile = new BlockProjectileEntity(player,level,context.getClickedPos().getX()+0.5,context.getClickedPos().getY(),context.getClickedPos().getZ()+0.5,state);
+            level.removeBlock(context.getClickedPos(),false);
+            level.sendBlockUpdated(context.getClickedPos(),state, Blocks.AIR.defaultBlockState(),2);
+            level.addFreshEntity(projectile);
+            projectile.setState(state);
+            BlockPos pos = context.getClickedPos().relative(context.getClickedFace()).above();
+            if(!level.getBlockState(pos.below(2)).canBeReplaced()){
+                pos = pos.above();
+            }
+            projectile.interpolateTowardsPos(pos.getCenter());
+
+
+        }
+
+
 
     }
 

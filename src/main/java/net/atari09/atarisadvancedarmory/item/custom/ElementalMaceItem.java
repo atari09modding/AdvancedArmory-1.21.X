@@ -9,12 +9,14 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
@@ -80,9 +82,12 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
         if(stack.has(ModDataComponents.ABILITY_COOLDOWN)){
             cooldown = stack.get(ModDataComponents.ABILITY_COOLDOWN.get());
         }
+        if(cooldown>0){
+            return InteractionResultHolder.fail(stack);
+        }
         if(stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())){
             int elementalLevel = stack.get(ModDataComponents.ELEMENTAL_LEVEL.get());
-            if(elementalLevel >=2&&!level.isClientSide()  && cooldown==0){
+            if(elementalLevel >=2&&!level.isClientSide()  && !(this.element==ElementalVariant.TERRESTRIAL)){
                 this.element.abilitylv2.accept(level,player,usedHand);
                 stack.set(ModDataComponents.ABILITY_COOLDOWN,element.abilityCooldown);
             }
@@ -92,10 +97,36 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
     }
 
     @Override
+    public InteractionResult useOn(UseOnContext context) {
+        ItemStack stack = context.getItemInHand();
+        int cooldown = 0;
+        if(stack.has(ModDataComponents.ABILITY_COOLDOWN)){
+            cooldown = stack.get(ModDataComponents.ABILITY_COOLDOWN.get());
+        }
+        if(cooldown>0){
+            return InteractionResult.FAIL;
+        }
+        if(this.element == ElementalVariant.TERRESTRIAL){
+            if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
+                if((stack.get(ModDataComponents.ELEMENTAL_LEVEL)>=2)){
+                    this.element.terrestrial2(context);
+                    stack.set(ModDataComponents.ABILITY_COOLDOWN,element.abilityCooldown);
+                }
+            }
+        }
+        return super.useOn(context);
+    }
+
+    @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if(stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())){
             tooltipComponents.add(Component.literal("Level:" + stack.get(ModDataComponents.ELEMENTAL_LEVEL.get())));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return slotChanged;
     }
 }

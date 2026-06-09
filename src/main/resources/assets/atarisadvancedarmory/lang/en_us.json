@@ -4,6 +4,11 @@
 
   "item.atarisadvancedarmory.weaponsmithbaseblockitem" : "Weaponsmith",
   "item.atarisadvancedarmory.specialsmithingtemplate" : "Smithing Template",
+  "item.atarisadvancedarmory.infernal_mace" : "Infernal Mace",
+  "item.atarisadvancedarmory.aerial_mace" : "Aerial Mace",
+  "item.atarisadvancedarmory.terrestrial_mace" : "Terrestrial Mace",
+  "item.atarisadvancedarmory.abyssal_mace" : "Abyssal Mace",
+  "item.atarisadvancedarmory.noxious_mace" : "Noxious Mace",
 
   "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing",
   "creativetab.atarisadvancedarmory.armory_tab" : "Ataris Advanced Armory",

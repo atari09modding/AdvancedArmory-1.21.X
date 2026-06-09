@@ -29,4 +29,6 @@ public class BlockProjectileEntityRenderer extends EntityRenderer<BlockProjectil
         blockRenderer.renderSingleBlock(p_entity.getState(),poseStack,bufferSource,packedLight, OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
     }
+
+
 }
