@@ -9,12 +9,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.SeparateTransformsModel;
+import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -51,7 +55,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.AERIAL_MACE.getId().getPath(),mcLoc("item/mace"));
         withExistingParent(ModItems.TERRESTRIAL_MACE.getId().getPath(),mcLoc("item/mace"));
 
-        customModelWithChangingTexture(ModItems.INFERNAL_MACE,3);
+        splittedTextureChangingItemModel(ModItems.INFERNAL_MACE,3);
 
 
     }
@@ -91,23 +95,99 @@ public class ModItemModelProvider extends ItemModelProvider {
         }
     }
 
+    private void splittedTextureChangingItemModel(DeferredItem<Item> item, int countTextures){
+        String path = item.getId().getPath();
+        ResourceLocation texture = AtarisAdvancedArmory.res(item.getId().withPrefix("item/").getPath());
+        ResourceLocation loc = AtarisAdvancedArmory.res("item/"+path);
+        ResourceLocation parentLoc = loc.withSuffix("_parent");
+
+        ItemModelBuilder base = getBuilder(path)
+                .parent(new ModelFile.UncheckedModelFile("item/generated"));
+
+
+
+
+        for(int i = 0; i<countTextures; i++) {
+            String end =(i != 0 ? "_" + (i + 1) : "");
+            String overrideModelName = "item/"+ path + end;
+
+            //generate the 2d model the override model can point to
+            getBuilder(loc.withSuffix(end+"_2d").getPath())
+                    .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                    .texture("layer0", texture.withSuffix(end+"_2d"));
+
+            //generate the same for 3d
+            getBuilder(loc.withSuffix(end+"_3d").getPath())
+                    .parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper))
+                    .texture("0", texture.withSuffix(end+"_3d"));
+
+            // Generate the override model
+            ItemModelBuilder builder = getBuilder(overrideModelName).parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                    .customLoader(SeparateTransformsModelBuilder::begin)
+                    .base(withExistingParent(end+"3d",loc.withSuffix(end+"_3d")))
+                    .perspective(ItemDisplayContext.GUI,withExistingParent(end+"2d",loc.withSuffix(end+"_2d")))
+                    .end();
+
+
+            // Add override to base model
+            base.override()
+                    .predicate(AtarisAdvancedArmory.res(path), (float) i)
+                    .model(new ModelFile.UncheckedModelFile(AtarisAdvancedArmory.res(overrideModelName)))
+                    .end();
+        }
+
+
+
+
+
+
+    }
+
+    private void item2dModelWithChangingTexture(DeferredItem<Item> item, int countTextures){
+        String path = item.getId().getPath();
+        ResourceLocation texture = AtarisAdvancedArmory.res(item.getId().withPrefix("item/").getPath());
+
+        ItemModelBuilder base = getBuilder(path+"_2d")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",texture.withSuffix("_2d"));
+
+
+        for(int i = 1; i<countTextures; i++) {
+            String end = "_" + (i + 1);// (i != 0 ? "_" + (i + 1) : "");
+            String overrideModelName = path + end+"_2d";
+
+            // Generate the override model
+            getBuilder(overrideModelName)
+                    .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                    .texture("layer0", texture.withSuffix(end+"_2d"));
+
+            // Add override to base model
+            base.override()
+                    .predicate(AtarisAdvancedArmory.res(path), (float) i)
+                    .model(new ModelFile.UncheckedModelFile(
+                            AtarisAdvancedArmory.MOD_ID + ":item/" + overrideModelName))
+                    .end();
+        }
+    }
+
     private void customModelWithChangingTexture(DeferredItem<Item> item,int countTextures){
         String path = item.getId().getPath();
         ResourceLocation texture = AtarisAdvancedArmory.res(item.getId().withPrefix("item/").getPath());
         ResourceLocation parentLoc = AtarisAdvancedArmory.res("item/"+path+"_parent");
 
         //take the blockbench model from here
-        ItemModelBuilder base = getBuilder(path).parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper));
+        ItemModelBuilder base = getBuilder(path+"_3d").parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper));
 
 
-        for(int i = 0; i<countTextures; i++){
-            String end = (i!=0 ?"_" + (i+1):"");
-            String overrideModelName = path +end;
+        for(int i = 1; i<countTextures; i++){
+            String end = "_" + (i + 1);//(i!=0 ?"_" + (i+1):"");
+            String overrideModelName = path +end+"_3d";
+
 
             // Generate the override model
             getBuilder(overrideModelName)
                     .parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper))
-                    .texture("0", texture.withSuffix(end));
+                    .texture("0", texture.withSuffix(end+"_3d"));
 
             // Add override to base model
             base.override()

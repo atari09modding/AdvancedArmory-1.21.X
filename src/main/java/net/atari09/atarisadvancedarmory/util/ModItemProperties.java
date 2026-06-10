@@ -16,6 +16,7 @@ public class ModItemProperties {
 
         ItemProperties.register(ModItems.INFERNAL_MACE.get(), AtarisAdvancedArmory.res("infernal_mace"),((stack, level, entity, i) -> {
             if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
+
                 return stack.get(ModDataComponents.ELEMENTAL_LEVEL)-1;
             } else{
                 return 0;
