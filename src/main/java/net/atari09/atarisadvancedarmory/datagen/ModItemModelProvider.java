@@ -96,6 +96,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         ResourceLocation texture = AtarisAdvancedArmory.res(item.getId().withPrefix("item/").getPath());
         ResourceLocation parentLoc = AtarisAdvancedArmory.res("item/"+path+"_parent");
 
+        //take the blockbench model from here
         ItemModelBuilder base = getBuilder(path).parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper));
 
 
