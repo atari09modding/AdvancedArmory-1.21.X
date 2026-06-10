@@ -89,33 +89,28 @@ public class ModItemModelProvider extends ItemModelProvider {
         }
     }
 
-    private void customModelWithChangingTexture(DeferredItem<Item> item){
+    private void customModelWithChangingTexture(DeferredItem<Item> item,int countTextures){
         String path = item.getId().getPath();
         ResourceLocation texture = AtarisAdvancedArmory.res(item.getId().withPrefix("item/").getPath());
 
-        ItemModelBuilder base = getBuilder(path).parent(new ModelFile.ExistingModelFile(AtarisAdvancedArmory.res(path),existingFileHelper));
+        ItemModelBuilder base = getBuilder(path).parent(new ModelFile.ExistingModelFile(AtarisAdvancedArmory.res(path+"_parent"),existingFileHelper));
 
-        int i = 0;
-        for(SpecialSmithingTemplateType type :SpecialSmithingTemplateType.values()){
-            if(type.check(SpecialSmithingTemplateType.NONE)){
-                i++;
-                continue;
-            }
-            String overrideModelName = path + "_" + type.name.toLowerCase();
+
+        for(int i = 0; i<countTextures; i++){
+            String overrideModelName = path + "_" + i;
 
             // Generate the override model
             getBuilder(overrideModelName)
                     .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                    .texture("layer0", texture)
-                    .texture("layer1", type.getTexture());
+                    .texture("layer0", texture.withSuffix("_"+i));
 
             // Add override to base model
             base.override()
-                    .predicate(AtarisAdvancedArmory.res("template_type"), (float) i)
+                    .predicate(AtarisAdvancedArmory.res(path), (float) i)
                     .model(new ModelFile.UncheckedModelFile(
                             AtarisAdvancedArmory.MOD_ID + ":item/" + overrideModelName))
                     .end();
-            i++;
+
         }
     }
 
