@@ -13,5 +13,13 @@ public class ModItemProperties {
             SpecialSmithingTemplateType type = stack.get(ModDataComponents.SPECIALSMITHINGTEMPLATETYPES);
             return type == null?0: type.getId();
         });
+
+        ItemProperties.register(ModItems.INFERNAL_MACE.get(), AtarisAdvancedArmory.res("infernal_mace"),((stack, level, entity, i) -> {
+            if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
+                return stack.get(ModDataComponents.ELEMENTAL_LEVEL)-1;
+            } else{
+                return 0;
+            }
+        }));
     }
 }

@@ -51,6 +51,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.AERIAL_MACE.getId().getPath(),mcLoc("item/mace"));
         withExistingParent(ModItems.TERRESTRIAL_MACE.getId().getPath(),mcLoc("item/mace"));
 
+        customModelWithChangingTexture(ModItems.INFERNAL_MACE,3);
+
 
     }
 
@@ -92,17 +94,19 @@ public class ModItemModelProvider extends ItemModelProvider {
     private void customModelWithChangingTexture(DeferredItem<Item> item,int countTextures){
         String path = item.getId().getPath();
         ResourceLocation texture = AtarisAdvancedArmory.res(item.getId().withPrefix("item/").getPath());
+        ResourceLocation parentLoc = AtarisAdvancedArmory.res("item/"+path+"_parent");
 
-        ItemModelBuilder base = getBuilder(path).parent(new ModelFile.ExistingModelFile(AtarisAdvancedArmory.res(path+"_parent"),existingFileHelper));
+        ItemModelBuilder base = getBuilder(path).parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper));
 
 
         for(int i = 0; i<countTextures; i++){
-            String overrideModelName = path + "_" + i;
+            String end = (i!=0 ?"_" + (i+1):"");
+            String overrideModelName = path +end;
 
             // Generate the override model
             getBuilder(overrideModelName)
-                    .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                    .texture("layer0", texture.withSuffix("_"+i));
+                    .parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper))
+                    .texture("0", texture.withSuffix(end));
 
             // Add override to base model
             base.override()
