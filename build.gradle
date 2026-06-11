@@ -26,6 +26,16 @@ sourceSets.main.resources {
     exclude("src/generated/**/.cache") // datagen cache files
 }
 
+configurations.all {
+    resolutionStrategy {
+        force "it.unimi.dsi:fastutil:8.5.12"
+        force "com.google.code.gson:gson:2.10.1"
+        force "io.netty:netty-buffer:4.1.97.Final"
+        force "io.netty:netty-common:4.1.97.Final"
+        force "org.slf4j:slf4j-api:2.0.9"
+    }
+}
+
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
     maven {
@@ -47,6 +57,13 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+
+    maven {
+        name = "RedlanceMinecraft"
+        url = "https://repo.redlance.org/public"
+    }
+
+
 }
 
 base {
@@ -165,6 +182,7 @@ dependencies {
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    implementation "com.zigythebird.playeranim:PlayerAnimationLibNeo:$pal_version"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

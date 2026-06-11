@@ -1,5 +1,8 @@
 package net.atari09.atarisadvancedarmory;
 
+import com.zigythebird.playeranim.animation.PlayerAnimationController;
+import com.zigythebird.playeranim.api.PlayerAnimationFactory;
+import com.zigythebird.playeranimcore.enums.PlayState;
 import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.atari09.atarisadvancedarmory.block.client.WeaponSmithBaseBlockRenderer;
 import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
@@ -46,6 +49,8 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+
+import static com.zigythebird.playeranim.PlayerAnimLibMod.ANIMATION_LAYER_ID;
 
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -113,6 +118,14 @@ public class AtarisAdvancedArmory {
             ModItemProperties.addCustomProperties();
 
             EntityRenderers.register(ModEntities.BLOCK_PROJECTILE_ENTITY.get(), BlockProjectileEntityRenderer::new);
+
+            event.enqueueWork(()->{
+                PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(res("fly"), 1500,
+                        player -> new PlayerAnimationController(player,
+                                (controller, state, animSetter) -> PlayState.STOP
+                        )
+                );
+            });
         }
 
         @SubscribeEvent

@@ -5,6 +5,7 @@ import net.atari09.atarisadvancedarmory.item.util.ElementalProperties;
 import net.atari09.atarisadvancedarmory.item.util.ElementalVariant;
 import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -88,18 +89,14 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
         if(stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())){
             int elementalLevel = stack.get(ModDataComponents.ELEMENTAL_LEVEL.get());
             if(elementalLevel >=2&&!level.isClientSide()  && !(this.element==ElementalVariant.TERRESTRIAL)){
-                if(player.isFallFlying() && elementalLevel >= 3 && element == ElementalVariant.AERIAL){
-                    this.element.abilitylv3.accept(stack,player,null);
-                    //stack.set(ModDataComponents.ABILITY_COOLDOWN,element.abilityCooldown);
-                } else {
                     this.element.abilitylv2.accept(level,player,usedHand);
                     stack.set(ModDataComponents.ABILITY_COOLDOWN,element.abilityCooldown);
-                }
             }
         }
 
         return super.use(level, player, usedHand);
     }
+
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
@@ -121,13 +118,19 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
         }
         return super.useOn(context);
     }
-
-
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if(stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())){
-            tooltipComponents.add(Component.literal("Level:" + stack.get(ModDataComponents.ELEMENTAL_LEVEL.get())));
+            int lvl = stack.get(ModDataComponents.ELEMENTAL_LEVEL.get());
+            tooltipComponents.add(Component.literal("Level:" + lvl));
+            if(Screen.hasShiftDown()){
+                element.addAbilityDescriptions(lvl,tooltipComponents);
+
+            } else {
+                tooltipComponents.add(Component.literal("Press Shift to show unlocked Abilities."));
+            }
         }
+
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 

@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -46,14 +47,46 @@ import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
 public enum ElementalVariant {
-    INFERNAL(0, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,80),
-    KRYONIC(1, ElementalVariant::kryonic1,ElementalVariant::kryonic2,ElementalVariant::kryonic3,300),
-    NOXIOUS(2, ElementalVariant::noxious1,ElementalVariant::noxious2,ElementalVariant::noxious3,200),
-    ABYSSAL(3, ElementalVariant::abyssal1,ElementalVariant::abyssal2,ElementalVariant::abyssal3,200),
-    AERIAL(4, ElementalVariant::aerial1,ElementalVariant::aerial2,ElementalVariant::aerial3,80),
-    TERRESTRIAL(5, ElementalVariant::terrestrial1,null,ElementalVariant::terrestrial3,100),
-    AQUATIC(6, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200),
-    CHRONAL(7, ElementalVariant::infernal1,ElementalVariant::infernal2,ElementalVariant::infernal3,200);
+    INFERNAL(0, ElementalVariant::infernal1,
+            ElementalVariant::infernal2,
+            ElementalVariant::infernal3,
+            80,
+            List.of(Component.literal(">  Set Enemies on Fire"),Component.literal(">  Shoot Fire Charges"),Component.literal(">  Deal more Damage to burning Enemies and remove Fire Resistance Effect"))),
+    KRYONIC(1, ElementalVariant::kryonic1,
+            ElementalVariant::kryonic2,
+            ElementalVariant::kryonic3,
+            300,
+            List.of(Component.literal(">  FREEZE your enemies"),Component.literal(">  cast a wave of ice spikes"),Component.literal(">  Deal more Damage to enemies that are Freezing"))),
+    NOXIOUS(2, ElementalVariant::noxious1,
+            ElementalVariant::noxious2,
+            ElementalVariant::noxious3,
+            200,
+            List.of(Component.literal(">  POISON your enemies"),Component.literal(">  Inflict Poison II to enemies surrounding you"),Component.literal(">  Chance to inflict WITHER instead of Poison"))),
+    ABYSSAL(3, ElementalVariant::abyssal1,
+            ElementalVariant::abyssal2,
+            ElementalVariant::abyssal3,
+            200,
+            List.of(Component.literal(">  Inflict VOID effect on enemies"),Component.literal(">  Inflict VOID and DARKNESS on enemies surrounding you"),Component.literal(">  Always Crit if the Enemy is inflicted with VOID"))),
+    AERIAL(4, ElementalVariant::aerial1,
+            ElementalVariant::aerial2,
+            ElementalVariant::aerial3,
+            80,
+            List.of(Component.literal(">  Increased Knockback"),Component.literal(">  Shoot Windcharges"),Component.literal(">  Boost when wearing an Elytra"))),
+    TERRESTRIAL(5, ElementalVariant::terrestrial1,
+            null,
+            ElementalVariant::terrestrial3,
+            100,
+            List.of(Component.literal(">  Apply an irreasonable amount of Screenshake to your Enemy"),Component.literal(">  Pick up blocks and shoot them"),Component.literal(">  Deal more Damage the lower your Y-Coordinate is"))),
+    AQUATIC(6, ElementalVariant::infernal1,
+            ElementalVariant::infernal2,
+            ElementalVariant::infernal3,
+            200,
+            List.of(Component.literal(">  ..."),Component.literal(">  ..."),Component.literal(">  ..."))),
+    CHRONAL(7, ElementalVariant::infernal1,
+            ElementalVariant::infernal2,
+            ElementalVariant::infernal3,
+            200,
+            List.of(Component.literal(">  ..."),Component.literal(">  ..."),Component.literal(">  ...")));
 
     public int id;
     public static final Codec<ElementalVariant> CODEC =
@@ -65,14 +98,16 @@ public enum ElementalVariant {
     public final AbilityLv2Executor abilitylv2;
     public final AbilityLv3Executor abilitylv3;
     public int abilityCooldown;
+    public List<Component> abilityDescription;
 
 
-    ElementalVariant(int id, AbilityLv1Executor abilitylv1, AbilityLv2Executor abilityLv2, AbilityLv3Executor abilityLv3, int abilityCooldown){
+    ElementalVariant(int id, AbilityLv1Executor abilitylv1, AbilityLv2Executor abilityLv2, AbilityLv3Executor abilityLv3, int abilityCooldown,List<Component> abilityDescription){
         this.id = id;
         this.abilitylv1 = abilitylv1;
         this.abilitylv2 = abilityLv2;
         this.abilitylv3 = abilityLv3;
         this.abilityCooldown = abilityCooldown;
+        this.abilityDescription = abilityDescription;
 
     }
 
@@ -125,11 +160,7 @@ public enum ElementalVariant {
     }
 
     public static void aerial3(ItemStack stack, LivingEntity target, LivingEntity attacker){
-        if(target instanceof ServerPlayer player){
-            Vec3 movement = player.getLookAngle();
-            double factor = 1 / movement.length();
-            player.setDeltaMovement(movement.add(movement.scale(factor)));
-        }
+
     }
 
     public static void abyssal1(ItemStack stack, LivingEntity target, LivingEntity attacker){
@@ -274,6 +305,12 @@ public enum ElementalVariant {
             }
         }
         throw new IllegalArgumentException("Unknown variant id: " + id);
+    }
+
+    public void addAbilityDescriptions(int lvl, List<Component> tooltipComponents) {
+        for(int i = 0; i<lvl;i++){
+            tooltipComponents.add(this.abilityDescription.get(i));
+        }
     }
 
     @FunctionalInterface
