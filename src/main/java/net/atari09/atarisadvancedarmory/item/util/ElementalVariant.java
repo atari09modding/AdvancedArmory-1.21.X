@@ -125,7 +125,11 @@ public enum ElementalVariant {
     }
 
     public static void aerial3(ItemStack stack, LivingEntity target, LivingEntity attacker){
-        //have not had a good idea yet
+        if(target instanceof ServerPlayer player){
+            Vec3 movement = player.getLookAngle();
+            double factor = 1 / movement.length();
+            player.setDeltaMovement(movement.add(movement.scale(factor)));
+        }
     }
 
     public static void abyssal1(ItemStack stack, LivingEntity target, LivingEntity attacker){

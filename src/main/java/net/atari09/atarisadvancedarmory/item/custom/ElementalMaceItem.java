@@ -66,7 +66,7 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         this.element.abilitylv1.accept(stack,target,attacker);
         if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
-            if(stack.get(ModDataComponents.ELEMENTAL_LEVEL.get())>=3){
+            if(stack.get(ModDataComponents.ELEMENTAL_LEVEL.get())>=3&& !(element==ElementalVariant.AERIAL)){
 
                 this.element.abilitylv3.accept(stack,target,attacker);
             }
@@ -88,8 +88,13 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
         if(stack.has(ModDataComponents.ELEMENTAL_LEVEL.get())){
             int elementalLevel = stack.get(ModDataComponents.ELEMENTAL_LEVEL.get());
             if(elementalLevel >=2&&!level.isClientSide()  && !(this.element==ElementalVariant.TERRESTRIAL)){
-                this.element.abilitylv2.accept(level,player,usedHand);
-                stack.set(ModDataComponents.ABILITY_COOLDOWN,element.abilityCooldown);
+                if(player.isFallFlying() && elementalLevel >= 3 && element == ElementalVariant.AERIAL){
+                    this.element.abilitylv3.accept(stack,player,null);
+                    //stack.set(ModDataComponents.ABILITY_COOLDOWN,element.abilityCooldown);
+                } else {
+                    this.element.abilitylv2.accept(level,player,usedHand);
+                    stack.set(ModDataComponents.ABILITY_COOLDOWN,element.abilityCooldown);
+                }
             }
         }
 
@@ -116,6 +121,7 @@ public class ElementalMaceItem extends ModMaceItem implements ElementalWeapon {
         }
         return super.useOn(context);
     }
+
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
