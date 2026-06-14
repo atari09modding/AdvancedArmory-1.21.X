@@ -9,6 +9,14 @@
   "item.atarisadvancedarmory.terrestrial_mace" : "Terrestrial Mace",
   "item.atarisadvancedarmory.abyssal_mace" : "Abyssal Mace",
   "item.atarisadvancedarmory.noxious_mace" : "Noxious Mace",
+  "item.atarisadvancedarmory.kryonic_mace" : "Kryonic Mace",
+
+  "item.atarisadvancedarmory.infernal_sword" : "Infernal Sword",
+  "item.atarisadvancedarmory.aerial_sword" : "Aerial Sword",
+  "item.atarisadvancedarmory.terrestrial_sword" : "Terrestrial Sword",
+  "item.atarisadvancedarmory.abyssal_sword" : "Abyssal Sword",
+  "item.atarisadvancedarmory.noxious_sword" : "Noxious Sword",
+  "item.atarisadvancedarmory.kryonic_sword" : "Kryonic Sword",
 
   "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing",
   "creativetab.atarisadvancedarmory.armory_tab" : "Ataris Advanced Armory",

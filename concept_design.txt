@@ -44,7 +44,7 @@ armor:
 
 
 templates:
-    - craftable with ink and paper
+    - craftable quite easily
     - on rightclick you can select what kind of template it is supposed to be (mb there is an item required or sth like that)
 
 
