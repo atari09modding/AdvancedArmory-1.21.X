@@ -67,7 +67,7 @@ public class BlockProjectileEntity extends WindCharge {
     public void tick() {
         super.tick();
         if(ipPos!=null){
-            setDeltaMovement(ipPos.subtract(this.position()).scale(0.05));
+            setDeltaMovement(ipPos.subtract(this.position()).scale(0.1));
         }
     }
 
