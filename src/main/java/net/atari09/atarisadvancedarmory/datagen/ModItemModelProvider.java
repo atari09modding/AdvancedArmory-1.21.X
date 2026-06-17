@@ -117,24 +117,23 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         for(int i = 0; i<countTextures; i++) {
             String end = (i != 0 ? "_" + (i + 1) : "");
-            String model_add = "_"+ item.getRegisteredName().replace(":", "_");
-            String overrideModelName = "item/"+ path + model_add + end;
+            String overrideModelName = "item/"+ path + end;
 
             //generate the 2d model the override model can point to
-            getBuilder(loc.withSuffix(end+model_add+"_2d").getPath())
-                    .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                    .texture("layer0", texture.withSuffix(end+"_2d"));
+            ;
 
             //generate the same for 3d
-            getBuilder(loc.withSuffix(end+model_add+"_3d").getPath())
-                    .parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper))
-                    .texture("0", texture.withSuffix(end+"_3d"));
+            ;
 
             // Generate the override model
             ItemModelBuilder builder = getBuilder(overrideModelName).parent(new ModelFile.UncheckedModelFile("item/handheld"))
                     .customLoader(SeparateTransformsModelBuilder::begin)
-                    .base(withExistingParent(end+model_add+"3d",loc.withSuffix(end+model_add+"_3d")))
-                    .perspective(ItemDisplayContext.GUI,withExistingParent(end+model_add+"2d",loc.withSuffix(end+model_add+"_2d")))
+                    .base(getBuilder(loc.withSuffix(path + end+"_3d").getPath())
+                            .parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper))
+                            .texture("0", texture.withSuffix(end+"_3d")))
+                    .perspective(ItemDisplayContext.GUI,getBuilder(loc.withSuffix(path+end+"_2d").getPath())
+                            .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                            .texture("layer0", texture.withSuffix(end+"_2d")))
                     .end();
 
 
