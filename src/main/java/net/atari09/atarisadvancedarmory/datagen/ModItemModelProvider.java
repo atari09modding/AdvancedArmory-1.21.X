@@ -63,6 +63,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.TERRESTRIAL_SWORD.getId().getPath(),mcLoc("item/netherite_sword"));
 
         splittedTextureChangingItemModel(ModItems.INFERNAL_MACE,3);
+        splittedTextureChangingItemModel(ModItems.ABYSSAL_MACE,3);
 
 
     }
