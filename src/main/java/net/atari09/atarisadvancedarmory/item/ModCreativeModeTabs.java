@@ -40,6 +40,12 @@ public static final Supplier<CreativeModeTab> SMITHING_TAB = CREATIVE_MODE_TAB.r
                         output.accept(ModItems.KRYONIC_SWORD);
                         output.accept(ModItems.NOXIOUS_SWORD);
                         output.accept(ModItems.TERRESTRIAL_SWORD);
+                        output.accept(ModItems.ABYSSAL_AXE);
+                        output.accept(ModItems.AERIAL_AXE);
+                        output.accept(ModItems.INFERNAL_AXE);
+                        output.accept(ModItems.KRYONIC_AXE);
+                        output.accept(ModItems.NOXIOUS_AXE);
+                        output.accept(ModItems.TERRESTRIAL_AXE);
 
                     })
                     .build());

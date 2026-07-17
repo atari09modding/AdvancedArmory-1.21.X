@@ -11,10 +11,6 @@ public class ElementalProperties extends Item.Properties {
         return this;
     }
 
-    public ElementalProperties setLevel(int level){
-        this.level = level;
-        return this;
-    }
 
 
 }

@@ -62,6 +62,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.NOXIOUS_SWORD.getId().getPath(),mcLoc("item/netherite_sword"));
         withExistingParent(ModItems.TERRESTRIAL_SWORD.getId().getPath(),mcLoc("item/netherite_sword"));
 
+        withExistingParent(ModItems.ABYSSAL_AXE.getId().getPath(),mcLoc("item/netherite_axe"));
+        withExistingParent(ModItems.AERIAL_AXE.getId().getPath(),mcLoc("item/netherite_axe"));
+        withExistingParent(ModItems.INFERNAL_AXE.getId().getPath(),mcLoc("item/netherite_axe"));
+        withExistingParent(ModItems.KRYONIC_AXE.getId().getPath(),mcLoc("item/netherite_axe"));
+        withExistingParent(ModItems.NOXIOUS_AXE.getId().getPath(),mcLoc("item/netherite_axe"));
+        withExistingParent(ModItems.TERRESTRIAL_AXE.getId().getPath(),mcLoc("item/netherite_axe"));
+
         splittedTextureChangingItemModel(ModItems.INFERNAL_MACE,3);
 
 

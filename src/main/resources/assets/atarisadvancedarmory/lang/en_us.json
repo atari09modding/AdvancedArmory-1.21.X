@@ -18,9 +18,17 @@
   "item.atarisadvancedarmory.noxious_sword" : "Noxious Sword",
   "item.atarisadvancedarmory.kryonic_sword" : "Kryonic Sword",
 
+  "item.atarisadvancedarmory.infernal_axe" : "Infernal Axe",
+  "item.atarisadvancedarmory.aerial_axe" : "Aerial Axe",
+  "item.atarisadvancedarmory.terrestrial_axe" : "Terrestrial Axe",
+  "item.atarisadvancedarmory.abyssal_axe" : "Abyssal Axe",
+  "item.atarisadvancedarmory.noxious_axe" : "Noxious Axe",
+  "item.atarisadvancedarmory.kryonic_axe" : "Kryonic Axe",
+
   "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing",
   "creativetab.atarisadvancedarmory.armory_tab" : "Ataris Advanced Armory",
 
   "atarisadvancedarmory.specialsmithingtemplatetype.none" : "Empty",
+  "atarisadvancedarmory.specialsmithingtemplatetype.infernal" : "Infernal",
   "atarisadvancedarmory.specialsmithingtemplatetype.debug" : "Debug"
 }
