@@ -70,6 +70,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.TERRESTRIAL_AXE.getId().getPath(),mcLoc("item/netherite_axe"));
 
         splittedTextureChangingItemModel(ModItems.INFERNAL_MACE,3);
+        splittedTextureChangingItemModel(ModItems.ABYSSAL_MACE,3);
 
 
     }
@@ -122,24 +123,24 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         for(int i = 0; i<countTextures; i++) {
-            String end =(i != 0 ? "_" + (i + 1) : "");
+            String end = (i != 0 ? "_" + (i + 1) : "");
             String overrideModelName = "item/"+ path + end;
 
             //generate the 2d model the override model can point to
-            getBuilder(loc.withSuffix(end+"_2d").getPath())
-                    .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                    .texture("layer0", texture.withSuffix(end+"_2d"));
+            ;
 
             //generate the same for 3d
-            getBuilder(loc.withSuffix(end+"_3d").getPath())
-                    .parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper))
-                    .texture("0", texture.withSuffix(end+"_3d"));
+            ;
 
             // Generate the override model
             ItemModelBuilder builder = getBuilder(overrideModelName).parent(new ModelFile.UncheckedModelFile("item/handheld"))
                     .customLoader(SeparateTransformsModelBuilder::begin)
-                    .base(withExistingParent(end+"3d",loc.withSuffix(end+"_3d")))
-                    .perspective(ItemDisplayContext.GUI,withExistingParent(end+"2d",loc.withSuffix(end+"_2d")))
+                    .base(getBuilder(loc.withSuffix(path + end+"_3d").getPath())
+                            .parent(new ModelFile.ExistingModelFile(parentLoc,existingFileHelper))
+                            .texture("0", texture.withSuffix(end+"_3d")))
+                    .perspective(ItemDisplayContext.GUI,getBuilder(loc.withSuffix(path+end+"_2d").getPath())
+                            .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                            .texture("layer0", texture.withSuffix(end+"_2d")))
                     .end();
 
 

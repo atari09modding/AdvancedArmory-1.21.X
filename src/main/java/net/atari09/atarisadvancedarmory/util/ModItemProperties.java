@@ -4,8 +4,12 @@ import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.custom.ElementalMaceItem;
+import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ModItemProperties {
     public static void addCustomProperties(){
@@ -14,13 +18,22 @@ public class ModItemProperties {
             return type == null?0: type.getId();
         });
 
-        ItemProperties.register(ModItems.INFERNAL_MACE.get(), AtarisAdvancedArmory.res("infernal_mace"),((stack, level, entity, i) -> {
-            if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
+        ModItems.ITEMS.getEntries().forEach((item)->{
+            if(item.get() instanceof ElementalWeapon ){
+                ItemProperties.register(item.get(), AtarisAdvancedArmory.res("infernal_mace"),((stack, level, entity, i) -> {
+                    if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
 
-                return stack.get(ModDataComponents.ELEMENTAL_LEVEL)-1;
-            } else{
-                return 0;
+                        return stack.get(ModDataComponents.ELEMENTAL_LEVEL)-1;
+                    } else{
+                        return 0;
+                    }
+                }));
             }
-        }));
+
+        });
+
+
+
+
     }
 }
