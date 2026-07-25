@@ -25,6 +25,8 @@ public class BlockProjectileEntityRenderer extends EntityRenderer<BlockProjectil
         BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
         poseStack.pushPose();
         poseStack.translate(-0.5, (double) -2 /16,-0.5);
+        float scale = ((float) p_entity.getSize());
+        poseStack.scale(scale,scale,scale);
 
         blockRenderer.renderSingleBlock(p_entity.getState(),poseStack,bufferSource,packedLight, OverlayTexture.NO_OVERLAY);
         poseStack.popPose();

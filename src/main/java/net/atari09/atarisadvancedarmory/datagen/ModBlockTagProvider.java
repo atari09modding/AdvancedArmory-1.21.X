@@ -5,6 +5,7 @@ import net.atari09.atarisadvancedarmory.util.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider provider) {
         tag(ModTags.Blocks.TERRESTRIAL_THROWABLE)
                 .addTag(BlockTags.BASE_STONE_OVERWORLD)
-                .addTag(BlockTags.DIRT);
+                .addTag(BlockTags.DIRT)
+                .add(Blocks.GRAVEL,Blocks.SAND);
 
     }
 
