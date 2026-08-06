@@ -30,5 +30,10 @@
 
   "atarisadvancedarmory.specialsmithingtemplatetype.none" : "Empty",
   "atarisadvancedarmory.specialsmithingtemplatetype.infernal" : "Infernal",
+  "atarisadvancedarmory.specialsmithingtemplatetype.kryonic" : "Kryonic",
+  "atarisadvancedarmory.specialsmithingtemplatetype.noxious" : "Noxious",
+    "atarisadvancedarmory.specialsmithingtemplatetype.abyssal" : "Abyssal",
+  "atarisadvancedarmory.specialsmithingtemplatetype.aerial" : "Aerial",
+  "atarisadvancedarmory.specialsmithingtemplatetype.terrestrial" : "Terrestrial",
   "atarisadvancedarmory.specialsmithingtemplatetype.debug" : "Debug"
 }

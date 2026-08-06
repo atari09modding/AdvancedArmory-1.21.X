@@ -5,17 +5,18 @@ import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public enum SpecialSmithingTemplateType {
     NONE(0,"none",ItemStack.EMPTY),
     INFERNAL(1,"infernal",new ItemStack(Items.FIRE_CHARGE,16)),
-    TEMPORARY_DEBUG2(2,"debug",new ItemStack(Items.DIAMOND,5)),
-    TEMPORARY_DEBUG3(3,"debug",ItemStack.EMPTY),
-    TEMPORARY_DEBUG4(4,"debug",ItemStack.EMPTY),
-    TEMPORARY_DEBUG5(5,"debug",ItemStack.EMPTY),
-    TEMPORARY_DEBUG6(6,"debug",ItemStack.EMPTY),
+    KRYONIC(2,"kryonic",new ItemStack(Items.DIAMOND,10)),
+    NOXIOUS(3,"noxious",new ItemStack(Items.SPIDER_EYE,64)),
+    ABYSSAL(4,"abyssal",new ItemStack(Items.DRAGON_BREATH,16)),
+    AERIAL(5,"aerial",new ItemStack(Items.WIND_CHARGE,64)),
+    TERRESTRIAL(6,"terrestrial",new ItemStack(Items.GRASS_BLOCK,64)),
     TEMPORARY_DEBUG7(7,"debug",ItemStack.EMPTY),
     TEMPORARY_DEBUG8(8,"debug",ItemStack.EMPTY),
     TEMPORARY_DEBUG9(9,"debug",ItemStack.EMPTY),

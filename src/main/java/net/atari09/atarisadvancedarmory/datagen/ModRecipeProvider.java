@@ -37,7 +37,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             new ItemStack(Items.DIAMOND_AXE),
             Ingredient.of(Items.WOODEN_AXE),
             Ingredient.of(Items.DIAMOND),
-            SpecialSmithingTemplateType.TEMPORARY_DEBUG2
+            SpecialSmithingTemplateType.TEMPORARY_DEBUG7
     ).unlockedBy("has_diamond",has(Items.DIAMOND)).save(recipeOutput);
 
         new WeaponSmithTemplateTypeRecipeBuilder(
@@ -45,6 +45,20 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 Ingredient.of(Items.MACE),
                 Ingredient.of(Items.MAGMA_BLOCK),
                 SpecialSmithingTemplateType.INFERNAL
+        ).unlockedBy("has_mace",has(Items.MACE)).save(recipeOutput);
+
+        new WeaponSmithTemplateTypeRecipeBuilder(
+                new ItemStack(ModItems.KRYONIC_MACE.get()),
+                Ingredient.of(Items.MACE),
+                Ingredient.of(Items.BLUE_ICE),
+                SpecialSmithingTemplateType.KRYONIC
+        ).unlockedBy("has_mace",has(Items.MACE)).save(recipeOutput);
+
+        new WeaponSmithTemplateTypeRecipeBuilder(
+                new ItemStack(ModItems.TERRESTRIAL_MACE.get()),
+                Ingredient.of(Items.MACE),
+                Ingredient.of(Items.DEEPSLATE),
+                SpecialSmithingTemplateType.TERRESTRIAL
         ).unlockedBy("has_mace",has(Items.MACE)).save(recipeOutput);
 
 
