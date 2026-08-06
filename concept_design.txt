@@ -41,6 +41,7 @@ armor:
         }
 - armor variants
 - mb special abilities for armor
+- something to carry weapon rendered on back and pull out fast when hand is empty with player animation
 
 
 templates:

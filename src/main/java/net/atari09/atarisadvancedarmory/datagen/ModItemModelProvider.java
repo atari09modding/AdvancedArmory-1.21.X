@@ -13,8 +13,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.model.SeparateTransformsModel;
-import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -71,6 +69,35 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         splittedTextureChangingItemModel(ModItems.INFERNAL_MACE,3);
         splittedTextureChangingItemModel(ModItems.ABYSSAL_MACE,3);
+
+        withExistingParent(ModItems.WOODEN_BROADSWORD.getId().getPath(),mcLoc("item/wooden_sword"));
+        withExistingParent(ModItems.WOODEN_RAPIER.getId().getPath(),mcLoc("item/wooden_sword"));
+        withExistingParent(ModItems.STONE_BROADSWORD.getId().getPath(),mcLoc("item/stone_sword"));
+        withExistingParent(ModItems.STONE_RAPIER.getId().getPath(),mcLoc("item/stone_sword"));
+        withExistingParent(ModItems.GOLDEN_BROADSWORD.getId().getPath(),mcLoc("item/golden_sword"));
+        withExistingParent(ModItems.GOLDEN_RAPIER.getId().getPath(),mcLoc("item/golden_sword"));
+        withExistingParent(ModItems.IRON_BROADSWORD.getId().getPath(),mcLoc("item/iron_sword"));
+        withExistingParent(ModItems.IRON_RAPIER.getId().getPath(),mcLoc("item/iron_sword"));
+        withExistingParent(ModItems.DIAMOND_BROADSWORD.getId().getPath(),mcLoc("item/diamond_sword"));
+        withExistingParent(ModItems.DIAMOND_RAPIER.getId().getPath(),mcLoc("item/diamond_sword"));
+        withExistingParent(ModItems.NETHERITE_BROADSWORD.getId().getPath(),mcLoc("item/netherite_sword"));
+        withExistingParent(ModItems.NETHERITE_RAPIER.getId().getPath(),mcLoc("item/netherite_sword"));
+
+        withExistingParent(ModItems.WOODEN_SCYTHE.getId().getPath(),mcLoc("item/wooden_hoe"));
+        withExistingParent(ModItems.STONE_SCYTHE.getId().getPath(),mcLoc("item/stone_hoe"));
+        withExistingParent(ModItems.GOLDEN_SCYTHE.getId().getPath(),mcLoc("item/golden_hoe"));
+        withExistingParent(ModItems.IRON_SCYTHE.getId().getPath(),mcLoc("item/iron_hoe"));
+        withExistingParent(ModItems.DIAMOND_SCYTHE.getId().getPath(),mcLoc("item/diamond_hoe"));
+        withExistingParent(ModItems.NETHERITE_SCYTHE.getId().getPath(),mcLoc("item/netherite_hoe"));
+
+        withExistingParent(ModItems.WOODEN_BATTLEAXE.getId().getPath(),mcLoc("item/wooden_axe"));
+        withExistingParent(ModItems.STONE_BATTLEAXE.getId().getPath(),mcLoc("item/stone_axe"));
+        withExistingParent(ModItems.GOLDEN_BATTLEAXE.getId().getPath(),mcLoc("item/golden_axe"));
+        withExistingParent(ModItems.IRON_BATTLEAXE.getId().getPath(),mcLoc("item/iron_axe"));
+        withExistingParent(ModItems.DIAMOND_BATTLEAXE.getId().getPath(),mcLoc("item/diamond_axe"));
+        withExistingParent(ModItems.NETHERITE_BATTLEAXE.getId().getPath(),mcLoc("item/netherite_axe"));
+
+        withExistingParent(ModItems.SCABBARD.getId().getPath(),mcLoc("item/stick"));
 
 
     }

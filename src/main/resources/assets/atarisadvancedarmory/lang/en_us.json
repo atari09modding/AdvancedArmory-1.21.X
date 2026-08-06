@@ -25,6 +25,34 @@
   "item.atarisadvancedarmory.noxious_axe" : "Noxious Axe",
   "item.atarisadvancedarmory.kryonic_axe" : "Kryonic Axe",
 
+  "item.atarisadvancedarmory.wooden_broadsword" : "Wooden Broadsword",
+  "item.atarisadvancedarmory.stone_broadsword" : "Stone Broadsword",
+  "item.atarisadvancedarmory.golden_broadsword" : "Golden Broadsword",
+  "item.atarisadvancedarmory.iron_broadsword" : "Iron Broadsword",
+  "item.atarisadvancedarmory.diamond_broadsword" : "Diamond Broadsword",
+  "item.atarisadvancedarmory.netherite_broadsword" : "Netherite Broadsword",
+
+  "item.atarisadvancedarmory.wooden_rapier" : "Wooden Rapier",
+  "item.atarisadvancedarmory.stone_rapier" : "Stone Rapier",
+  "item.atarisadvancedarmory.golden_rapier" : "Golden Rapier",
+  "item.atarisadvancedarmory.iron_rapier" : "Iron Rapier",
+  "item.atarisadvancedarmory.diamond_rapier" : "Diamond Rapier",
+  "item.atarisadvancedarmory.netherite_rapier" : "Netherite Rapier",
+
+  "item.atarisadvancedarmory.wooden_scythe" : "Wooden Scythe",
+  "item.atarisadvancedarmory.stone_scythe" : "Stone Scythe",
+  "item.atarisadvancedarmory.golden_scythe" : "Golden Scythe",
+  "item.atarisadvancedarmory.iron_scythe" : "Iron Scythe",
+  "item.atarisadvancedarmory.diamond_scythe" : "Diamond Scythe",
+  "item.atarisadvancedarmory.netherite_scythe" : "Netherite Scythe",
+
+  "item.atarisadvancedarmory.wooden_battleaxe" : "Wooden Battleaxe",
+  "item.atarisadvancedarmory.stone_battleaxe" : "Stone Battleaxe",
+  "item.atarisadvancedarmory.golden_battleaxe" : "Golden Battleaxe",
+  "item.atarisadvancedarmory.iron_battleaxe" : "Iron Battleaxe",
+  "item.atarisadvancedarmory.diamond_battleaxe" : "Diamond Battleaxe",
+  "item.atarisadvancedarmory.netherite_battleaxe" : "Netherite Battleaxe",
+
   "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing",
   "creativetab.atarisadvancedarmory.armory_tab" : "Ataris Advanced Armory",
 

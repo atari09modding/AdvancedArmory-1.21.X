@@ -11,6 +11,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -50,5 +51,9 @@ public class DataGenerators {
 
         generator.addProvider(event.includeServer(), new ModDatapackProvider(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(packOutput, lookupProvider));
+
+        generator.addProvider(event.includeServer(), new ModAdvancmentProvider(packOutput,lookupProvider,existingFileHelper,List.of(new ModAdvancmentProvider.ModAdvancements())));
+
+        generator.addProvider(event.includeServer(), new ModCuriousProvider(AtarisAdvancedArmory.MOD_ID,packOutput,existingFileHelper,lookupProvider));
     }
 }

@@ -63,6 +63,11 @@ repositories {
         url = "https://repo.redlance.org/public"
     }
 
+    maven {
+        name = "Illusive Soulworks maven"
+        url = "https://maven.theillusivec4.top/"
+    }
+
 
 }
 
@@ -180,6 +185,9 @@ dependencies {
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     // at runtime, use the full JEI jar for NeoForge
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+
+    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
 
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
     implementation "com.zigythebird.playeranim:PlayerAnimationLibNeo:$pal_version"
