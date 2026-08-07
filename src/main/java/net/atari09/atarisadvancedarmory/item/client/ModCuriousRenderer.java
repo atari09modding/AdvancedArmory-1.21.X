@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.item.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -26,7 +27,6 @@ public class ModCuriousRenderer implements ICurioRenderer{
         if (stack.is(ModItems.SCABBARD)) {
             LivingEntity livingEntity = slotContext.entity();
             String slot = slotContext.identifier(); // check if belt or back
-
             renderScabbard(stack,livingEntity,slot,poseStack,renderLayerParent, buffer,light);
         }
 
@@ -43,11 +43,13 @@ public class ModCuriousRenderer implements ICurioRenderer{
 
             humanoidModel.body.translateAndRotate(poseStack);
 
-            if(slot == "back"){
-                poseStack.translate(-1,0.5,3);
+            if(slot.equals("back")){
+                poseStack.translate(0,0.5,0.15);
+                poseStack.mulPose(Axis.YP.rotationDegrees(180));
 
-            } else if (slot == "belt") {
-                poseStack.translate(0,0,0);
+            } else if (slot.equals("belt")) {
+                poseStack.translate(0.25,0.9,0);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90));
 
             }
 
