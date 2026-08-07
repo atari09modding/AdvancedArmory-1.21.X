@@ -53,14 +53,20 @@
   "item.atarisadvancedarmory.diamond_battleaxe" : "Diamond Battleaxe",
   "item.atarisadvancedarmory.netherite_battleaxe" : "Netherite Battleaxe",
 
+
+  "item.atarisadvancedarmory.scabbard" : "Scabbard",
+
   "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing",
   "creativetab.atarisadvancedarmory.armory_tab" : "Ataris Advanced Armory",
+
+  "key.category.atarisadvancedarmory.atari" : "Ataris Advanced Armory",
+  "key.atarisadvancedarmory.pull_weapon_out": "Pull Weapon out",
 
   "atarisadvancedarmory.specialsmithingtemplatetype.none" : "Empty",
   "atarisadvancedarmory.specialsmithingtemplatetype.infernal" : "Infernal",
   "atarisadvancedarmory.specialsmithingtemplatetype.kryonic" : "Kryonic",
   "atarisadvancedarmory.specialsmithingtemplatetype.noxious" : "Noxious",
-    "atarisadvancedarmory.specialsmithingtemplatetype.abyssal" : "Abyssal",
+  "atarisadvancedarmory.specialsmithingtemplatetype.abyssal" : "Abyssal",
   "atarisadvancedarmory.specialsmithingtemplatetype.aerial" : "Aerial",
   "atarisadvancedarmory.specialsmithingtemplatetype.terrestrial" : "Terrestrial",
   "atarisadvancedarmory.specialsmithingtemplatetype.debug" : "Debug"

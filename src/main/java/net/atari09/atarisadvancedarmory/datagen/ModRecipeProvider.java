@@ -9,6 +9,7 @@ import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
@@ -60,6 +61,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 Ingredient.of(Items.DEEPSLATE),
                 SpecialSmithingTemplateType.TERRESTRIAL
         ).unlockedBy("has_mace",has(Items.MACE)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.SCABBARD.get())
+                .pattern("  L")
+                .pattern(" L ")
+                .pattern("L  ")
+                .define('L', Items.LEATHER)
+                .unlockedBy("has_leather",has(Items.LEATHER)).save(recipeOutput);
 
 
 

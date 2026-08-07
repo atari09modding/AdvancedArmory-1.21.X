@@ -6,11 +6,13 @@ import net.atari09.atarisadvancedarmory.item.custom.ModAxeItem;
 import net.atari09.atarisadvancedarmory.item.custom.ModMaceItem;
 import net.atari09.atarisadvancedarmory.item.custom.ModSwordItem;
 import net.atari09.atarisadvancedarmory.item.custom.ScytheItem;
+import net.atari09.atarisadvancedarmory.util.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -33,16 +35,28 @@ public class ModItemTagProvider extends ItemTagsProvider {
             }
             if(item instanceof ModAxeItem){
                 tag(ItemTags.AXES).add(item);
+                tag(ItemTags.SHARP_WEAPON_ENCHANTABLE).add(item);
+
             }
             if(item instanceof ModSwordItem){
                 tag(ItemTags.SWORDS).add(item);
                 tag(ItemTags.SWORD_ENCHANTABLE).add(item);
+                tag(ItemTags.SHARP_WEAPON_ENCHANTABLE).add(item);
+
             }
             if(item instanceof ScytheItem){
                 tag(ItemTags.SWORD_ENCHANTABLE).add(item);
+                tag(ItemTags.SHARP_WEAPON_ENCHANTABLE).add(item);
                 tag(ItemTags.HOES).add(item);
+                tag(ModTags.Items.SCYTHES).add(item);
             }
         });
+
+        tag(ModTags.Items.FITS_IN_SCABBARD).addTags(
+                ItemTags.SWORDS,
+                ItemTags.AXES,
+                ModTags.Items.SCYTHES)
+                .add(Items.BOW).add(Items.CROSSBOW);
 
         tag(CuriosTags.BACK).add(ModItems.SCABBARD.get());
         tag(CuriosTags.BELT).add(ModItems.SCABBARD.get());

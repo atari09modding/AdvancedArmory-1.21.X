@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.component;
 
 import com.mojang.serialization.Codec;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.item.component.ContainerItemContent;
 import net.atari09.atarisadvancedarmory.item.util.ElementalVariant;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.minecraft.core.component.DataComponentType;
@@ -38,6 +39,9 @@ public class ModDataComponents {
     public static DeferredHolder<DataComponentType<?>,DataComponentType<Boolean>> DO_CRIT = register("do_crit",
             builder->builder.persistent(Codec.BOOL));
 
+
+    public static DeferredHolder<DataComponentType<?>,DataComponentType<ContainerItemContent>> CONTENT = register("content",
+            builder -> builder.persistent(ContainerItemContent.CODEC).networkSynchronized(ContainerItemContent.STREAM_CODEC));
 
 
 

@@ -97,7 +97,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.DIAMOND_BATTLEAXE.getId().getPath(),mcLoc("item/diamond_axe"));
         withExistingParent(ModItems.NETHERITE_BATTLEAXE.getId().getPath(),mcLoc("item/netherite_axe"));
 
-        withExistingParent(ModItems.SCABBARD.getId().getPath(),mcLoc("item/stick"));
+        basicItem(ModItems.SCABBARD.get());
 
 
     }

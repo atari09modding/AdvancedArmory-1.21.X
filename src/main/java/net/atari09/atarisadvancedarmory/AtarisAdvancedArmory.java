@@ -17,9 +17,11 @@ import net.atari09.atarisadvancedarmory.item.client.ModCuriousRenderer;
 import net.atari09.atarisadvancedarmory.item.custom.ElementalMaceItem;
 import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 import net.atari09.atarisadvancedarmory.network.handler.CraftTemplatePacketHandler;
+import net.atari09.atarisadvancedarmory.network.handler.ScabbardSwapHandler;
 import net.atari09.atarisadvancedarmory.network.handler.ScreenShakePacketHandler;
 import net.atari09.atarisadvancedarmory.network.handler.StartSmithingPacketHandler;
 import net.atari09.atarisadvancedarmory.network.payload.CraftTemplatePacket;
+import net.atari09.atarisadvancedarmory.network.payload.ScabbardSwapPacket;
 import net.atari09.atarisadvancedarmory.network.payload.ScreenShakePacket;
 import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
@@ -28,6 +30,7 @@ import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScr
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.atari09.atarisadvancedarmory.util.ModItemProperties;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
@@ -127,6 +130,12 @@ public class AtarisAdvancedArmory {
                                 (controller, state, animSetter) -> PlayState.STOP
                         )
                 );
+
+                PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(res("pull_out_weapon"), 1501,
+                        player -> new PlayerAnimationController(player,
+                                (controller, state, animSetter) -> PlayState.STOP
+                        )
+                );
             });
 
             CuriosRendererRegistry.register(ModItems.SCABBARD.get(), ModCuriousRenderer::new);
@@ -150,6 +159,7 @@ public class AtarisAdvancedArmory {
             registrar.playToServer(StartSmithingPacket.TYPE, StartSmithingPacket.STREAM_CODEC, StartSmithingPacketHandler::handle);
             registrar.playToServer(CraftTemplatePacket.TYPE,CraftTemplatePacket.STREAM_CODEC,CraftTemplatePacketHandler::handle);
             registrar.playToClient(ScreenShakePacket.TYPE,ScreenShakePacket.STREAM_CODEC, ScreenShakePacketHandler::handle);
+            registrar.playToServer(ScabbardSwapPacket.TYPE, ScabbardSwapPacket.STREAM_CODEC, ScabbardSwapHandler::handle);
         }
 
         @SubscribeEvent

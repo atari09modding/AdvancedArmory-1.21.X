@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.item.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -46,10 +47,12 @@ public class ModCuriousRenderer implements ICurioRenderer{
             if(slot.equals("back")){
                 poseStack.translate(0,0.5,0.15);
                 poseStack.mulPose(Axis.YP.rotationDegrees(180));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(180));
 
             } else if (slot.equals("belt")) {
                 poseStack.translate(0.25,0.9,0);
                 poseStack.mulPose(Axis.YP.rotationDegrees(90));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(180));
 
             }
 
@@ -57,6 +60,24 @@ public class ModCuriousRenderer implements ICurioRenderer{
             ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
             itemRenderer.renderStatic(livingEntity,stack, ItemDisplayContext.FIXED,false,
                     poseStack,buffer,livingEntity.level(),light, OverlayTexture.NO_OVERLAY,1);
+
+            if(stack.has(ModDataComponents.CONTENT)){
+                if(!stack.get(ModDataComponents.CONTENT).getContent().isEmpty()){
+                    ItemStack content = stack.get(ModDataComponents.CONTENT).getContent().get(0);
+                    if(!content.isEmpty()){
+                        if(slot.equals("back")){
+                            poseStack.translate(-0.1,0.1,-0.05);
+                            poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+                        } else if (slot.equals("belt")) {
+                            poseStack.translate(-0.1,0.1,0.05);
+                            poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+                        }
+
+                        itemRenderer.renderStatic(livingEntity,content, ItemDisplayContext.FIXED,false,
+                                poseStack,buffer,livingEntity.level(),light, OverlayTexture.NO_OVERLAY,1);
+                    }
+                }
+            }
 
             poseStack.popPose();
         }

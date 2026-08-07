@@ -169,7 +169,7 @@ public class ModItems {
     //OTHER
 
     public static final DeferredItem<Item> SCABBARD = ITEMS.register("scabbard",
-            ()->new Item(new Item.Properties().stacksTo(1)));
+            ()->new ScabbardItem(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
