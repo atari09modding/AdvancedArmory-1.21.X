@@ -88,8 +88,17 @@ public static final Supplier<CreativeModeTab> SMITHING_TAB = CREATIVE_MODE_TAB.r
                         output.accept(ModItems.NOXIOUS_AXE);
                         output.accept(ModItems.TERRESTRIAL_AXE);
 
+
+
                     })
                     .build());
+
+    public static final Supplier<CreativeModeTab> A = CREATIVE_MODE_TAB.register("a",
+            ()-> CreativeModeTab.builder()
+                    .icon(()->new ItemStack(ModItems.SCABBARD.get()))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.SCABBARD);
+                    }).build());
 
 
 

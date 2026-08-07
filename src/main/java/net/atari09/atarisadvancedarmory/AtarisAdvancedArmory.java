@@ -13,6 +13,7 @@ import net.atari09.atarisadvancedarmory.entity.client.BlockProjectileEntityRende
 import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.client.AbilityCooldownDecorator;
+import net.atari09.atarisadvancedarmory.item.client.ModCuriousRenderer;
 import net.atari09.atarisadvancedarmory.item.custom.ElementalMaceItem;
 import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 import net.atari09.atarisadvancedarmory.network.handler.CraftTemplatePacketHandler;
@@ -49,6 +50,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import static com.zigythebird.playeranim.PlayerAnimLibMod.ANIMATION_LAYER_ID;
 
@@ -126,6 +128,8 @@ public class AtarisAdvancedArmory {
                         )
                 );
             });
+
+            CuriosRendererRegistry.register(ModItems.SCABBARD.get(), ModCuriousRenderer::new);
         }
 
         @SubscribeEvent
