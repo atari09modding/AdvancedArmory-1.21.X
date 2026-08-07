@@ -41,8 +41,11 @@ armor:
         }
 - armor variants
 - mb special abilities for armor
-- something to carry weapon rendered on back and pull out fast when hand is empty with player animation
 
+curious stuff:
+- something to carry weapon rendered on back and pull out fast when hand is empty with player animation
+- quiver for bow-> store more arrows
+- gloves?
 
 templates:
     - craftable quite easily
@@ -83,7 +86,9 @@ elements for weapons:
         2: ability to slow time down
         3: small chance to freeze time for one enemy
 
-
+Gloves:
+    Archers Gloves:
+        - mb increases power of shots or sth like accuracy
 
 
 more:
