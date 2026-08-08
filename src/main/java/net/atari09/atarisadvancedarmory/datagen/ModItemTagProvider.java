@@ -32,6 +32,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
             Item item = deferredItem.get();
             if(item instanceof ModMaceItem){
                 tag(ItemTags.MACE_ENCHANTABLE).add(item);
+                tag(ModTags.Items.FITS_IN_SCABBARD).add(item);
             }
             if(item instanceof ModAxeItem){
                 tag(ItemTags.AXES).add(item);
@@ -56,7 +57,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 ItemTags.SWORDS,
                 ItemTags.AXES,
                 ModTags.Items.SCYTHES)
-                .add(Items.BOW).add(Items.CROSSBOW);
+                .add(Items.BOW).add(Items.CROSSBOW).add(Items.MACE);
 
         tag(CuriosTags.BACK).add(ModItems.SCABBARD.get());
         tag(CuriosTags.BELT).add(ModItems.SCABBARD.get());

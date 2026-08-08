@@ -38,7 +38,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             new ItemStack(Items.DIAMOND_AXE),
             Ingredient.of(Items.WOODEN_AXE),
             Ingredient.of(Items.DIAMOND),
-            SpecialSmithingTemplateType.TEMPORARY_DEBUG7
+            SpecialSmithingTemplateType.TEMPORARY_DEBUG9
     ).unlockedBy("has_diamond",has(Items.DIAMOND)).save(recipeOutput);
 
         new WeaponSmithTemplateTypeRecipeBuilder(
