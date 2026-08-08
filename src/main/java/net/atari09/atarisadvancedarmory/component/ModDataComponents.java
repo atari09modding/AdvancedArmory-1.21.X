@@ -2,19 +2,14 @@ package net.atari09.atarisadvancedarmory.component;
 
 import com.mojang.serialization.Codec;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
-import net.atari09.atarisadvancedarmory.item.component.ContainerItemContent;
 import net.atari09.atarisadvancedarmory.item.util.ElementalVariant;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.UnaryOperator;
 
 public class ModDataComponents {

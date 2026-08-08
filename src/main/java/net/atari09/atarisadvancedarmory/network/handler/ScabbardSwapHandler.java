@@ -1,20 +1,14 @@
 package net.atari09.atarisadvancedarmory.network.handler;
 
-import com.zigythebird.playeranim.animation.PlayerAnimationController;
-import com.zigythebird.playeranim.api.PlayerAnimationAccess;
-import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
-import net.atari09.atarisadvancedarmory.item.component.ContainerItemContent;
+import net.atari09.atarisadvancedarmory.component.ContainerItemContent;
 import net.atari09.atarisadvancedarmory.network.payload.ScabbardSwapPacket;
 import net.atari09.atarisadvancedarmory.util.ModTags;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.NonNullList;
-import net.minecraft.server.TickTask;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;

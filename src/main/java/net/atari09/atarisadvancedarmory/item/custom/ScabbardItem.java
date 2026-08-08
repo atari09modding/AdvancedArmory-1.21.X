@@ -1,13 +1,11 @@
 package net.atari09.atarisadvancedarmory.item.custom;
 
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
-import net.atari09.atarisadvancedarmory.item.component.ContainerItemContent;
+import net.atari09.atarisadvancedarmory.component.ContainerItemContent;
 import net.atari09.atarisadvancedarmory.util.ModTags;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
@@ -15,8 +13,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.BundleContents;
-import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Optional;

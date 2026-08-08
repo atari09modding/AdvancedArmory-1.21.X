@@ -1,7 +1,7 @@
 package net.atari09.atarisadvancedarmory.item.custom;
 
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
-import net.atari09.atarisadvancedarmory.item.component.ContainerItemContent;
+import net.atari09.atarisadvancedarmory.component.ContainerItemContent;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

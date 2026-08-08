@@ -17,8 +17,8 @@ public enum SpecialSmithingTemplateType {
     ABYSSAL(4,"abyssal",new ItemStack(Items.DRAGON_BREATH,16)),
     AERIAL(5,"aerial",new ItemStack(Items.WIND_CHARGE,64)),
     TERRESTRIAL(6,"terrestrial",new ItemStack(Items.GRASS_BLOCK,64)),
-    TEMPORARY_DEBUG7(7,"debug",ItemStack.EMPTY),
-    TEMPORARY_DEBUG8(8,"debug",ItemStack.EMPTY),
+    STRENGTH(7,"debug",ItemStack.EMPTY), // to make broadswords, battleaxes & scythes
+    AGILITY(8,"debug",ItemStack.EMPTY), // to make rapiers
     TEMPORARY_DEBUG9(9,"debug",ItemStack.EMPTY),
     TEMPORARY_DEBUG10(10,"debug",ItemStack.EMPTY),
     TEMPORARY_DEBUG11(11,"debug",ItemStack.EMPTY),

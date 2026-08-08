@@ -1,4 +1,4 @@
-package net.atari09.atarisadvancedarmory.item.component;
+package net.atari09.atarisadvancedarmory.component;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.minecraft.core.NonNullList;
