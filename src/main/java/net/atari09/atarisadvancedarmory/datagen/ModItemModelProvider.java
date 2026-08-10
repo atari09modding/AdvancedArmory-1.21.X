@@ -71,17 +71,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         splittedTextureChangingItemModel(ModItems.ABYSSAL_MACE,3);
 
         withExistingParent(ModItems.WOODEN_BROADSWORD.getId().getPath(),mcLoc("item/wooden_sword"));
-        withExistingParent(ModItems.WOODEN_RAPIER.getId().getPath(),mcLoc("item/wooden_sword"));
         withExistingParent(ModItems.STONE_BROADSWORD.getId().getPath(),mcLoc("item/stone_sword"));
-        withExistingParent(ModItems.STONE_RAPIER.getId().getPath(),mcLoc("item/stone_sword"));
         withExistingParent(ModItems.GOLDEN_BROADSWORD.getId().getPath(),mcLoc("item/golden_sword"));
-        withExistingParent(ModItems.GOLDEN_RAPIER.getId().getPath(),mcLoc("item/golden_sword"));
         withExistingParent(ModItems.IRON_BROADSWORD.getId().getPath(),mcLoc("item/iron_sword"));
-        withExistingParent(ModItems.IRON_RAPIER.getId().getPath(),mcLoc("item/iron_sword"));
         withExistingParent(ModItems.DIAMOND_BROADSWORD.getId().getPath(),mcLoc("item/diamond_sword"));
-        withExistingParent(ModItems.DIAMOND_RAPIER.getId().getPath(),mcLoc("item/diamond_sword"));
         withExistingParent(ModItems.NETHERITE_BROADSWORD.getId().getPath(),mcLoc("item/netherite_sword"));
-        withExistingParent(ModItems.NETHERITE_RAPIER.getId().getPath(),mcLoc("item/netherite_sword"));
+
 
         withExistingParent(ModItems.WOODEN_SCYTHE.getId().getPath(),mcLoc("item/wooden_hoe"));
         withExistingParent(ModItems.STONE_SCYTHE.getId().getPath(),mcLoc("item/stone_hoe"));
@@ -98,6 +93,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.NETHERITE_BATTLEAXE.getId().getPath(),mcLoc("item/netherite_axe"));
 
         basicItem(ModItems.SCABBARD.get());
+
+        handheldItem(ModItems.WOODEN_RAPIER.get());
+        handheldItem(ModItems.STONE_RAPIER.get());
+        handheldItem(ModItems.GOLDEN_RAPIER.get());
+        handheldItem(ModItems.IRON_RAPIER.get());
+        handheldItem(ModItems.DIAMOND_RAPIER.get());
+        handheldItem(ModItems.NETHERITE_RAPIER.get());
 
 
     }
