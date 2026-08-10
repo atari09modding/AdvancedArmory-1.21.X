@@ -175,7 +175,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
             // Add override to base model
             base.override()
-                    .predicate(AtarisAdvancedArmory.res(path), (float) i)
+                    .predicate(AtarisAdvancedArmory.res("elemental_level"), (float) i)
                     .model(new ModelFile.UncheckedModelFile(AtarisAdvancedArmory.res(overrideModelName)))
                     .end();
         }

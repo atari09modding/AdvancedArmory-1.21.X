@@ -20,7 +20,7 @@ public class ModItemProperties {
 
         ModItems.ITEMS.getEntries().forEach((item)->{
             if(item.get() instanceof ElementalWeapon ){
-                ItemProperties.register(item.get(), AtarisAdvancedArmory.res("infernal_mace"),((stack, level, entity, i) -> {
+                ItemProperties.register(item.get(), AtarisAdvancedArmory.res("elemental_level"),((stack, level, entity, i) -> {
                     if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
 
                         return stack.get(ModDataComponents.ELEMENTAL_LEVEL)-1;
