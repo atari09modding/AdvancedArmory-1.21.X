@@ -25,6 +25,8 @@ import net.atari09.atarisadvancedarmory.network.payload.ScabbardSwapPacket;
 import net.atari09.atarisadvancedarmory.network.payload.ScreenShakePacket;
 import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
+import net.atari09.atarisadvancedarmory.screen.ItemClientTooltipComponent;
+import net.atari09.atarisadvancedarmory.screen.ItemTooltipComponent;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
@@ -33,6 +35,7 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -170,6 +173,11 @@ public class AtarisAdvancedArmory {
                 }
             });
 
+        }
+
+        @SubscribeEvent
+        public static void registerClientTooltipComponents(RegisterClientTooltipComponentFactoriesEvent event){
+            event.register(ItemTooltipComponent.class, ItemClientTooltipComponent::new);
         }
 
 

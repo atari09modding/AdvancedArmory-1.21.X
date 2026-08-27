@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.item.custom;
 
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.component.ContainerItemContent;
+import net.atari09.atarisadvancedarmory.screen.ItemTooltipComponent;
 import net.atari09.atarisadvancedarmory.util.ModTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -105,7 +106,15 @@ public class ScabbardItem extends ContainerItem{
 
     @Override
     public Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
-        return super.getTooltipImage(stack);
+
+        if (stack.has(ModDataComponents.CONTENT)){
+            if(!stack.get(ModDataComponents.CONTENT).getContent().isEmpty()){
+                ItemStack content = stack.get(ModDataComponents.CONTENT).getContent().get(0);
+               return Optional.of(new ItemTooltipComponent(content,true));
+            }
+        }
+        return Optional.empty();
+
     }
 
     @Override

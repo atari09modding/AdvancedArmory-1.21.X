@@ -94,12 +94,13 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         basicItem(ModItems.SCABBARD.get());
 
-        handheldItem(ModItems.WOODEN_RAPIER.get());
-        handheldItem(ModItems.STONE_RAPIER.get());
-        handheldItem(ModItems.GOLDEN_RAPIER.get());
-        handheldItem(ModItems.IRON_RAPIER.get());
-        handheldItem(ModItems.DIAMOND_RAPIER.get());
-        handheldItem(ModItems.NETHERITE_RAPIER.get());
+        rapier(ModItems.WOODEN_RAPIER);
+        rapier(ModItems.STONE_RAPIER);
+        rapier(ModItems.GOLDEN_RAPIER);
+        rapier(ModItems.IRON_RAPIER);
+        rapier(ModItems.DIAMOND_RAPIER);
+        rapier(ModItems.NETHERITE_RAPIER);
+
 
 
     }
@@ -315,4 +316,20 @@ public class ModItemModelProvider extends ItemModelProvider {
                 ResourceLocation.parse("item/handheld")).texture("layer0",
                 ResourceLocation.fromNamespaceAndPath(AtarisAdvancedArmory.MOD_ID,"item/" + item.getId().getPath()));
     }
+
+    private ItemModelBuilder rapier(DeferredItem<?> item){
+        return handheldItem(item).transforms()
+                .transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND)
+                .rotation(-150,90,180)
+                .translation(0,4,0)
+                .end()
+                .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
+                .rotation(-150,90,180)
+                .translation(0,4,0)
+                .end()
+                .transform(ItemDisplayContext.FIXED)
+                .rotation(0,180,0).end()
+                .end();
+    }
+
 }
