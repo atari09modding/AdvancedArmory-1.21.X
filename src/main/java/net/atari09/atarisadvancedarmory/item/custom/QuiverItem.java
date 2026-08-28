@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.item.custom;
 
 import net.atari09.atarisadvancedarmory.component.ContainerItemContent;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
+import net.atari09.atarisadvancedarmory.screen.ItemListTooltipComponent;
 import net.atari09.atarisadvancedarmory.util.ModTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.sounds.SoundEvents;
@@ -9,7 +10,10 @@ import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.Optional;
 
 public class QuiverItem extends ContainerItem{
     public QuiverItem(int containerSize, Properties properties) {
@@ -54,6 +58,8 @@ public class QuiverItem extends ContainerItem{
                         }
                     }
                 }
+                stack.set(ModDataComponents.CONTENT, content2);
+                return true;
             }
         }
 
@@ -63,5 +69,16 @@ public class QuiverItem extends ContainerItem{
     @Override
     public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction action, Player player) {
         return super.overrideStackedOnOther(stack, slot, action, player);
+    }
+
+    @Override
+    public Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
+        if(stack.has(ModDataComponents.CONTENT)){
+            if(!stack.get(ModDataComponents.CONTENT).getContent().isEmpty()){
+                return Optional.of(new ItemListTooltipComponent(stack.get(ModDataComponents.CONTENT).getContent(),true));
+            }
+        }
+
+        return super.getTooltipImage(stack);
     }
 }

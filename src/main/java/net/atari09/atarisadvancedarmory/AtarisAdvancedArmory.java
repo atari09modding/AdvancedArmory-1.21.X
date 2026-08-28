@@ -26,6 +26,7 @@ import net.atari09.atarisadvancedarmory.network.payload.ScreenShakePacket;
 import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.screen.ItemClientTooltipComponent;
+import net.atari09.atarisadvancedarmory.screen.ItemListTooltipComponent;
 import net.atari09.atarisadvancedarmory.screen.ItemTooltipComponent;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScreen;
@@ -178,6 +179,7 @@ public class AtarisAdvancedArmory {
         @SubscribeEvent
         public static void registerClientTooltipComponents(RegisterClientTooltipComponentFactoriesEvent event){
             event.register(ItemTooltipComponent.class, ItemClientTooltipComponent::new);
+            event.register(ItemListTooltipComponent.class, ItemClientTooltipComponent::new);
         }
 
 
