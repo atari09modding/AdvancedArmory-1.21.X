@@ -31,12 +31,12 @@ public class ScabbardItem extends ContainerItem{
 
 
         ContainerItemContent content = new ContainerItemContent(stack.get(ModDataComponents.CONTENT).getContent());
-        System.out.println("a");
+        //System.out.println("a");
 
         if(!content.getContent().isEmpty()){
             if (action == ClickAction.SECONDARY && slot.allowModification(player)) {
                 ContainerItemContent content2 = new ContainerItemContent(NonNullList.withSize(1,stack.get(ModDataComponents.CONTENT).getContent().get(0).copy()));
-                System.out.println("b");
+                //System.out.println("b");
 
 
                 if (content2 == null) {
