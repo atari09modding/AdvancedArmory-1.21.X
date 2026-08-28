@@ -31,10 +31,11 @@ public class QuiverItem extends ContainerItem{
                 } else {
                     if (other.isEmpty()) {
                         for(ItemStack contentStack : content2.getContent().reversed()){
-                            if(contentStack.isEmpty()){
+                            if(!contentStack.isEmpty()){
                                 player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
                                 access.set(contentStack);
                                 content2.getContent().set(content2.getContent().indexOf(contentStack),ItemStack.EMPTY);
+                                break;
                             }
                         }
 
@@ -42,14 +43,13 @@ public class QuiverItem extends ContainerItem{
                         // still needs changes
                         if(!content2.getContent().isEmpty()){
                             if(!other.is(ModTags.Items.FITS_IN_QUIVER)) return false;
-
-
                             for(ItemStack insert: content2.getContent()){
-
-                                // check for empty
-                                player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
-                                content2.contents().set(content2.getContent().indexOf(insert), other);
-                                access.set(ItemStack.EMPTY);
+                                if (insert.isEmpty()){
+                                    player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+                                    content2.contents().set(content2.getContent().indexOf(insert), other);
+                                    access.set(ItemStack.EMPTY);
+                                    break;
+                                }
                             }
                         }
                     }
