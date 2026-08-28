@@ -56,7 +56,7 @@ public class QuiverItem extends ContainerItem{
             }
         }
 
-        return super.overrideOtherStackedOnMe(stack, other, slot, action, player, access);
+        return true;
     }
 
     @Override
