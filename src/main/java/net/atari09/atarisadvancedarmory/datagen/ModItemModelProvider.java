@@ -93,6 +93,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.NETHERITE_BATTLEAXE.getId().getPath(),mcLoc("item/netherite_axe"));
 
         basicItem(ModItems.SCABBARD.get());
+        withExistingParent(ModItems.QUIVER.getId().getPath(),AtarisAdvancedArmory.res("item/scabbard"));
 
         rapier(ModItems.WOODEN_RAPIER);
         rapier(ModItems.STONE_RAPIER);
