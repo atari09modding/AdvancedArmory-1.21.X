@@ -30,12 +30,14 @@ public class QuiverItem extends ContainerItem{
                 } else {
                     if (other.isEmpty()) {
                         // still needs changes
-                    }
-                        if(!content2.getContent().isEmpty()){
-                            player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
-                            access.set(content2.getContent().get(0));
-                            content2.contents().set(0, ItemStack.EMPTY);
+                        for (int i = 0; i < content.getContent().size();i++){
+                            if(!content2.getContent().get(i).isEmpty()){
+                                player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+                                access.set(content2.getContent().get(i));
+                                content2.contents().set(i, ItemStack.EMPTY);
+                            }
                         }
+
                     } else {
                         // still needs changes
                         if(!content2.getContent().isEmpty()){
