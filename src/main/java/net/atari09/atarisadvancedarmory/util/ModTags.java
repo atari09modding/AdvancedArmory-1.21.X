@@ -20,6 +20,7 @@ public class ModTags {
 
     public static class Items{
         public static final TagKey<Item> FITS_IN_SCABBARD = createTag("fits_in_scabbard");
+        public static final TagKey<Item> FITS_IN_QUIVER = createTag("fits_in_quiver");
         public static final TagKey<Item> SCYTHES = createTag("scythes");
 
 

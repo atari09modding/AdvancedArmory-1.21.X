@@ -21,6 +21,7 @@ public class QuiverItem extends ContainerItem{
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other, Slot slot, ClickAction action, Player player, SlotAccess access) {
         if (stack.getCount() != 1) return false;
         ContainerItemContent content = new ContainerItemContent(stack.get(ModDataComponents.CONTENT).getContent());
+        int size = content.getContent().size();
 
         if(!content.getContent().isEmpty()){
             if (action == ClickAction.SECONDARY && slot.allowModification(player)) {
@@ -30,8 +31,8 @@ public class QuiverItem extends ContainerItem{
                 } else {
                     if (other.isEmpty()) {
                         // still needs changes
-                        for (int i = 0; i < content.getContent().size();i++){
-                            if(!content2.getContent().get(i).isEmpty()){
+                        for (int i = 0; i < size;i++){
+                            if(!content2.getContent().get(size-i-1).isEmpty()){
                                 player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
                                 access.set(content2.getContent().get(i));
                                 content2.contents().set(i, ItemStack.EMPTY);
@@ -42,19 +43,16 @@ public class QuiverItem extends ContainerItem{
                         // still needs changes
                         if(!content2.getContent().isEmpty()){
 
-                            if(content2.getContent().get(0).isEmpty()){
+                            for(int i = 0;i<size;i++){
 
-                                if(!other.is(ModTags.Items.FITS_IN_SCABBARD)) return false;
+                                if(!other.is(ModTags.Items.FITS_IN_QUIVER)) return false;
                                 player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
-                                content2.contents().set(0,other);
+                                content2.contents().set(i,other);
                                 access.set(ItemStack.EMPTY);
-
-
-
                             }
                         }
+                    }
                 }
-
             }
         }
 
