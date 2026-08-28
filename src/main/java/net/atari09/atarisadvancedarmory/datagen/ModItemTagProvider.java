@@ -59,6 +59,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 ModTags.Items.SCYTHES)
                 .add(Items.BOW).add(Items.CROSSBOW).add(Items.MACE);
 
+        tag(ModTags.Items.FITS_IN_QUIVER).addTag(ItemTags.ARROWS);
+
         tag(CuriosTags.BACK).add(ModItems.SCABBARD.get());
         tag(CuriosTags.BELT).add(ModItems.SCABBARD.get());
 

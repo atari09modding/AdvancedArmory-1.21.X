@@ -30,24 +30,25 @@ public class QuiverItem extends ContainerItem{
                     return false;
                 } else {
                     if (other.isEmpty()) {
-                        // still needs changes
-                        for (int i = 0; i < size;i++){
-                            if(!content2.getContent().get(size-i-1).isEmpty()){
+                        for(ItemStack contentStack : content2.getContent().reversed()){
+                            if(contentStack.isEmpty()){
                                 player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
-                                access.set(content2.getContent().get(i));
-                                content2.contents().set(i, ItemStack.EMPTY);
+                                access.set(contentStack);
+                                content2.getContent().set(content2.getContent().indexOf(contentStack),ItemStack.EMPTY);
                             }
                         }
 
                     } else {
                         // still needs changes
                         if(!content2.getContent().isEmpty()){
+                            if(!other.is(ModTags.Items.FITS_IN_QUIVER)) return false;
 
-                            for(int i = 0;i<size;i++){
 
-                                if(!other.is(ModTags.Items.FITS_IN_QUIVER)) return false;
+                            for(ItemStack insert: content2.getContent()){
+
+                                // check for empty
                                 player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
-                                content2.contents().set(i,other);
+                                content2.contents().set(content2.getContent().indexOf(insert), other);
                                 access.set(ItemStack.EMPTY);
                             }
                         }
