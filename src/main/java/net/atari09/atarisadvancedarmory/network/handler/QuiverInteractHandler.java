@@ -33,15 +33,13 @@ public class QuiverInteractHandler {
                     ItemStack backStack = back.getStacks().getStackInSlot(0);
                     ContainerItemContent content = backStack.get(ModDataComponents.CONTENT).getCopy();
                     ItemStack hand = player.getMainHandItem();
-                    System.out.println("1");
 
                     if(hand.isEmpty()){
                         player.setItemInHand(InteractionHand.MAIN_HAND, QuiverItem.tryRemove(content,player));
-                        System.out.println("2a");
                     } else if (hand.is(ModTags.Items.FITS_IN_QUIVER)){
                         player.setItemInHand(InteractionHand.MAIN_HAND,QuiverItem.tryInsert(content,hand,player));
-                        System.out.println("2b");
                     }
+                    backStack.set(ModDataComponents.CONTENT,content);
                 }
 
 
