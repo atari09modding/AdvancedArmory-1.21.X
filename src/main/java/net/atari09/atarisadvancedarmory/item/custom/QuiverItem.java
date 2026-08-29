@@ -16,8 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Optional;
 
 public class QuiverItem extends ContainerItem{
-    public QuiverItem(int containerSize, Properties properties) {
-        super(containerSize, properties);
+    public QuiverItem(Properties properties) {
+        super(5, properties);
     }
 
 
@@ -29,37 +29,42 @@ public class QuiverItem extends ContainerItem{
 
         if(!content.getContent().isEmpty()){
             if (action == ClickAction.SECONDARY && slot.allowModification(player)) {
-                ContainerItemContent content2 = new ContainerItemContent(NonNullList.withSize(1, stack.get(ModDataComponents.CONTENT).getContent().get(0).copy()));
+                ContainerItemContent content2 = new ContainerItemContent(NonNullList.withSize(5, stack.get(ModDataComponents.CONTENT).getContent().get(0).copy()));
                 if (content2 == null) {
                     return false;
                 } else {
+
                     if (other.isEmpty()) {
+                        int i = 0;
                         for(ItemStack contentStack : content2.getContent().reversed()){
                             if(!contentStack.isEmpty()){
                                 player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
                                 access.set(contentStack);
-                                content2.getContent().set(content2.getContent().indexOf(contentStack),ItemStack.EMPTY);
+                                content2.getContent().set(size-1-i, ItemStack.EMPTY);
                                 break;
                             }
+                            i++;
                         }
 
                     } else {
-                        // still needs changes
+
                         if(!content2.getContent().isEmpty()){
                             if(!other.is(ModTags.Items.FITS_IN_QUIVER)) return false;
-                            for(ItemStack insert: content2.getContent()){
+                            int i = 0;
+                            for(ItemStack insert : content2.getContent()){
                                 if (insert.isEmpty()){
                                     player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
-                                    content2.contents().set(content2.getContent().indexOf(insert), other);
+                                    content2.contents().set(i, other);
                                     access.set(ItemStack.EMPTY);
                                     break;
                                 }
+                                i++;
                             }
                         }
                     }
+                    stack.set(ModDataComponents.CONTENT, content2);
+                    return true;
                 }
-                stack.set(ModDataComponents.CONTENT, content2);
-                return true;
             }
         }
 

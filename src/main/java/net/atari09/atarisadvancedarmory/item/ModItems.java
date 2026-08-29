@@ -172,7 +172,7 @@ public class ModItems {
             ()->new ScabbardItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> QUIVER = ITEMS.register("quiver",
-            ()->new QuiverItem(5,new Item.Properties().stacksTo(1)));
+            ()->new QuiverItem(new Item.Properties().stacksTo(1)));
 
 
 
