@@ -14,6 +14,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosTags;
@@ -61,8 +62,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         tag(ModTags.Items.FITS_IN_QUIVER).addTag(ItemTags.ARROWS);
 
-        tag(CuriosTags.BACK).add(ModItems.SCABBARD.get());
-        tag(CuriosTags.BELT).add(ModItems.SCABBARD.get());
+        tag(CuriosTags.BACK)
+                .add(ModItems.SCABBARD.get())
+                .add(ModItems.QUIVER.get());
+        tag(CuriosTags.BELT)
+                .add(ModItems.SCABBARD.get());
 
 
     }

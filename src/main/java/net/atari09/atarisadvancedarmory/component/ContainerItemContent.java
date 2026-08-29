@@ -22,4 +22,16 @@ public record ContainerItemContent(NonNullList<ItemStack> contents) implements C
     public NonNullList<ItemStack> getContent() {
         return contents;
     }
+
+
+    public ContainerItemContent getCopy(){
+        NonNullList<ItemStack> copyContent = NonNullList.withSize(getContent().size(), ItemStack.EMPTY);
+
+        for(int i = 0; i<getContent().size();i++){
+            if(!getContent().get(i).isEmpty()){
+                copyContent.set(i,getContent().get(i).copy());
+            }
+        }
+        return new ContainerItemContent(copyContent);
+    }
 }

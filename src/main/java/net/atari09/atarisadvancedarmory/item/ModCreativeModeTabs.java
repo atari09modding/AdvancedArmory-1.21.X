@@ -93,11 +93,12 @@ public static final Supplier<CreativeModeTab> SMITHING_TAB = CREATIVE_MODE_TAB.r
                     })
                     .build());
 
-    public static final Supplier<CreativeModeTab> A = CREATIVE_MODE_TAB.register("a",
+    public static final Supplier<CreativeModeTab> OTHER = CREATIVE_MODE_TAB.register("other",
             ()-> CreativeModeTab.builder()
                     .icon(()->new ItemStack(ModItems.SCABBARD.get()))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.SCABBARD);
+                        output.accept(ModItems.QUIVER);
                     }).build());
 
 

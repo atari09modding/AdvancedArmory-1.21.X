@@ -29,21 +29,20 @@ public class QuiverItem extends ContainerItem{
 
         if(!content.getContent().isEmpty()){
             if (action == ClickAction.SECONDARY && slot.allowModification(player)) {
-                ContainerItemContent content2 = new ContainerItemContent(NonNullList.withSize(5, stack.get(ModDataComponents.CONTENT).getContent().get(0).copy()));
+                ContainerItemContent content2 = content.getCopy();
                 if (content2 == null) {
                     return false;
                 } else {
 
                     if (other.isEmpty()) {
-                        int i = 0;
-                        for(ItemStack contentStack : content2.getContent().reversed()){
+                        for(int i = size-1; i>=0;i--){
+                            ItemStack contentStack = content2.getContent().get(i);
                             if(!contentStack.isEmpty()){
                                 player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
                                 access.set(contentStack);
-                                content2.getContent().set(size-1-i, ItemStack.EMPTY);
+                                content2.getContent().set(i, ItemStack.EMPTY);
                                 break;
                             }
-                            i++;
                         }
 
                     } else {
@@ -68,12 +67,33 @@ public class QuiverItem extends ContainerItem{
             }
         }
 
-        return true;
+        return false;
     }
 
     @Override
     public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction action, Player player) {
-        return super.overrideStackedOnOther(stack, slot, action, player);
+        if (stack.getCount() != 1 || action != ClickAction.SECONDARY) {
+
+            return false;
+        } else {
+            ContainerItemContent content = new ContainerItemContent(stack.get(ModDataComponents.CONTENT).getContent());
+
+            if(!content.getContent().isEmpty()){
+                ContainerItemContent content2 = content.getCopy();
+                ItemStack stack1 = slot.getItem();
+                if (stack1.isEmpty()) {
+                    for(int i = content2.getContent().size(); i >=0;i--){
+                        if (content2.getContent().get(i).isEmpty()) continue;
+                        player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+                        content2.contents().set(i, ItemStack.EMPTY);
+                        slot.set(content2.getContent().get(i));
+                    }
+                }
+                stack.set(ModDataComponents.CONTENT, content2);
+                return true;
+            }
+            return true;
+        }
     }
 
     @Override
@@ -86,4 +106,8 @@ public class QuiverItem extends ContainerItem{
 
         return super.getTooltipImage(stack);
     }
+
+
+
+
 }

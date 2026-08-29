@@ -55,9 +55,11 @@
 
 
   "item.atarisadvancedarmory.scabbard" : "Scabbard",
+  "item.atarisadvancedarmory.quiver" : "Quiver",
 
   "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing",
   "creativetab.atarisadvancedarmory.armory_tab" : "Ataris Advanced Armory",
+  "creativetab.atarisadvancedarmory.other" : "Other",
 
   "key.category.atarisadvancedarmory.atari" : "Ataris Advanced Armory",
   "key.atarisadvancedarmory.pull_weapon_out": "Pull Weapon out",

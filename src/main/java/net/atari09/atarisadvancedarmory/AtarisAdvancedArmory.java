@@ -143,6 +143,7 @@ public class AtarisAdvancedArmory {
             });
 
             CuriosRendererRegistry.register(ModItems.SCABBARD.get(), ModCuriousRenderer::new);
+            CuriosRendererRegistry.register(ModItems.QUIVER.get(), ModCuriousRenderer::new);
         }
 
         @SubscribeEvent

@@ -94,6 +94,7 @@ public class ScabbardItem extends ContainerItem{
                 if (stack1.isEmpty()) {
                     player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
                     content2.contents().set(0, ItemStack.EMPTY);
+                    slot.set(content.contents().get(0));
 
                 }
                 stack.set(ModDataComponents.CONTENT, content2);
