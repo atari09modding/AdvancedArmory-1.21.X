@@ -5,7 +5,8 @@
   "mixins": [
     "EnchantCommandMixin",
     "EnchantmentMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "ProjectileWeaponMixin"
   ],
   "client": [],
   "injectors": {

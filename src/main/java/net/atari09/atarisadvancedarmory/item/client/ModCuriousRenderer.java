@@ -15,6 +15,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
@@ -105,32 +106,44 @@ public class ModCuriousRenderer implements ICurioRenderer{
 
             humanoidModel.body.translateAndRotate(poseStack);
 
-            poseStack.translate(0,0.5,0.15);
-            poseStack.mulPose(Axis.YP.rotationDegrees(180));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+            poseStack.translate(0,0.4,0.3);
+            poseStack.mulPose(Axis.ZP.rotationDegrees(140));
+            poseStack.scale(1.1f,1.1f,1.1f);
+
 
 
 
             ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
             itemRenderer.renderStatic(livingEntity,stack, ItemDisplayContext.FIXED,false,
                     poseStack,buffer,livingEntity.level(),light, OverlayTexture.NO_OVERLAY,1);
+            poseStack.popPose();
+
+            poseStack.pushPose();
+            humanoidModel.body.translateAndRotate(poseStack);
+
+            poseStack.translate(0,0.45,0.15);
+            poseStack.mulPose(Axis.YP.rotationDegrees(180));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+
 
             if(stack.has(ModDataComponents.CONTENT)){
                 if(!stack.get(ModDataComponents.CONTENT).getContent().isEmpty()){
                     NonNullList<ItemStack> contents = stack.get(ModDataComponents.CONTENT).getContent();
-                    poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(175));
                     poseStack.translate(-0.2,-0.1,-0.1);
 
                     Map<Integer, Consumer<PoseStack>> arrow_translations = Map.of(
-                            0,p ->{poseStack.translate(0.4,-0.1,0.05);},
+                            0,p ->{poseStack.translate(0.4,-0.08,0.05);},
                             1,p ->{poseStack.translate(0,-0.1,-0.05);},
-                            2,p ->{poseStack.translate(0,0.2,-0.05);},
+                            2,p ->{poseStack.translate(0,0.1,-0.05);},
                             3,p ->{poseStack.translate(-0.1,0,-0.05);},
                             4,p ->{poseStack.translate(0.2,-0.2,-0.05);}
                     );
                     int i = 0;
                     for(ItemStack content:contents){
                         arrow_translations.get(i).accept(poseStack);
+
+                        if(content.is(Items.TIPPED_ARROW)) content = new ItemStack(Items.ARROW,1);
                         itemRenderer.renderStatic(livingEntity,content, ItemDisplayContext.FIXED,false,
                                 poseStack,buffer,livingEntity.level(),light, OverlayTexture.NO_OVERLAY,1);
                         i++;

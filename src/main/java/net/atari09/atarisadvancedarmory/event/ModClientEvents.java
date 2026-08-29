@@ -4,8 +4,11 @@ import com.zigythebird.playeranim.animation.PlayerAnimationController;
 import com.zigythebird.playeranim.api.PlayerAnimationAccess;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.client.ScreenShake;
+import net.atari09.atarisadvancedarmory.component.ContainerItemContent;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
+import net.atari09.atarisadvancedarmory.item.custom.QuiverItem;
+import net.atari09.atarisadvancedarmory.network.payload.QuiverInteractPacket;
 import net.atari09.atarisadvancedarmory.network.payload.ScabbardSwapPacket;
 import net.atari09.atarisadvancedarmory.util.KeyBinding;
 import net.atari09.atarisadvancedarmory.util.ModTags;
@@ -72,7 +75,8 @@ public class ModClientEvents {
         if (KeyBinding.PULL_WEAPON_OUT_KEY.consumeClick()){
             Player player = mc.player;
 
-            PacketDistributor.sendToServer(new ScabbardSwapPacket());
+
+
 
             ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
             ICurioStacksHandler back = curiosInventory.getStacksHandler("back").get();
@@ -84,6 +88,7 @@ public class ModClientEvents {
                         || (player.getMainHandItem().is(ModTags.Items.FITS_IN_SCABBARD) &&
                         back.getStacks().getStackInSlot(0).get(ModDataComponents.CONTENT).contents().get(0).isEmpty()))
                         && back.getStacks().getStackInSlot(0).is(ModItems.SCABBARD)){
+                    PacketDistributor.sendToServer(new ScabbardSwapPacket());
                     PlayerAnimationController controller =
                             (PlayerAnimationController) PlayerAnimationAccess.getPlayerAnimationLayer(
                                     (AbstractClientPlayer) player,
@@ -97,6 +102,7 @@ public class ModClientEvents {
                         || (player.getMainHandItem().is(ModTags.Items.FITS_IN_SCABBARD) &&
                         belt.getStacks().getStackInSlot(0).get(ModDataComponents.CONTENT).contents().get(0).isEmpty()))
                         && belt.getStacks().getStackInSlot(0).is(ModItems.SCABBARD)){
+                    PacketDistributor.sendToServer(new ScabbardSwapPacket());
 
 
                     PlayerAnimationController controller =
@@ -105,6 +111,15 @@ public class ModClientEvents {
                                     AtarisAdvancedArmory.res("pull_out_weapon"));
                     controller.triggerAnimation(AtarisAdvancedArmory.res("pull_out_weapon_belt"));
                 }
+            }
+
+            if(back.getStacks().getStackInSlot(0).has(ModDataComponents.CONTENT) && back.getStacks().getStackInSlot(0).is(ModItems.QUIVER)){
+                PacketDistributor.sendToServer(new QuiverInteractPacket());
+                PlayerAnimationController controller =
+                        (PlayerAnimationController) PlayerAnimationAccess.getPlayerAnimationLayer(
+                                (AbstractClientPlayer) player,
+                                AtarisAdvancedArmory.res("pull_out_weapon"));
+                controller.triggerAnimation(AtarisAdvancedArmory.res("pull_out_weapon_back"));
             }
 
 

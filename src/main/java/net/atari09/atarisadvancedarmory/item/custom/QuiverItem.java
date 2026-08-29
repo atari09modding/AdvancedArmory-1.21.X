@@ -33,32 +33,12 @@ public class QuiverItem extends ContainerItem{
                 if (content2 == null) {
                     return false;
                 } else {
-
                     if (other.isEmpty()) {
-                        for(int i = size-1; i>=0;i--){
-                            ItemStack contentStack = content2.getContent().get(i);
-                            if(!contentStack.isEmpty()){
-                                player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
-                                access.set(contentStack);
-                                content2.getContent().set(i, ItemStack.EMPTY);
-                                break;
-                            }
-                        }
-
+                        access.set(tryRemove(content2,player));
                     } else {
 
                         if(!content2.getContent().isEmpty()){
-                            if(!other.is(ModTags.Items.FITS_IN_QUIVER)) return false;
-                            int i = 0;
-                            for(ItemStack insert : content2.getContent()){
-                                if (insert.isEmpty()){
-                                    player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
-                                    content2.contents().set(i, other);
-                                    access.set(ItemStack.EMPTY);
-                                    break;
-                                }
-                                i++;
-                            }
+                            access.set(tryInsert(content2,other,player));
                         }
                     }
                     stack.set(ModDataComponents.CONTENT, content2);
@@ -82,13 +62,9 @@ public class QuiverItem extends ContainerItem{
                 ContainerItemContent content2 = content.getCopy();
                 ItemStack stack1 = slot.getItem();
                 if (stack1.isEmpty()) {
-                    for(int i = content2.getContent().size()-1; i >=0;i--){
-                        if (content2.getContent().get(i).isEmpty()) continue;
-                        player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
-                        content2.contents().set(i, ItemStack.EMPTY);
-                        slot.set(content.getContent().get(i));
-                        break;
-                    }
+                    slot.set(tryRemove(content2,player));
+                } else if (stack1.is(ModTags.Items.FITS_IN_QUIVER)) {
+                    slot.set(tryInsert(content2,stack1,player));
                 }
                 stack.set(ModDataComponents.CONTENT, content2);
                 return true;
@@ -96,6 +72,35 @@ public class QuiverItem extends ContainerItem{
             return true;
         }
     }
+
+    public static ItemStack tryInsert(ContainerItemContent content, ItemStack insert,Player player){
+        for(int i = 0; i< content.contents().size();i++){
+            if (!content.getContent().get(i).isEmpty()) continue;
+            player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+            content.contents().set(i,insert);
+            return ItemStack.EMPTY;
+        }
+        return insert;
+    }
+
+    public static ItemStack tryRemove(ContainerItemContent content,Player player,boolean doRemove){
+        ContainerItemContent content2 = content.getCopy();
+        for(int i = content.getContent().size()-1; i >=0;i--){
+            if (content.getContent().get(i).isEmpty()) continue;
+            player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+            if(doRemove) content.contents().set(i, ItemStack.EMPTY);
+            return content2.getContent().get(i);
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public static ItemStack tryRemove(ContainerItemContent content,Player player){
+        return tryRemove(content,player,true);
+    }
+
+
+
+
 
     @Override
     public Optional<TooltipComponent> getTooltipImage(ItemStack stack) {

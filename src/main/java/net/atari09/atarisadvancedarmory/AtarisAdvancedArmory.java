@@ -16,14 +16,8 @@ import net.atari09.atarisadvancedarmory.item.client.AbilityCooldownDecorator;
 import net.atari09.atarisadvancedarmory.item.client.ModCuriousRenderer;
 import net.atari09.atarisadvancedarmory.item.custom.ElementalMaceItem;
 import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
-import net.atari09.atarisadvancedarmory.network.handler.CraftTemplatePacketHandler;
-import net.atari09.atarisadvancedarmory.network.handler.ScabbardSwapHandler;
-import net.atari09.atarisadvancedarmory.network.handler.ScreenShakePacketHandler;
-import net.atari09.atarisadvancedarmory.network.handler.StartSmithingPacketHandler;
-import net.atari09.atarisadvancedarmory.network.payload.CraftTemplatePacket;
-import net.atari09.atarisadvancedarmory.network.payload.ScabbardSwapPacket;
-import net.atari09.atarisadvancedarmory.network.payload.ScreenShakePacket;
-import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
+import net.atari09.atarisadvancedarmory.network.handler.*;
+import net.atari09.atarisadvancedarmory.network.payload.*;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.screen.ItemClientTooltipComponent;
 import net.atari09.atarisadvancedarmory.screen.ItemListTooltipComponent;
@@ -165,6 +159,7 @@ public class AtarisAdvancedArmory {
             registrar.playToServer(CraftTemplatePacket.TYPE,CraftTemplatePacket.STREAM_CODEC,CraftTemplatePacketHandler::handle);
             registrar.playToClient(ScreenShakePacket.TYPE,ScreenShakePacket.STREAM_CODEC, ScreenShakePacketHandler::handle);
             registrar.playToServer(ScabbardSwapPacket.TYPE, ScabbardSwapPacket.STREAM_CODEC, ScabbardSwapHandler::handle);
+            registrar.playToServer(QuiverInteractPacket.TYPE, QuiverInteractPacket.STREAM_CODEC, QuiverInteractHandler::handle);
         }
 
         @SubscribeEvent

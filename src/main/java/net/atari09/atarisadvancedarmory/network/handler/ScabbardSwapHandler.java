@@ -28,7 +28,9 @@ public class ScabbardSwapHandler {
                 ICurioStacksHandler back = curiosInventory.getStacksHandler("back").get();
                 ICurioStacksHandler belt = curiosInventory.getStacksHandler("belt").get();
 
-                if(back.getStacks().getStackInSlot(0).has(ModDataComponents.CONTENT)){
+
+
+                if(back.getStacks().getStackInSlot(0).has(ModDataComponents.CONTENT) && back.getStacks().getStackInSlot(0).is(ModItems.SCABBARD)){
                     if(((player.getMainHandItem().isEmpty() &&
                             !back.getStacks().getStackInSlot(0).get(ModDataComponents.CONTENT).contents().get(0).isEmpty())
                             || (player.getMainHandItem().is(ModTags.Items.FITS_IN_SCABBARD) &&
@@ -58,7 +60,7 @@ public class ScabbardSwapHandler {
 
                     }
                 }
-                if(belt.getStacks().getStackInSlot(0).has(ModDataComponents.CONTENT)){
+                if(belt.getStacks().getStackInSlot(0).has(ModDataComponents.CONTENT) && belt.getStacks().getStackInSlot(0).is(ModItems.SCABBARD)){
                     if(((player.getMainHandItem().isEmpty() &&
                             !belt.getStacks().getStackInSlot(0).get(ModDataComponents.CONTENT).contents().get(0).isEmpty())
                             || (player.getMainHandItem().is(ModTags.Items.FITS_IN_SCABBARD) &&

@@ -219,9 +219,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         ResourceLocation loc_3d = loc.withSuffix("_3d");
 
 
-        getBuilder(item.getId().getPath() + "_full")
+        getBuilder(path + "_full").parent(new ModelFile.UncheckedModelFile("item/handheld"))
                 .customLoader(SeparateTransformsModelBuilder::begin)
-                .base(getBuilder(loc.withSuffix("_2d").getPath())
+                .base(getBuilder(loc.withSuffix("_2d_full").getPath())
                         .parent(new ModelFile.UncheckedModelFile("item/handheld"))
                         .texture("layer0", AtarisAdvancedArmory.res("item/quiver_full")))
                 .perspective(ItemDisplayContext.FIXED, getBuilder(loc_3d.withSuffix("_ref").getPath())

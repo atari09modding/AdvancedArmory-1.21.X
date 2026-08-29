@@ -96,7 +96,14 @@ public class ScabbardItem extends ContainerItem{
                     content2.contents().set(0, ItemStack.EMPTY);
                     slot.set(content.contents().get(0));
 
+                } else if (stack1.is(ModTags.Items.FITS_IN_SCABBARD)) {
+                    if (content2.getContent().get(0).isEmpty()) {
+                        player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+                        content2.contents().set(0,stack1);
+                        slot.set(ItemStack.EMPTY);
+                    }
                 }
+
                 stack.set(ModDataComponents.CONTENT, content2);
                 return true;
             }
