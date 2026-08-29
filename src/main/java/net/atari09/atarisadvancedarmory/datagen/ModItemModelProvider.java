@@ -94,14 +94,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.NETHERITE_BATTLEAXE.getId().getPath(),mcLoc("item/netherite_axe"));
 
         basicItem(ModItems.SCABBARD.get());
-        basicItem(ModItems.QUIVER.get());
+        //basicItem(ModItems.QUIVER.get());
 
-        getBuilder(ModItems.QUIVER.getId().getPath() + "_full").parent(new ModelFile.UncheckedModelFile("item/handheld")).texture("layer0",mcLoc("item/arrow")).texture("layer1",AtarisAdvancedArmory.res("item/quiver"));
-        splittedModel(ModItems.QUIVER)
-                .override()
-                .predicate(AtarisAdvancedArmory.res("full"),1)
-                .model(new ModelFile.ExistingModelFile(AtarisAdvancedArmory.res(ModItems.QUIVER.getId().withPrefix("item/").getPath() + "_full"),existingFileHelper))
-                .end();
+        quiver(ModItems.QUIVER);
+
 
         rapier(ModItems.WOODEN_RAPIER);
         rapier(ModItems.STONE_RAPIER);
@@ -198,6 +194,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         ResourceLocation loc = AtarisAdvancedArmory.res("item/"+path);
         ResourceLocation loc_3d = loc.withSuffix("_3d");
 
+
+
+
+
+
         // Generate the override model
         ItemModelBuilder builder = getBuilder(path).parent(new ModelFile.UncheckedModelFile("item/handheld"))
                 .customLoader(SeparateTransformsModelBuilder::begin)
@@ -207,6 +208,42 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .perspective(ItemDisplayContext.GUI,getBuilder(loc.withSuffix(path+"_2d").getPath())
                         .parent(new ModelFile.UncheckedModelFile("item/generated"))
                         .texture("layer0", texture.withSuffix("_2d")))
+                .end();
+
+        return builder;
+    }
+
+    private ItemModelBuilder quiver(DeferredItem<Item> item){
+        String path = item.getId().getPath();
+        ResourceLocation loc = AtarisAdvancedArmory.res("item/"+path);
+        ResourceLocation loc_3d = loc.withSuffix("_3d");
+
+
+        getBuilder(item.getId().getPath() + "_full")
+                .customLoader(SeparateTransformsModelBuilder::begin)
+                .base(getBuilder(loc.withSuffix("_2d").getPath())
+                        .parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                        .texture("layer0", AtarisAdvancedArmory.res("item/quiver_full")))
+                .perspective(ItemDisplayContext.FIXED, getBuilder(loc_3d.withSuffix("_ref").getPath())
+                        .parent(new ModelFile.ExistingModelFile(loc_3d,existingFileHelper))
+                        .texture("layer0", loc_3d)
+                );
+
+
+        // Generate the override model
+        ItemModelBuilder builder = getBuilder(path).parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .customLoader(SeparateTransformsModelBuilder::begin)
+                .base(getBuilder(loc.withSuffix("_2d").getPath())
+                        .parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                        .texture("layer0", loc))
+                .perspective(ItemDisplayContext.FIXED, getBuilder(loc_3d.withSuffix("_ref").getPath())
+                        .parent(new ModelFile.ExistingModelFile(loc_3d,existingFileHelper))
+                        .texture("layer0", loc_3d)
+                        )
+                .end()
+                .override()
+                .predicate(AtarisAdvancedArmory.res("full"),1)
+                .model(new ModelFile.ExistingModelFile(AtarisAdvancedArmory.res(item.getId().withPrefix("item/").getPath() + "_full"),existingFileHelper))
                 .end();
 
         return builder;
