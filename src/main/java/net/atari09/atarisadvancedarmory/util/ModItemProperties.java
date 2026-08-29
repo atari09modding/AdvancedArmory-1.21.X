@@ -8,6 +8,7 @@ import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 
@@ -30,6 +31,23 @@ public class ModItemProperties {
                 }));
             }
 
+        });
+
+        ItemProperties.register(ModItems.QUIVER.get(), AtarisAdvancedArmory.res("full"),(stack,level,entity,seed)-> {
+            if(stack.has(ModDataComponents.CONTENT)){
+                int i = 0;
+                for(ItemStack content:stack.get(ModDataComponents.CONTENT).getContent()){
+                    if(!content.isEmpty()){
+                        i = 1;
+                        break;
+                    }
+                }
+
+
+                return i;
+            } else{
+                return 0;
+            }
         });
 
 

@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -93,7 +94,14 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.NETHERITE_BATTLEAXE.getId().getPath(),mcLoc("item/netherite_axe"));
 
         basicItem(ModItems.SCABBARD.get());
-        withExistingParent(ModItems.QUIVER.getId().getPath(),AtarisAdvancedArmory.res("item/scabbard"));
+        basicItem(ModItems.QUIVER.get());
+
+        getBuilder(ModItems.QUIVER.getId().getPath() + "_full").parent(new ModelFile.UncheckedModelFile("item/handheld")).texture("layer0",mcLoc("item/arrow")).texture("layer1",AtarisAdvancedArmory.res("item/quiver"));
+        splittedModel(ModItems.QUIVER)
+                .override()
+                .predicate(AtarisAdvancedArmory.res("full"),1)
+                .model(new ModelFile.ExistingModelFile(AtarisAdvancedArmory.res(ModItems.QUIVER.getId().withPrefix("item/").getPath() + "_full"),existingFileHelper))
+                .end();
 
         rapier(ModItems.WOODEN_RAPIER);
         rapier(ModItems.STONE_RAPIER);
@@ -182,11 +190,26 @@ public class ModItemModelProvider extends ItemModelProvider {
                     .end();
         }
 
+    }
 
+    private ItemModelBuilder splittedModel(DeferredItem<Item> item){
+        String path = item.getId().getPath();
+        ResourceLocation texture = AtarisAdvancedArmory.res(item.getId().withPrefix("item/").getPath());
+        ResourceLocation loc = AtarisAdvancedArmory.res("item/"+path);
+        ResourceLocation loc_3d = loc.withSuffix("_3d");
 
+        // Generate the override model
+        ItemModelBuilder builder = getBuilder(path).parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .customLoader(SeparateTransformsModelBuilder::begin)
+                .base(getBuilder(loc.withSuffix(path + "_3d").getPath())
+                        .parent(new ModelFile.ExistingModelFile(loc_3d,existingFileHelper))
+                        .texture("0", texture.withSuffix("_3d")))
+                .perspective(ItemDisplayContext.GUI,getBuilder(loc.withSuffix(path+"_2d").getPath())
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                        .texture("layer0", texture.withSuffix("_2d")))
+                .end();
 
-
-
+        return builder;
     }
 
     private void item2dModelWithChangingTexture(DeferredItem<Item> item, int countTextures){
