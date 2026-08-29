@@ -82,11 +82,12 @@ public class QuiverItem extends ContainerItem{
                 ContainerItemContent content2 = content.getCopy();
                 ItemStack stack1 = slot.getItem();
                 if (stack1.isEmpty()) {
-                    for(int i = content2.getContent().size(); i >=0;i--){
+                    for(int i = content2.getContent().size()-1; i >=0;i--){
                         if (content2.getContent().get(i).isEmpty()) continue;
                         player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
                         content2.contents().set(i, ItemStack.EMPTY);
-                        slot.set(content2.getContent().get(i));
+                        slot.set(content.getContent().get(i));
+                        break;
                     }
                 }
                 stack.set(ModDataComponents.CONTENT, content2);

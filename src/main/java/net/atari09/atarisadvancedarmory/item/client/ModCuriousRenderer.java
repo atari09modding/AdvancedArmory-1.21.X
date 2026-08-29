@@ -110,6 +110,7 @@ public class ModCuriousRenderer implements ICurioRenderer{
             poseStack.mulPose(Axis.ZP.rotationDegrees(180));
 
 
+
             ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
             itemRenderer.renderStatic(livingEntity,stack, ItemDisplayContext.FIXED,false,
                     poseStack,buffer,livingEntity.level(),light, OverlayTexture.NO_OVERLAY,1);
@@ -117,13 +118,15 @@ public class ModCuriousRenderer implements ICurioRenderer{
             if(stack.has(ModDataComponents.CONTENT)){
                 if(!stack.get(ModDataComponents.CONTENT).getContent().isEmpty()){
                     NonNullList<ItemStack> contents = stack.get(ModDataComponents.CONTENT).getContent();
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+                    poseStack.translate(-0.2,-0.1,-0.1);
 
                     Map<Integer, Consumer<PoseStack>> arrow_translations = Map.of(
-                            0,p ->{poseStack.translate(0.1,0,0);},
-                            1,p ->{poseStack.translate(0.1,-0.1,0);},
-                            2,p ->{poseStack.translate(0.1,0,0.1);},
-                            3,p ->{poseStack.translate(0.1,0.1,0);},
-                            4,p ->{poseStack.translate(0.1,0,-0.1);}
+                            0,p ->{poseStack.translate(0.4,-0.1,0.05);},
+                            1,p ->{poseStack.translate(0,-0.1,-0.05);},
+                            2,p ->{poseStack.translate(0,0.2,-0.05);},
+                            3,p ->{poseStack.translate(-0.1,0,-0.05);},
+                            4,p ->{poseStack.translate(0.2,-0.2,-0.05);}
                     );
                     int i = 0;
                     for(ItemStack content:contents){
