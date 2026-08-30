@@ -12,6 +12,11 @@ smithing table:
     also add of course an override to render function preserving super.render() to still render
     the geckolib block but add the itemrender code from the pedestal to it -> also example below
     (mb try out doing an interpolation for the item to spin and hover if finished like first it is laying, and then it is like hovering if done)
+- custom workstation to make tipped arrows more efficiently
+
+- maybe two-piece with like a flask (rendered if placed in GUI) mb crafted from fletching table (mb makes it so you can inflict up to 3 potion effects onto an arrow) -> datacomponent potion_contents to new mobeffectsinstance
+- more custom arrows (like explosive, smoke, (rope...? if i can manage to code that)...)
+
 
 
 weapons -> features:

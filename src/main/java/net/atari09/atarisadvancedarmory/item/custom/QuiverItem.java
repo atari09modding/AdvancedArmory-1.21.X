@@ -75,11 +75,38 @@ public class QuiverItem extends ContainerItem{
 
     public static ItemStack tryInsert(ContainerItemContent content, ItemStack insert,Player player){
         for(int i = 0; i< content.contents().size();i++){
+            if(content.getContent().get(i).is(insert.getItem())){
+                int max_size = content.getContent().get(i).getMaxStackSize();
+                int size = content.getContent().get(i).getCount();
+                int insert_count = insert.getCount();
+                int possible_insert = max_size - size;
+
+                possible_insert = Math.min(possible_insert, insert_count);
+
+                ItemStack quiver_slot = content.contents().get(i).copy();
+                quiver_slot.grow(possible_insert);
+                player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+                content.contents().set(i,quiver_slot);
+
+                if(possible_insert<insert_count){
+                    insert.shrink(possible_insert);
+                }  else {
+                    return ItemStack.EMPTY;
+                }
+
+
+            }
+        }
+        for(int i = 0; i< content.contents().size();i++){
+
             if (!content.getContent().get(i).isEmpty()) continue;
             player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
             content.contents().set(i,insert);
             return ItemStack.EMPTY;
         }
+
+
+
         return insert;
     }
 

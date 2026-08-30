@@ -43,6 +43,9 @@ public class WeaponSmithBaseBlockRenderer extends GeoBlockRenderer<WeaponSmithBl
         if(!(animatable.getLevel().getBlockState(animatable.getBlockPos()).getBlock() instanceof WeaponSmithBaseBlock)) return;
         renderItems(animatable,partialTick,poseStack,bufferSource,packedLight,packedOverlay);
 
+
+
+
     }
 
     private int getLightLevel(Level level, BlockPos pos) {
