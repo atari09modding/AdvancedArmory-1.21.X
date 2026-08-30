@@ -12,11 +12,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.function.Function;
 
@@ -26,32 +28,29 @@ public class ModBlockStateProvider extends BlockStateProvider {
         super(output, AtarisAdvancedArmory.MOD_ID, exFileHelper);
     }
 
-
+    private static String name(DeferredBlock<Block> block){
+        return block.getRegisteredName().replace(AtarisAdvancedArmory.MOD_ID+":","");
+    }
 
 
     // vanilla variant of this class is called BlockModelGenerators -> look up what uses what there
     @Override
     protected void registerStatesAndModels() {
 
-        simpleBlock(ModBlocks.ARCHERSTABLEBLOCK.get(),
-                models().cubeBottomTop(
-                        ModBlocks.ARCHERSTABLEBLOCK.getRegisteredName(),
-                        blockTexture(ModBlocks.ARCHERSTABLEBLOCK.get()),
-                        modLoc("block/" + ModBlocks.ARCHERSTABLEBLOCK.getRegisteredName() + "_bottom"),
-                        modLoc("block/" + ModBlocks.ARCHERSTABLEBLOCK.getRegisteredName() + "_top"))
-        );
-
-        simpleBlockItem(ModBlocks.ARCHERSTABLEBLOCK.get(),
-                models().getExistingFile(models().cubeBottomTop(
-                        ModBlocks.ARCHERSTABLEBLOCK.getRegisteredName(),
-                        blockTexture(ModBlocks.ARCHERSTABLEBLOCK.get()),
-                        modLoc("block/" + ModBlocks.ARCHERSTABLEBLOCK.getRegisteredName() + "_bottom"),
-                        modLoc("block/" + ModBlocks.ARCHERSTABLEBLOCK.getRegisteredName() + "_top")).getLocation()));
+        blockWithTopBottomSpecificTextures(ModBlocks.ARCHERSTABLEBLOCK);
 
 
 
 
+    }
 
+    private void blockWithTopBottomSpecificTextures(DeferredBlock<Block> block){
+        BlockModelBuilder model = models().cubeBottomTop(
+                name(block), blockTexture(block.get()),
+                modLoc("block/" + name(block) + "_bottom"),
+                modLoc("block/" + name(block) + "_top"));
+        simpleBlock(block.get(), model);
+        simpleBlockItem(block.get(), model);
     }
 
     private void saplingBlock(DeferredBlock<Block> blockRegistryObject) {
