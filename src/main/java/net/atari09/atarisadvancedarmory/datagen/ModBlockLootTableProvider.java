@@ -33,6 +33,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     protected void generate() {
 
         dropSelf(ModBlocks.WEAPONSMITHBASEBLOCK.get());
+        dropSelf(ModBlocks.ARCHERSTABLEBLOCK.get());
 
     }
 

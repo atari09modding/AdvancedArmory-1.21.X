@@ -1,10 +1,15 @@
 package net.atari09.atarisadvancedarmory.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import net.atari09.atarisadvancedarmory.block.entity.ArchersTableBlockEntity;
+import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -29,18 +34,36 @@ public class ArchersTableBlock extends BaseEntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return aaa;
+        return new ArchersTableBlockEntity(blockPos,blockState);
     }
 
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        return super.useWithoutItem(state, level, pos, player, hitResult);
+        if(!level.isClientSide()){
+            BlockEntity entity = level.getBlockEntity(pos);
+            if(entity instanceof ArchersTableBlockEntity be){
+                ((ServerPlayer) player).openMenu(new SimpleMenuProvider(be, be.getDisplayName()),pos);
+            } else {
+                throw new IllegalStateException("Our Container provider is missing");
+            }
+        }
+
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+        if(!level.isClientSide()){
+            BlockEntity entity = level.getBlockEntity(pos);
+            if(entity instanceof ArchersTableBlockEntity be){
+                ((ServerPlayer) player).openMenu(new SimpleMenuProvider(be, be.getDisplayName()),pos);
+            } else {
+                throw new IllegalStateException("Our Container provider is missing");
+            }
+        }
+
+        return ItemInteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override

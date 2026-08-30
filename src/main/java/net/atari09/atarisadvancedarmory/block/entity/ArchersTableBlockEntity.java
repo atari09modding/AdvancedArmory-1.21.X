@@ -23,6 +23,6 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return aaa;
+        return null;
     }
 }

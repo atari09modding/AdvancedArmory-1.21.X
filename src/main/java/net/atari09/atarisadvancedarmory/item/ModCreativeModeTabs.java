@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.item;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -20,6 +21,7 @@ public static final Supplier<CreativeModeTab> SMITHING_TAB = CREATIVE_MODE_TAB.r
                 .title(Component.translatable("creativetab.atarisadvancedarmory.smithing_tab"))
                 .displayItems((itemDisplayParameters, output) -> {
                     output.accept(ModItems.WEAPONSMITHBLOCKITEM);
+                    output.accept(ModBlocks.ARCHERSTABLEBLOCK);
                 })
                 .build());
     public static final Supplier<CreativeModeTab> ARMORY_TAB = CREATIVE_MODE_TAB.register("armory_tab",
