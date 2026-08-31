@@ -14,7 +14,6 @@ import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.client.AbilityCooldownDecorator;
 import net.atari09.atarisadvancedarmory.item.client.ModCuriousRenderer;
-import net.atari09.atarisadvancedarmory.item.custom.ElementalMaceItem;
 import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 import net.atari09.atarisadvancedarmory.network.handler.*;
 import net.atari09.atarisadvancedarmory.network.payload.*;
@@ -28,7 +27,6 @@ import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScr
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.atari09.atarisadvancedarmory.util.ModItemProperties;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
@@ -53,8 +51,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
-
-import static com.zigythebird.playeranim.PlayerAnimLibMod.ANIMATION_LAYER_ID;
 
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -157,7 +153,7 @@ public class AtarisAdvancedArmory {
         @SubscribeEvent
         public static void registerPayloadHandlers(final RegisterPayloadHandlersEvent event) {
             final PayloadRegistrar registrar = event.registrar("1");
-            registrar.playToServer(StartSmithingPacket.TYPE, StartSmithingPacket.STREAM_CODEC, StartSmithingPacketHandler::handle);
+            registrar.playToServer(StartCraftPacket.TYPE, StartCraftPacket.STREAM_CODEC, StartCraftingPacketHandler::handle);
             registrar.playToServer(CraftTemplatePacket.TYPE,CraftTemplatePacket.STREAM_CODEC,CraftTemplatePacketHandler::handle);
             registrar.playToClient(ScreenShakePacket.TYPE,ScreenShakePacket.STREAM_CODEC, ScreenShakePacketHandler::handle);
             registrar.playToServer(ScabbardSwapPacket.TYPE, ScabbardSwapPacket.STREAM_CODEC, ScabbardSwapHandler::handle);

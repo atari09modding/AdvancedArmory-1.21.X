@@ -61,7 +61,7 @@ public record WeaponSmithRecipe(Ingredient inputItem, Ingredient inputItem2, Ing
         public static final MapCodec<WeaponSmithRecipe> CODEC = RecordCodecBuilder.mapCodec(inst->inst.group(
                 Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(WeaponSmithRecipe::inputItem),
                 Ingredient.CODEC_NONEMPTY.fieldOf("ingredient2").forGetter(WeaponSmithRecipe::inputItem2),
-                Ingredient.CODEC_NONEMPTY.fieldOf("template").forGetter(WeaponSmithRecipe::template),
+                Ingredient.CODEC_NONEMPTY.fieldOf("inputItem3").forGetter(WeaponSmithRecipe::template),
                 ItemStack.CODEC.fieldOf("result").forGetter(WeaponSmithRecipe::output)
         ).apply(inst,WeaponSmithRecipe::new));
 

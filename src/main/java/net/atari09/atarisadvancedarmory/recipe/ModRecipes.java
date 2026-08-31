@@ -37,6 +37,17 @@ public class ModRecipes {
                 }
             });
 
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ArchersTableRecipe>> ARCHERSTABLE_SERIALIZER =
+            SERIALIZERS.register("archerstable", ArchersTableRecipe.Serializer::new);
+
+    public static final DeferredHolder<RecipeType<?>, RecipeType<ArchersTableRecipe>> ARCHERSTABLE_TYPE =
+            TYPES.register("archerstable", ()-> new RecipeType<ArchersTableRecipe>() {
+                @Override
+                public String toString() {
+                    return "archerstable";
+                }
+            });
+
 
 
 

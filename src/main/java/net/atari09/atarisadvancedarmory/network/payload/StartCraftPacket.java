@@ -6,16 +6,16 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record StartSmithingPacket(BlockPos pos) implements CustomPacketPayload {
+public record StartCraftPacket(BlockPos pos) implements CustomPacketPayload {
 
-    public static final Type<StartSmithingPacket> TYPE =
+    public static final Type<StartCraftPacket> TYPE =
             new Type<>(AtarisAdvancedArmory.res("start_smithing"));
 
-    public static final StreamCodec<FriendlyByteBuf, StartSmithingPacket> STREAM_CODEC =
+    public static final StreamCodec<FriendlyByteBuf, StartCraftPacket> STREAM_CODEC =
             StreamCodec.composite(
                     BlockPos.STREAM_CODEC,
-                    StartSmithingPacket::pos,
-                    StartSmithingPacket::new
+                    StartCraftPacket::pos,
+                    StartCraftPacket::new
             );
 
     @Override

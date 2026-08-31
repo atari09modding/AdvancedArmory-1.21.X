@@ -3,8 +3,7 @@ package net.atari09.atarisadvancedarmory.screen.custom;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
-import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
-import net.atari09.atarisadvancedarmory.network.payload.StartSmithingPacket;
+import net.atari09.atarisadvancedarmory.network.payload.StartCraftPacket;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -102,7 +101,7 @@ public class WeaponSmithScreen extends AbstractContainerScreen<WeaponSmithMenu> 
     }
 
     private void sendStartSmithingPacket() {
-        PacketDistributor.sendToServer(new StartSmithingPacket(menu.getPos()));
+        PacketDistributor.sendToServer(new StartCraftPacket(menu.getPos()));
     }
 
 

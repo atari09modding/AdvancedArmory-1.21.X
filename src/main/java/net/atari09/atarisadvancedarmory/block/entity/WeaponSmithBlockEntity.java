@@ -3,6 +3,7 @@ package net.atari09.atarisadvancedarmory.block.entity;
 import ca.weblite.objc.Client;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.atari09.atarisadvancedarmory.block.custom.WeaponSmithBaseBlock;
+import net.atari09.atarisadvancedarmory.component.CraftingBlockEntity;
 import net.atari09.atarisadvancedarmory.item.custom.SpecialSmithingTemplateItem;
 import net.atari09.atarisadvancedarmory.recipe.*;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
@@ -48,7 +49,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
-public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntity, MenuProvider {
+public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntity, MenuProvider, CraftingBlockEntity {
     public final ItemStackHandler itemHandler = new ItemStackHandler(4){
         @Override
         protected void onContentsChanged(int slot) {
@@ -238,7 +239,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
     }
 
     @SuppressWarnings("unchecked")
-    private Optional<RecipeHolder<?>> getCurrentRecipe() {
+    public Optional<RecipeHolder<?>> getCurrentRecipe() {
         if(!(itemHandler.getStackInSlot(TEMPLATE_SLOT).getItem() instanceof SpecialSmithingTemplateItem templateItem)){
             return (Optional<RecipeHolder<?>>)(Optional<?>) this.level.getRecipeManager().getRecipeFor(ModRecipes.WEAPONSMITH_TYPE.get(),
                     new WeaponSmithRecipeInput(itemHandler.getStackInSlot(INPUT_SLOT_1), itemHandler.getStackInSlot(INPUT_SLOT_2), itemHandler.getStackInSlot(TEMPLATE_SLOT)), level);
@@ -265,6 +266,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
         return itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty();
     }
 
+    @Override
     public boolean hasRecipe() {
         Optional<RecipeHolder<?>> recipe = getCurrentRecipe();
 
@@ -284,6 +286,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+    @Override
     public void startCrafting() {
         shouldCraft = true;
     }

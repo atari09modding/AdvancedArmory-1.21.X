@@ -62,6 +62,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         tag(ModTags.Items.FITS_IN_QUIVER).addTag(ItemTags.ARROWS);
 
+        tag(ModTags.Items.ARROW_INFLICTABLE)
+                .add(Items.POTION)
+                .add(Items.OMINOUS_BOTTLE);
+
         tag(CuriosTags.BACK)
                 .add(ModItems.SCABBARD.get())
                 .add(ModItems.QUIVER.get());

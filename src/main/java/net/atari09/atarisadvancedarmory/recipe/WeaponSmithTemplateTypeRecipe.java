@@ -36,7 +36,7 @@ public record WeaponSmithTemplateTypeRecipe(Ingredient inputItem, Ingredient inp
         NonNullList<Ingredient> list =NonNullList.create();
         list.add(inputItem);
         list.add(inputItem2);
-        //list.add(template);
+        //list.add(inputItem3);
         return list;
     }
 
@@ -70,7 +70,7 @@ public record WeaponSmithTemplateTypeRecipe(Ingredient inputItem, Ingredient inp
         public static final MapCodec<WeaponSmithTemplateTypeRecipe> CODEC = RecordCodecBuilder.mapCodec(inst->inst.group(
                 Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(WeaponSmithTemplateTypeRecipe::inputItem),
                 Ingredient.CODEC_NONEMPTY.fieldOf("ingredient2").forGetter(WeaponSmithTemplateTypeRecipe::inputItem2),
-                SpecialSmithingTemplateType.CODEC.fieldOf("template").forGetter(WeaponSmithTemplateTypeRecipe::template),
+                SpecialSmithingTemplateType.CODEC.fieldOf("inputItem3").forGetter(WeaponSmithTemplateTypeRecipe::template),
                 ItemStack.CODEC.fieldOf("result").forGetter(WeaponSmithTemplateTypeRecipe::output)
         ).apply(inst, WeaponSmithTemplateTypeRecipe::new));
 

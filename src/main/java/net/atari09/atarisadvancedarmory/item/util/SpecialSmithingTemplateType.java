@@ -99,7 +99,7 @@ public enum SpecialSmithingTemplateType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Unknown template type id: " + id);
+        throw new IllegalArgumentException("Unknown inputItem3 type id: " + id);
     }
 
 
