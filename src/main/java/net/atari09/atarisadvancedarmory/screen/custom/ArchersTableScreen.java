@@ -27,7 +27,7 @@ public class ArchersTableScreen extends AbstractContainerScreen<ArchersTableMenu
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        guiGraphics.blit(GUI_TEXTURE, x, y, 0, 0, imageWidth, 165);
+        guiGraphics.blit(GUI_TEXTURE, x, y, 0, 0, imageWidth, 203);
 
 
 
