@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.block.custom;
 
 import com.mojang.serialization.MapCodec;
 import net.atari09.atarisadvancedarmory.block.entity.ArchersTableBlockEntity;
+import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
 import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -15,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
@@ -35,6 +38,15 @@ public class ArchersTableBlock extends BaseEntityBlock {
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new ArchersTableBlockEntity(blockPos,blockState);
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        if(level.isClientSide()){
+            return null;
+        }
+        return createTickerHelper(blockEntityType, ModBlockEntities.ARCHERSTABLE_BE.get(),
+                (level1,blockPos,blockState, blockEntity)->blockEntity.tick(level1,blockPos,blockState));
     }
 
 

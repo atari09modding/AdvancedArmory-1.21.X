@@ -3,12 +3,18 @@ package net.atari09.atarisadvancedarmory.block.entity;
 import net.atari09.atarisadvancedarmory.screen.custom.ArchersTableMenu;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -70,6 +76,29 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
         return new ArchersTableMenu(i,inventory,this,this.data);
     }
 
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        tag.put("inventory",itemHandler.serializeNBT(registries));
+        super.saveAdditional(tag, registries);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        itemHandler.deserializeNBT(registries, tag.getCompound("inventory"));
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
+    }
+
+    @Override
+    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
 
 
+    public void tick(Level level1, BlockPos blockPos, BlockState blockState) {
+    }
 }
