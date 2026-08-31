@@ -68,7 +68,7 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("Archer's Table");
+        return Component.empty();
     }
 
     @Override

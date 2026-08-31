@@ -156,7 +156,7 @@ public class WeaponSmithBlockEntity extends BlockEntity implements GeoBlockEntit
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.atarisadvancedarmory.weaponsmithbaseblock");
+        return Component.empty();
     }
 
     @Override
