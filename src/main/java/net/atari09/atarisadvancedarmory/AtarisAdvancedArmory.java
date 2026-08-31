@@ -23,6 +23,7 @@ import net.atari09.atarisadvancedarmory.screen.ItemClientTooltipComponent;
 import net.atari09.atarisadvancedarmory.screen.ItemListTooltipComponent;
 import net.atari09.atarisadvancedarmory.screen.ItemTooltipComponent;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
+import net.atari09.atarisadvancedarmory.screen.custom.ArchersTableScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.atari09.atarisadvancedarmory.util.ModItemProperties;
@@ -150,6 +151,7 @@ public class AtarisAdvancedArmory {
         public static void registerScreens(RegisterMenuScreensEvent event){
                 event.register(ModMenuTypes.WEAPONSMITH_MENU.get(), WeaponSmithScreen::new);
                 event.register(ModMenuTypes.SPECIALSMITHINGTEMPLATE_MENU.get(), SpecialSmithingTemplateScreen::new);
+                event.register(ModMenuTypes.ARCHERSTABLE_MENU.get(), ArchersTableScreen::new);
         }
 
         @SubscribeEvent
