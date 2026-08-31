@@ -35,9 +35,11 @@ public class ArchersTableMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv,38);
 
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 0,14,43));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1,34,36));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1,125,43));
+
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2,65,29));
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3,103,13));
+
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 4,103,13));
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 5,103,13));
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 6,103,13));
