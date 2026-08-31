@@ -25,7 +25,7 @@ public class ArchersTableMenu extends AbstractContainerMenu {
 
 
     public ArchersTableMenu(int containerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(ModMenuTypes.WEAPONSMITH_MENU.get(), containerId);
+        super(ModMenuTypes.ARCHERSTABLE_MENU.get(), containerId);
         this.blockEntity = ((ArchersTableBlockEntity) entity);
         this.level = inv.player.level();
         this.data = data;
