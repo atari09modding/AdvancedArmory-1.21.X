@@ -4,6 +4,7 @@ import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.atari09.atarisadvancedarmory.block.entity.ArchersTableBlockEntity;
 import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.atari09.atarisadvancedarmory.screen.ModMenuTypes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +21,7 @@ public class ArchersTableMenu extends AbstractContainerMenu {
     public final ArchersTableBlockEntity blockEntity;
 
     public ArchersTableMenu(int containerId, Inventory inv, FriendlyByteBuf extraData){
-        this(containerId,inv,inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
+        this(containerId,inv,inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
     }
 
 
@@ -37,12 +38,14 @@ public class ArchersTableMenu extends AbstractContainerMenu {
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 0,14,43)); // in
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1,144,43)); // out
 
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2,32,68)); // ingr 1
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3,52,68)); // ingr 2
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2,36,2)); // potion 1
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3,78,2)); // potion 2
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 4,116,2)); // potion 3
 
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 4,36,2)); // potion 1
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 5,78,2)); // potion 2
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 6,116,2)); // potion 3
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 5,32,68)); // ingr 1
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 6,52,68)); // ingr 2
+
+
 
         addDataSlots(data);
     }
@@ -116,5 +119,17 @@ public class ArchersTableMenu extends AbstractContainerMenu {
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
                 player, ModBlocks.ARCHERSTABLEBLOCK.get());
+    }
+
+    public BlockPos getPos(){
+        return blockEntity.getBlockPos();
+    }
+
+    public boolean hasRecipe() {
+        return data.get(1) == 1;
+    }
+
+    public boolean hasArrow() {
+        return data.get(2) == 1;
     }
 }

@@ -1,10 +1,12 @@
 package net.atari09.atarisadvancedarmory.datagen;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.datagen.recipebuilders.ArchersTableRecipeBuilder;
 import net.atari09.atarisadvancedarmory.datagen.recipebuilders.WeaponSmithRecipeBuilder;
 import net.atari09.atarisadvancedarmory.datagen.recipebuilders.WeaponSmithTemplateTypeRecipeBuilder;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.util.SpecialSmithingTemplateType;
+import net.atari09.atarisadvancedarmory.recipe.ArchersTableRecipe;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -61,6 +63,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 Ingredient.of(Items.DEEPSLATE),
                 SpecialSmithingTemplateType.TERRESTRIAL
         ).unlockedBy("has_mace",has(Items.MACE)).save(recipeOutput);
+
+        new ArchersTableRecipeBuilder(
+                new ItemStack(Items.SPECTRAL_ARROW,64),
+                Ingredient.of(Items.ARROW),
+                Ingredient.of(Items.GLOW_BERRIES),
+                Ingredient.EMPTY
+        ).unlockedBy("has_glow_berries",has(Items.GLOW_BERRIES)).save(recipeOutput);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.SCABBARD.get())
                 .pattern("  L")

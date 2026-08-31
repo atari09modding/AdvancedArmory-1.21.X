@@ -38,6 +38,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,9 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
                     return stack.is(ModTags.Items.ARROW_INFLICTABLE);
                 }
             }
+            if(slot == INPUT_SLOT){
+                return stack.is(Items.ARROW);
+            }
             return super.isItemValid(slot, stack);
         }
     };
@@ -67,12 +71,14 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
     protected final ContainerData data;
     public static final int INPUT_SLOT = 0;
     public static final int OUTPUT_SLOT = 1;
+
     public static final int POTION_SLOT_1 = 2;
     public static final int POTION_SLOT_2 = 3;
     public static final int POTION_SLOT_3 = 4;
+
     public static final int INGREDIENT_SLOT_1 = 5;
     public static final int INGREDIENT_SLOT_2 = 6;
-    public static final NonNullList<Integer> POTION_SLOTS = NonNullList.of(POTION_SLOT_1, POTION_SLOT_2, POTION_SLOT_3);
+    public static final List<Integer> POTION_SLOTS = List.of(POTION_SLOT_1, POTION_SLOT_2, POTION_SLOT_3);
 
     private boolean shouldCraft = false;
     private int progress = 0;
@@ -85,18 +91,22 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
         data = new ContainerData(){
 
             @Override
-            public int get(int index) {
-                return 0;
+            public int get(int i) {
+                return switch (i) {
+                    case 1 -> hasRecipe() ? 1 : 0;
+                    case 2 -> itemHandler.getStackInSlot(INPUT_SLOT).isEmpty()?0:1;
+                    default -> 0;
+                };
             }
 
             @Override
-            public void set(int index, int value) {
+            public void set(int i, int value) {
 
             }
 
             @Override
             public int getCount() {
-                return 0;
+                return 3;
             }
         };
     }
@@ -108,7 +118,7 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return new ArchersTableMenu(i,inventory,this,this.data);
+        return new ArchersTableMenu(i,inventory,this, this.data);
     }
 
     @Override
@@ -180,13 +190,19 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
     }
 
     private void craft(){
-        Optional<RecipeHolder<?>> recipe = getCurrentRecipe();
+        Optional<RecipeHolder<?>> recipe =  getCurrentRecipe();
         ItemStack output = null;
         if(!recipe.isEmpty()){
-            itemHandler.extractItem(INPUT_SLOT,1,false);
+            if(recipe.get().value() instanceof ArchersTableRecipe r){
+                output = r.output();
+            }
+            int count = itemHandler.getStackInSlot(INPUT_SLOT).getCount();
+
+            itemHandler.extractItem(INPUT_SLOT,count,false);
             itemHandler.extractItem(INGREDIENT_SLOT_1,1,false);
             itemHandler.extractItem(INGREDIENT_SLOT_2,1,false);
             assert output != null;
+            output.setCount(count);
             itemHandler.setStackInSlot(OUTPUT_SLOT, output);
 
         } else {
@@ -194,12 +210,14 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
             int count = itemHandler.getStackInSlot(INPUT_SLOT).getCount();
 
             PotionContents potion_content = PotionContents.EMPTY;
-            effects.forEach(potion_content::withEffectAdded);
+            for (MobEffectInstance i : effects){
+                potion_content = potion_content.withEffectAdded(i);
+            }
 
             output = new ItemStack(Items.TIPPED_ARROW,count);
             output.set(DataComponents.POTION_CONTENTS,potion_content);
 
-            itemHandler.extractItem(INPUT_SLOT,1,false);
+            itemHandler.extractItem(INPUT_SLOT,count,false);
             itemHandler.extractItem(POTION_SLOT_1,1,false);
             itemHandler.extractItem(POTION_SLOT_2,1,false);
             itemHandler.extractItem(POTION_SLOT_3,1,false);
@@ -211,7 +229,7 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
     }
 
     private List<MobEffectInstance> getPotionEffects(){
-        List<MobEffectInstance> l = Collections.emptyList();
+        List<MobEffectInstance> l = new ArrayList<>();
         for(int i : POTION_SLOTS){
             ItemStack stack = itemHandler.getStackInSlot(i);
             if(stack.has(DataComponents.POTION_CONTENTS)){
