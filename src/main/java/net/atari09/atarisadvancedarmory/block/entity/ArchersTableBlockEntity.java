@@ -70,14 +70,15 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
 
     protected final ContainerData data;
     public static final int INPUT_SLOT = 0;
-    public static final int OUTPUT_SLOT = 1;
 
-    public static final int POTION_SLOT_1 = 2;
-    public static final int POTION_SLOT_2 = 3;
-    public static final int POTION_SLOT_3 = 4;
+    public static final int POTION_SLOT_1 = 1;
+    public static final int POTION_SLOT_2 = 2;
+    public static final int POTION_SLOT_3 = 3;
 
-    public static final int INGREDIENT_SLOT_1 = 5;
-    public static final int INGREDIENT_SLOT_2 = 6;
+    public static final int INGREDIENT_SLOT_1 = 4;
+    public static final int INGREDIENT_SLOT_2 = 5;
+    public static final int OUTPUT_SLOT = 6;
+
     public static final List<Integer> POTION_SLOTS = List.of(POTION_SLOT_1, POTION_SLOT_2, POTION_SLOT_3);
 
     private boolean shouldCraft = false;

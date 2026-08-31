@@ -6,9 +6,11 @@ import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.recipe.ArchersTableRecipe;
 import net.atari09.atarisadvancedarmory.recipe.ModRecipes;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithRecipe;
 import net.atari09.atarisadvancedarmory.recipe.WeaponSmithTemplateTypeRecipe;
+import net.atari09.atarisadvancedarmory.screen.custom.ArchersTableScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -28,6 +30,7 @@ public class JEIAtarisAdvancedArmoryPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new WeaponSmithRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new WeaponSmithTemplateTypeRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new ArchersTableRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -42,6 +45,10 @@ public class JEIAtarisAdvancedArmoryPlugin implements IModPlugin {
                 .getAllRecipesFor(ModRecipes.WEAPONSMITH_TT_TYPE.get()).stream().map(RecipeHolder::value).toList();
         registration.addRecipes(WeaponSmithTemplateTypeRecipeCategory.WEAPON_SMITH_TEMPLATE_TYPE_RECIPE_RECIPE_TYPE, weaponSmithTTRecipes);
 
+        List<ArchersTableRecipe> archerstableRecipes = recipeManager
+                .getAllRecipesFor(ModRecipes.ARCHERSTABLE_TYPE.get()).stream().map(RecipeHolder::value).toList();
+        registration.addRecipes(ArchersTableRecipeCategory.ARCHERSTABLE_RECIPE_RECIPE_TYPE, archerstableRecipes);
+
     }
 
     @Override
@@ -49,5 +56,7 @@ public class JEIAtarisAdvancedArmoryPlugin implements IModPlugin {
         registration.addRecipeClickArea(WeaponSmithScreen.class, 63, 12, 26, 14,
                 WeaponSmithRecipeCategory.WEAPON_SMITH_RECIPE_RECIPE_TYPE,WeaponSmithTemplateTypeRecipeCategory.WEAPON_SMITH_TEMPLATE_TYPE_RECIPE_RECIPE_TYPE); // this controls which area to click to show JEI recipes
 
+
+        registration.addRecipeClickArea(ArchersTableScreen.class,48,42,85,21,ArchersTableRecipeCategory.ARCHERSTABLE_RECIPE_RECIPE_TYPE);
     }
 }
