@@ -6,6 +6,7 @@ import net.atari09.atarisadvancedarmory.block.entity.WeaponSmithBlockEntity;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -14,14 +15,25 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-public record ArchersTableRecipe(Ingredient inputItem, Ingredient inputItem2, Ingredient inputItem3, ItemStack output) implements Recipe<ArchersTableRecipeInput> {
+import java.util.Optional;
+
+public record ArchersTableRecipe(Ingredient inputItem, Optional<Ingredient> inputItem2, Optional<Ingredient> inputItem3, ItemStack output) implements Recipe<ArchersTableRecipeInput> {
 
     @Override
     public boolean matches(ArchersTableRecipeInput input, Level level) {
         if (level.isClientSide)return false;
-        boolean c1 = inputItem.test(input.getItem(0)) && inputItem2.test(input.getItem(1)) && inputItem3.test(input.getItem(2));
-        boolean c2 = inputItem.test(input.getItem(0)) && inputItem2.test(input.getItem(2)) && inputItem3.test(input.getItem(1));
-        return c1||c2;
+        boolean firstOk = inputItem.test(input.getItem(0));
+        boolean secondOk = inputItem2.map(ing -> ing.test(input.getItem(1)))
+                .orElseGet(() -> input.getItem(1).isEmpty()) &&
+                inputItem3.map(ing -> ing.test(input.getItem(2)))
+                .orElseGet(() -> input.getItem(2).isEmpty());
+
+        boolean thirdOk = inputItem2.map(ing -> ing.test(input.getItem(2)))
+                .orElseGet(() -> input.getItem(2).isEmpty()) &&
+                inputItem3.map(ing -> ing.test(input.getItem(1)))
+                        .orElseGet(() -> input.getItem(1).isEmpty());
+
+        return firstOk && (secondOk || thirdOk);
     }
 
     @Override
@@ -33,8 +45,8 @@ public record ArchersTableRecipe(Ingredient inputItem, Ingredient inputItem2, In
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> list =NonNullList.create();
         list.add(inputItem);
-        list.add(inputItem2);
-        list.add(inputItem3);
+        list.add(inputItem2.get());
+        list.add(inputItem3.get());
         return list;
     }
 
@@ -61,16 +73,16 @@ public record ArchersTableRecipe(Ingredient inputItem, Ingredient inputItem2, In
     public static class Serializer implements RecipeSerializer<ArchersTableRecipe> {
         public static final MapCodec<ArchersTableRecipe> CODEC = RecordCodecBuilder.mapCodec(inst->inst.group(
                 Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(ArchersTableRecipe::inputItem),
-                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient2").forGetter(ArchersTableRecipe::inputItem2),
-                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient3").forGetter(ArchersTableRecipe::inputItem3),
+                Ingredient.CODEC.optionalFieldOf("ingredient2").forGetter(ArchersTableRecipe::inputItem2),
+                Ingredient.CODEC.optionalFieldOf("ingredient3").forGetter(ArchersTableRecipe::inputItem3),
                 ItemStack.CODEC.fieldOf("result").forGetter(ArchersTableRecipe::output)
         ).apply(inst, ArchersTableRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, ArchersTableRecipe> STREAM_CODEC =
                 StreamCodec.composite(
                         Ingredient.CONTENTS_STREAM_CODEC, ArchersTableRecipe::inputItem,
-                        Ingredient.CONTENTS_STREAM_CODEC, ArchersTableRecipe::inputItem2,
-                        Ingredient.CONTENTS_STREAM_CODEC, ArchersTableRecipe::inputItem3,
+                        ByteBufCodecs.optional(Ingredient.CONTENTS_STREAM_CODEC), ArchersTableRecipe::inputItem2,
+                        ByteBufCodecs.optional(Ingredient.CONTENTS_STREAM_CODEC), ArchersTableRecipe::inputItem3,
                         ItemStack.STREAM_CODEC, ArchersTableRecipe::output,
                         ArchersTableRecipe::new);
 

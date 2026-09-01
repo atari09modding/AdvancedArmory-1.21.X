@@ -11,6 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import java.util.Optional;
+
 public class ArchersTableRecipeBuilder extends SimpleRecipeBuilder {
     protected final Ingredient inputItem;
     protected final Ingredient inputItem2;
@@ -33,7 +35,7 @@ public class ArchersTableRecipeBuilder extends SimpleRecipeBuilder {
 
         this.criteria.forEach(advancement::addCriterion);
 
-        ArchersTableRecipe recipe = new ArchersTableRecipe(this.inputItem,this.inputItem2,this.inputItem3, this.result);
+        ArchersTableRecipe recipe = new ArchersTableRecipe(this.inputItem, Optional.of(this.inputItem2),Optional.of(this.inputItem3), this.result);
 
         output.accept(ResourceLocation.fromNamespaceAndPath(key.getNamespace(), key.getPath()+"_archerstable"),recipe,advancement.build(key.withPrefix("recipes/")));
 
