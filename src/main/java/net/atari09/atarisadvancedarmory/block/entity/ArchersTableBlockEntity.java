@@ -96,6 +96,7 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
                 return switch (i) {
                     case 1 -> hasRecipe() ? 1 : 0;
                     case 2 -> itemHandler.getStackInSlot(INPUT_SLOT).isEmpty()?0:1;
+                    case 3 -> progress;
                     default -> 0;
                 };
             }
@@ -107,7 +108,7 @@ public class ArchersTableBlockEntity extends BlockEntity implements MenuProvider
 
             @Override
             public int getCount() {
-                return 3;
+                return 4;
             }
         };
     }
