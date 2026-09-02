@@ -21,7 +21,7 @@ public class ArchersTableMenu extends AbstractContainerMenu {
     public final ArchersTableBlockEntity blockEntity;
 
     public ArchersTableMenu(int containerId, Inventory inv, FriendlyByteBuf extraData){
-        this(containerId,inv,inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
+        this(containerId,inv,inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(5));
     }
 
 
@@ -135,7 +135,7 @@ public class ArchersTableMenu extends AbstractContainerMenu {
         return data.get(2) == 1;
     }
 
-    public int getProgress(){
-        return data.get(3);
+    public double getProgress(){
+        return ((double) data.get(3)) / ((double) data.get(4));
     }
 }

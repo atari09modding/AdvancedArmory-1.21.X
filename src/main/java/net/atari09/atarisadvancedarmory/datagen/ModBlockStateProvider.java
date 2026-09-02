@@ -37,7 +37,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
 
-        blockWithTopBottomSpecificTextures(ModBlocks.ARCHERSTABLEBLOCK);
+        rotatableblockWithTopBottomSpecificTextures(ModBlocks.ARCHERSTABLEBLOCK);
 
 
 
@@ -50,6 +50,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 modLoc("block/" + name(block) + "_bottom"),
                 modLoc("block/" + name(block) + "_top"));
         simpleBlock(block.get(), model);
+        simpleBlockItem(block.get(), model);
+    }
+
+    private void rotatableblockWithTopBottomSpecificTextures(DeferredBlock<Block> block){
+        BlockModelBuilder model = models().cubeBottomTop(
+                name(block), blockTexture(block.get()),
+                modLoc("block/" + name(block) + "_bottom"),
+                modLoc("block/" + name(block) + "_top"));
+        horizontalBlock(block.get(), model);
         simpleBlockItem(block.get(), model);
     }
 
