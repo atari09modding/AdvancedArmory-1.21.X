@@ -56,18 +56,18 @@ public class ArchersTableBlockEntityRenderer implements BlockEntityRenderer<Arch
 
         if(!stack.isEmpty()){
             int c = stack.getOrDefault(DataComponents.POTION_CONTENTS,DEFAULTPOTIONEFFECTS).getColor();
-            Vec3 offset = new Vec3(0.8,1.8,0.2);
+            Vec3 offset = voxelsToVec3(12,28,3);
             renderBottle(be,poseStack,multiBufferSource,c,packedLight,packedOverlay,offset);
         }
         if(!stack2.isEmpty()){
             int c = stack2.getOrDefault(DataComponents.POTION_CONTENTS,DEFAULTPOTIONEFFECTS).getColor();
-            Vec3 offset = new Vec3(0.5,1.8,0.2);
+            Vec3 offset = voxelsToVec3(8,28,3);
 
             renderBottle(be,poseStack,multiBufferSource,c,packedLight,packedOverlay,offset);
         }
         if(!stack3.isEmpty()){
             int c = stack3.getOrDefault(DataComponents.POTION_CONTENTS,DEFAULTPOTIONEFFECTS).getColor();
-            Vec3 offset = new Vec3(0.2,1.8,0.2);
+            Vec3 offset = voxelsToVec3(4,28,3);
 
             renderBottle(be,poseStack,multiBufferSource,c,packedLight,packedOverlay,offset);
         }
@@ -112,5 +112,9 @@ public class ArchersTableBlockEntityRenderer implements BlockEntityRenderer<Arch
 
 
         poseStack.popPose();
+    }
+
+    private static Vec3 voxelsToVec3(double x, double y, double z){
+        return new Vec3(x/16,y/16,z/16);
     }
 }
