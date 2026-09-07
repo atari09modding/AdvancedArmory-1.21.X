@@ -1,5 +1,6 @@
 package net.atari09.atarisadvancedarmory.block.entity.renderer;
 
+import com.ibm.icu.text.DisplayContext;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -9,18 +10,21 @@ import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.atari09.atarisadvancedarmory.block.custom.ArchersTableBlock;
 import net.atari09.atarisadvancedarmory.block.entity.ArchersTableBlockEntity;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Overlay;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
@@ -31,7 +35,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ArchersTableBlockEntityRenderer implements BlockEntityRenderer<ArchersTableBlockEntity> {
-    private static final PotionContents DEFAULTPOTIONEFFECTS = new PotionContents(Optional.of(Potions.AWKWARD),Optional.of(0xFF0000), List.of());
+    private static final PotionContents DEFAULTPOTIONEFFECTS = new PotionContents(Optional.of(Potions.AWKWARD),Optional.of(0x000000), List.of());
 
     public static final ResourceLocation GLASS_TEXTURE = AtarisAdvancedArmory.res("textures/entity/potion_bottle_model.png");
     public static final ResourceLocation LIQUID_TEXTURE = AtarisAdvancedArmory.res("textures/entity/white.png");
@@ -71,6 +75,8 @@ public class ArchersTableBlockEntityRenderer implements BlockEntityRenderer<Arch
 
             renderBottle(be,poseStack,multiBufferSource,c,packedLight,packedOverlay,offset);
         }
+
+        renderArrow(be,poseStack,multiBufferSource,voxelsToVec3(8,16,8));
     }
 
     private void renderBottle(ArchersTableBlockEntity be, PoseStack poseStack, MultiBufferSource bufferSource, int color, int packedLight, int packedOverlay, Vec3 offset){
@@ -113,6 +119,54 @@ public class ArchersTableBlockEntityRenderer implements BlockEntityRenderer<Arch
 
         poseStack.popPose();
     }
+
+    private void renderArrow(ArchersTableBlockEntity be, PoseStack poseStack, MultiBufferSource bufferSource,Vec3 offset){
+        poseStack.pushPose();
+        int rot = 0;
+
+        BlockState state = be.getLevel().getBlockState(be.getBlockPos());
+        if(state.is(ModBlocks.ARCHERSTABLEBLOCK.get())){
+            switch (state.getValue(ArchersTableBlock.FACING)){
+                case NORTH -> {
+                    offset = new Vec3(1,offset.y*2,1).subtract(offset);
+                    rot = 180;
+                }
+                case EAST -> {
+                    offset = new Vec3(offset.z,offset.y,offset.x);
+                    rot=-90;
+                }
+                case WEST -> {
+                    offset = new Vec3(1,offset.y,1).subtract(offset.z,0,offset.x);
+                    rot=90;
+                }
+            }
+        }
+
+        poseStack.translate(offset.x,offset.y,offset.z);
+
+        poseStack.mulPose(Axis.XP.rotationDegrees(90));
+
+        poseStack.mulPose(Axis.ZP.rotationDegrees(-45+rot));
+
+
+
+        poseStack.translate((float) -2 /16, (float) 1 /16,0);
+        poseStack.scale(0.7f,0.7f,0.7f);
+
+
+        int light =15728880;
+        if (be.getLevel() != null) {
+            light = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above());
+        }
+        ItemRenderer r = Minecraft.getInstance().getItemRenderer();
+        ItemStack stack = be.itemHandler.getStackInSlot(ArchersTableBlockEntity.INPUT_SLOT);
+        if(!stack.isEmpty()){
+            r.renderStatic(stack,ItemDisplayContext.GUI,light, OverlayTexture.NO_OVERLAY,poseStack,bufferSource,be.getLevel(),1);
+        }
+
+        poseStack.popPose();
+    }
+
 
     private static Vec3 voxelsToVec3(double x, double y, double z){
         return new Vec3(x/16,y/16,z/16);
