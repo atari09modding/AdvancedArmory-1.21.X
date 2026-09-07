@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.datagen;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.atari09.atarisadvancedarmory.datagen.recipebuilders.ArchersTableRecipeBuilder;
 import net.atari09.atarisadvancedarmory.datagen.recipebuilders.WeaponSmithRecipeBuilder;
 import net.atari09.atarisadvancedarmory.datagen.recipebuilders.WeaponSmithTemplateTypeRecipeBuilder;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 
 import java.util.List;
@@ -79,6 +81,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('L', Items.LEATHER)
                 .define('S', Items.STRING)
                 .unlockedBy("has_leather",has(Items.LEATHER)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.ARCHERSTABLEBLOCK.get())
+                .pattern("SSS")
+                .pattern("DAD")
+                .pattern("DBD")
+                .define('D',Items.DARK_OAK_LOG)
+                .define('S',Items.SMOOTH_STONE_SLAB)
+                .define('B',Items.BREWING_STAND)
+                .define('A',Items.ARROW)
+                .unlockedBy("has_brewing_stand",has(Items.BREWING_STAND)).save(recipeOutput);
 
 
 
