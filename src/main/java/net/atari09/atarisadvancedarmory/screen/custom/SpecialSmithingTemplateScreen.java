@@ -142,7 +142,7 @@ public class SpecialSmithingTemplateScreen extends AbstractContainerScreen<Speci
         int windowHeight = 64;
         int rowCount = ((int) Math.ceil(((double) SpecialSmithingTemplateType.values().length-1) / rowLength));
         int height = rowCount*(18+spacing);
-        float verticalDisplacement = -(height-windowHeight )*((float) this.scroll);
+        float verticalDisplacement = -(height-windowHeight-18)*((float) this.scroll)+5;
         int slotsDrawn = 1;
         PoseStack pose = guiGraphics.pose();
         pose.pushPose();
@@ -152,7 +152,7 @@ public class SpecialSmithingTemplateScreen extends AbstractContainerScreen<Speci
                 int coordsX = x+ xcol * ( 18 + spacing ) + spacingSides;
                 int coordsY =y+ yrow * ( 18 + spacing ) + spacing;
                 if(slotsDrawn<SpecialSmithingTemplateType.values().length-1){
-                    guiGraphics.enableScissor(x+71+spacingSides,51,x+500,y+5+64);
+                    guiGraphics.enableScissor(x+71+spacingSides,y+5,x+500,y+5+64);
                     boolean hover = mouseX >=coordsX+73 && mouseX <= coordsX+18+73 && mouseY>=coordsY+verticalDisplacement &&mouseY<=coordsY+18+verticalDisplacement;
                     boolean showTooltip = mouseX >= x+71+spacingSides && mouseY >= 51 && mouseX <= x+500 && mouseY <=y+5+64;
                     guiGraphics.blit(GUI_TEXTURE,coordsX,coordsY,0, 178,18,18);
