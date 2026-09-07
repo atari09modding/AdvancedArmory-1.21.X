@@ -15,19 +15,22 @@ import net.minecraft.client.renderer.RenderType;
 
 public class SimpleCubeModel extends Model {
     public static final ModelLayerLocation LAYER_LOCATION =
-            new ModelLayerLocation(AtarisAdvancedArmory.res("archerstable_liquid"), "main");
+            new ModelLayerLocation(AtarisAdvancedArmory.res("simplecube"), "main");
 
     private final ModelPart cube;
 
     public SimpleCubeModel(ModelPart root) {
         super(RenderType::entityCutout);
-        this.cube = root.getChild("liquid");
+        this.cube = root.getChild("cube");
     }
+
+
+
 
     public static LayerDefinition createBodyLayer() {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
-        root.addOrReplaceChild("liquid", CubeListBuilder.create()
+        root.addOrReplaceChild("cube", CubeListBuilder.create()
                         .texOffs(0, 0)
                         .addBox(-2.5F, -5.5F, -2.5F, 5.0F, 4.0F, 5.0F),
                 PartPose.ZERO);
