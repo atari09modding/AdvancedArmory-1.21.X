@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.entity;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.entity.custom.BlockProjectileEntity;
+import net.atari09.atarisadvancedarmory.entity.custom.arrows.ShrapnelArrow;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -15,8 +16,12 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, AtarisAdvancedArmory.MOD_ID);
 
     public static final Supplier<EntityType<BlockProjectileEntity>> BLOCK_PROJECTILE_ENTITY = ENTITY_TYPES.register("block_projectile_entity",
-            ()->EntityType.Builder.<BlockProjectileEntity>of((e,level)->new BlockProjectileEntity(e,level, Blocks.DIRT.defaultBlockState(),1), MobCategory.MISC).sized(1.0f,1.0f).build("block_projectile_entity"));
+            ()->EntityType.Builder.<BlockProjectileEntity>of((e,level)->new BlockProjectileEntity(e,level, Blocks.DIRT.defaultBlockState(),1), MobCategory.MISC).sized(1.0f,1.0f)
+                    .build("block_projectile_entity"));
 
+    public static final Supplier<EntityType<ShrapnelArrow>> SHRAPNEL_ARROW = ENTITY_TYPES.register("shrapnel_arrow",
+            ()->EntityType.Builder.of(ShrapnelArrow::new,MobCategory.MISC).sized(0.5f,0.5f)
+                    .build("shrapnel_arrow"));
 
 
     public static void register(IEventBus eventBus){
