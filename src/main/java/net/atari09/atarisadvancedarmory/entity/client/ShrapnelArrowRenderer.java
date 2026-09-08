@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.block.entity.renderer.SimpleCubeModel;
-import net.atari09.atarisadvancedarmory.entity.custom.arrows.ShrapnelArrow;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.ShrapnelArrow;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ArrowRenderer;

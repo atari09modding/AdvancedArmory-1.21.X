@@ -2,7 +2,8 @@ package net.atari09.atarisadvancedarmory.entity;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.entity.custom.BlockProjectileEntity;
-import net.atari09.atarisadvancedarmory.entity.custom.arrows.ShrapnelArrow;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.ShrapnelArrow;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.ShrapnelSplinterProjectile;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -20,7 +21,11 @@ public class ModEntities {
                     .build("block_projectile_entity"));
 
     public static final Supplier<EntityType<ShrapnelArrow>> SHRAPNEL_ARROW = ENTITY_TYPES.register("shrapnel_arrow",
-            ()->EntityType.Builder.of(ShrapnelArrow::new,MobCategory.MISC).sized(0.5f,0.5f)
+            ()->EntityType.Builder.<ShrapnelArrow>of(ShrapnelArrow::new,MobCategory.MISC).sized(0.5f,0.5f)
+                    .build("shrapnel_arrow"));
+
+    public static final Supplier<EntityType<ShrapnelSplinterProjectile>> SHRAPNEL_SPLINTER = ENTITY_TYPES.register("shrapnel_splinter",
+            ()->EntityType.Builder.<ShrapnelSplinterProjectile>of(ShrapnelSplinterProjectile::new,MobCategory.MISC).sized(0.5f,0.5f)
                     .build("shrapnel_arrow"));
 
 
