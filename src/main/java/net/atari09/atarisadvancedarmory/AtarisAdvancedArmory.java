@@ -12,6 +12,7 @@ import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
 import net.atari09.atarisadvancedarmory.entity.client.BlockProjectileEntityRenderer;
 import net.atari09.atarisadvancedarmory.entity.client.ShrapnelArrowRenderer;
+import net.atari09.atarisadvancedarmory.entity.client.ShrapnelSplinterProjectileRenderer;
 import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.client.AbilityCooldownDecorator;
@@ -121,6 +122,7 @@ public class AtarisAdvancedArmory {
 
             EntityRenderers.register(ModEntities.BLOCK_PROJECTILE_ENTITY.get(), BlockProjectileEntityRenderer::new);
             EntityRenderers.register(ModEntities.SHRAPNEL_ARROW.get(), ShrapnelArrowRenderer::new);
+            EntityRenderers.register(ModEntities.SHRAPNEL_SPLINTER.get(), ShrapnelSplinterProjectileRenderer::new);
 
             event.enqueueWork(()->{
                 PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(res("fly"), 1500,
