@@ -1,16 +1,20 @@
 package net.atari09.atarisadvancedarmory.entity.custom.projectile;
 
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
-import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class ShrapnelSplinterProjectile extends Projectile {
+public class ShrapnelSplinterProjectile extends AbstractArrow {
 
     private float damage;
     public ShrapnelSplinterProjectile(EntityType<ShrapnelSplinterProjectile> entityType, Level level) {
@@ -29,11 +33,6 @@ public class ShrapnelSplinterProjectile extends Projectile {
         this.setPos(new Vec3(x,y,z));
     }
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-
-    }
-
     public void setDamage(float damage) {
         this.damage = damage;
     }
@@ -45,11 +44,33 @@ public class ShrapnelSplinterProjectile extends Projectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        if(this.getOwner() instanceof Player owner){
-            result.getEntity().hurt(this.damageSources().playerAttack(owner),damage);
+        if(this.getOwner() instanceof Entity owner){
+            result.getEntity().hurt(this.damageSources().arrow(this,owner),damage);
+        } else {
+            result.getEntity().hurt(this.damageSources().arrow(this,null),damage);
         }
     }
 
+    @Override
+    protected void onHit(HitResult result) {
+        super.onHit(result);
+        this.kill();
+    }
 
-    // still crashes cuz no renderer
+    @Override
+    public void tick() {
+        super.tick();
+
+        if(this.onGround()){
+            this.kill();
+        }
+    }
+
+    @Override
+    protected ItemStack getDefaultPickupItem() {
+        return new ItemStack(Items.IRON_NUGGET);
+    }
+
+
+
 }
