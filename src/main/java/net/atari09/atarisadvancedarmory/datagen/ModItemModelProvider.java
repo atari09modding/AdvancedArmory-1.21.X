@@ -106,6 +106,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         rapier(ModItems.DIAMOND_RAPIER);
         rapier(ModItems.NETHERITE_RAPIER);
 
+        // ARROW
+        basicItem(ModItems.SHRAPNEL_ARROW.get());
+
 
 
     }
