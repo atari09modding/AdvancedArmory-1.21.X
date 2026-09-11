@@ -101,6 +101,7 @@ public static final Supplier<CreativeModeTab> SMITHING_TAB = CREATIVE_MODE_TAB.r
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.SCABBARD);
                         output.accept(ModItems.QUIVER);
+                        output.accept(ModItems.SHRAPNEL_ARROW);
                     }).build());
 
 

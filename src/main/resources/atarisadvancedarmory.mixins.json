@@ -3,6 +3,7 @@
   "package": "net.atari09.atarisadvancedarmory.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractArrowAccessor",
     "EnchantCommandMixin",
     "EnchantmentMixin",
     "PlayerMixin",

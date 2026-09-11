@@ -1,9 +1,7 @@
 package net.atari09.atarisadvancedarmory.entity.custom.projectile;
 
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
-import net.atari09.atarisadvancedarmory.entity.custom.BlockProjectileEntity;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -12,15 +10,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SimpleExplosionDamageCalculator;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class ShrapnelArrow extends CustomArrowEntity {
+public class ShrapnelArrow extends AbstractArrow {
     private static final ExplosionDamageCalculator EXPLOSION_DAMAGE_CALCULATOR = new SimpleExplosionDamageCalculator(true,true, Optional.of(2f),Optional.empty());
 
     public ShrapnelArrow(EntityType<ShrapnelArrow> entityType, Level level) {
@@ -140,8 +136,4 @@ public class ShrapnelArrow extends CustomArrowEntity {
 
     }
 
-    @Override
-    public void setWeapon(@Nullable ItemStack stack) {
-        this.
-    }
 }

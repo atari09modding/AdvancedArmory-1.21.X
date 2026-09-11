@@ -6,6 +6,7 @@ import net.atari09.atarisadvancedarmory.item.custom.ModAxeItem;
 import net.atari09.atarisadvancedarmory.item.custom.ModMaceItem;
 import net.atari09.atarisadvancedarmory.item.custom.ModSwordItem;
 import net.atari09.atarisadvancedarmory.item.custom.ScytheItem;
+import net.atari09.atarisadvancedarmory.item.custom.arrow.CustomArrow;
 import net.atari09.atarisadvancedarmory.util.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -14,7 +15,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosTags;
@@ -52,6 +52,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 tag(ItemTags.HOES).add(item);
                 tag(ModTags.Items.SCYTHES).add(item);
             }
+
+            if(item instanceof CustomArrow){
+                tag(ItemTags.ARROWS).add(item);
+
+            }
         });
 
         tag(ModTags.Items.FITS_IN_SCABBARD).addTags(
@@ -71,6 +76,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.QUIVER.get());
         tag(CuriosTags.BELT)
                 .add(ModItems.SCABBARD.get());
+
+
 
 
     }
