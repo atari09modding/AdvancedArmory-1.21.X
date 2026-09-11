@@ -58,8 +58,10 @@
   "item.atarisadvancedarmory.scabbard" : "Scabbard",
   "item.atarisadvancedarmory.quiver" : "Quiver",
 
+  "item.atarisadvancedarmory.shrapnel_arrow" : "Shrapnel Arrow",
+
   "creativetab.atarisadvancedarmory.smithing_tab" : "Smithing",
-  "creativetab.atarisadvancedarmory.armory_tab" : "Ataris Advanced Armory",
+  "creativetab.atarisadvancedarmory.armory_tab" : "Armory",
   "creativetab.atarisadvancedarmory.other" : "Other",
 
   "key.category.atarisadvancedarmory.atari" : "Ataris Advanced Armory",

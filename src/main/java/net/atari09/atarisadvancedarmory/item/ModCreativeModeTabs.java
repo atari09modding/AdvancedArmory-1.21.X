@@ -98,6 +98,7 @@ public static final Supplier<CreativeModeTab> SMITHING_TAB = CREATIVE_MODE_TAB.r
     public static final Supplier<CreativeModeTab> OTHER = CREATIVE_MODE_TAB.register("other",
             ()-> CreativeModeTab.builder()
                     .icon(()->new ItemStack(ModItems.SCABBARD.get()))
+                    .title(Component.translatable("creativetab.atarisadvancedarmory.other"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.SCABBARD);
                         output.accept(ModItems.QUIVER);
