@@ -16,10 +16,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class ShrapnelArrow extends AbstractArrow {
+public class ShrapnelArrow extends CustomArrowEntity {
     private static final ExplosionDamageCalculator EXPLOSION_DAMAGE_CALCULATOR = new SimpleExplosionDamageCalculator(true,true, Optional.of(2f),Optional.empty());
 
     public ShrapnelArrow(EntityType<ShrapnelArrow> entityType, Level level) {
@@ -137,5 +138,10 @@ public class ShrapnelArrow extends AbstractArrow {
 
 
 
+    }
+
+    @Override
+    public void setWeapon(@Nullable ItemStack stack) {
+        this.
     }
 }
