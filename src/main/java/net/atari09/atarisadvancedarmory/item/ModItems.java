@@ -3,6 +3,7 @@ package net.atari09.atarisadvancedarmory.item;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.RopeArrow;
 import net.atari09.atarisadvancedarmory.entity.custom.projectile.ShrapnelArrow;
 import net.atari09.atarisadvancedarmory.entity.custom.projectile.SmokeArrow;
 import net.atari09.atarisadvancedarmory.item.custom.*;
@@ -176,6 +177,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> SMOKE_ARROW = ITEMS.register("smoke_arrow",
             ()->new CustomArrow<SmokeArrow>(new Item.Properties(), ModEntities.SMOKE_ARROW));
+
+    public static final DeferredItem<Item> ROPE_ARROW = ITEMS.register("rope_arrow",
+            ()->new CustomArrow<RopeArrow>(new Item.Properties(), ModEntities.ROPE_ARROW));
 
     //OTHER
 

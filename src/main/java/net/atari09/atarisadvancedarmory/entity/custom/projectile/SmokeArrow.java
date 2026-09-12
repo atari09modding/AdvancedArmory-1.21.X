@@ -16,7 +16,7 @@ public class SmokeArrow extends AbstractArrow {
         super(entityType, level);
     }
 
-    private int smoketime = 20;
+    private int smoketime = 60;
     private boolean hit = false;
 
 

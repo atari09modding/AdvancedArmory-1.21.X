@@ -19,7 +19,7 @@ public class ShrapnelSplinterProjectile extends AbstractArrow {
     private float damage;
     public ShrapnelSplinterProjectile(EntityType<ShrapnelSplinterProjectile> entityType, Level level) {
         super(entityType, level);
-        this.damage = 2;
+        this.damage = 5;
     }
 
     public ShrapnelSplinterProjectile(Player player, Level level, double x, double y, double z) {

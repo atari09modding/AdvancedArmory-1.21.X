@@ -128,6 +128,7 @@ public class AtarisAdvancedArmory {
             EntityRenderers.register(ModEntities.SHRAPNEL_ARROW.get(), ShrapnelArrowRenderer::new);
             EntityRenderers.register(ModEntities.SHRAPNEL_SPLINTER.get(), ShrapnelSplinterProjectileRenderer::new);
             EntityRenderers.register(ModEntities.SMOKE_ARROW.get(), BasicCustomArrowRenderer::new);
+            EntityRenderers.register(ModEntities.ROPE_ARROW.get(), BasicCustomArrowRenderer::new);
 
             event.enqueueWork(()->{
                 PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(res("fly"), 1500,

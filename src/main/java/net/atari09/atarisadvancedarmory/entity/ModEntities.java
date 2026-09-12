@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.entity;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.entity.custom.BlockProjectileEntity;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.RopeArrow;
 import net.atari09.atarisadvancedarmory.entity.custom.projectile.ShrapnelArrow;
 import net.atari09.atarisadvancedarmory.entity.custom.projectile.ShrapnelSplinterProjectile;
 import net.atari09.atarisadvancedarmory.entity.custom.projectile.SmokeArrow;
@@ -29,9 +30,13 @@ public class ModEntities {
             ()->EntityType.Builder.<SmokeArrow>of(SmokeArrow::new,MobCategory.MISC).sized(0.5f,0.5f)
                     .build("smoke_arrow"));
 
+    public static final Supplier<EntityType<RopeArrow>> ROPE_ARROW = ENTITY_TYPES.register("rope_arrow",
+            ()->EntityType.Builder.<RopeArrow>of(RopeArrow::new,MobCategory.MISC).sized(0.5f,0.5f)
+                    .build("rope_arrow"));
+
     public static final Supplier<EntityType<ShrapnelSplinterProjectile>> SHRAPNEL_SPLINTER = ENTITY_TYPES.register("shrapnel_splinter",
             ()->EntityType.Builder.<ShrapnelSplinterProjectile>of(ShrapnelSplinterProjectile::new,MobCategory.MISC).sized(0.5f,0.5f)
-                    .build("shrapnel_arrow"));
+                    .build("shrapnel_splinter"));
 
 
     public static void register(IEventBus eventBus){

@@ -10,6 +10,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +22,10 @@ public class CustomArrow<T extends AbstractArrow> extends ArrowItem {
     public CustomArrow(Properties properties, Supplier<EntityType<T>> arrow) {
         super(properties);
         this.arrow = arrow;
+        DispenserBlock.registerProjectileBehavior(this);
     }
+
+
 
     @Override
     public AbstractArrow createArrow(Level level, ItemStack ammo, LivingEntity shooter, @Nullable ItemStack weapon) {
@@ -40,4 +44,6 @@ public class CustomArrow<T extends AbstractArrow> extends ArrowItem {
         a.setPos(pos.x(), pos.y(), pos.z());
         return a;
     }
+
+
 }
