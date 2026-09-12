@@ -26,7 +26,9 @@ public class RopeArrow extends AbstractArrow {
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
         Entity owner = this.getOwner();
-
+        if(owner instanceof Leashable l){
+            l.setLeashedTo(this,true);
+        }
     }
 
     @Override

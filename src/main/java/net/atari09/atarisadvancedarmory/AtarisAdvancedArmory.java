@@ -1,4 +1,4 @@
-package net.atari09.atarisadvancedarmory;
+        package net.atari09.atarisadvancedarmory;
 
 import com.zigythebird.playeranim.animation.PlayerAnimationController;
 import com.zigythebird.playeranim.api.PlayerAnimationFactory;

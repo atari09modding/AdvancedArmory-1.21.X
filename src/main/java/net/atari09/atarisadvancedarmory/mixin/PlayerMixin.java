@@ -8,13 +8,17 @@ import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.custom.ScytheItem;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.entity.player.SweepAttackEvent;
+import org.spongepowered.asm.mixin.Implements;
+import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,10 +26,25 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import javax.annotation.Nullable;
+
 @Mixin(Player.class)
-public class PlayerMixin {
+//@Implements(@Interface(iface = Leashable.class, prefix = "leashable$"))
+public abstract class PlayerMixin implements Leashable {
 
+    @Unique
+    @Nullable
+    private Leashable.LeashData atarisadvancedarmory$leashData;
 
+    @Override
+    public Leashable.LeashData getLeashData() {
+        return this.atarisadvancedarmory$leashData;
+    }
+
+    @Override
+    public void setLeashData(@Nullable Leashable.LeashData leashData) {
+        this.atarisadvancedarmory$leashData = leashData;
+    }
 
     @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/common/CommonHooks;fireCriticalHit(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/entity/Entity;ZF)Lnet/neoforged/neoforge/event/entity/player/CriticalHitEvent;"))
     private static CriticalHitEvent overrideCrit(Player player, Entity target, boolean vanillaCritical, float damageModifier){
@@ -43,6 +62,8 @@ public class PlayerMixin {
         }
     }
 
+
+
     @Inject(method = "tick", at = @At(value = "TAIL"))
     private  void specialFlyAnim(CallbackInfo ci){
 
@@ -58,6 +79,22 @@ public class PlayerMixin {
             }
         }
 
+    }
+
+    @SuppressWarnings("unchecked")
+    @Inject(method = "tick", at = @At(value = "TAIL"))
+    private <E extends Entity & Leashable> void  leashActions(CallbackInfo ci){
+        Leashable.tickLeash(((E)(Object) this);
+    }
+
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    private void saveLeash(CompoundTag tag, CallbackInfo ci) {
+        this.writeLeashData(tag, this.atarisadvancedarmory$leashData);
+    }
+
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    private void loadLeash(CompoundTag tag, CallbackInfo ci) {
+        this.atarisadvancedarmory$leashData = this.readLeashData(tag);
     }
 
     @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/event/entity/player/SweepAttackEvent;isSweeping()Z"))
