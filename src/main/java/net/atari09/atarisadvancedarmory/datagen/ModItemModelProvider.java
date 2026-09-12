@@ -108,6 +108,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         // ARROW
         basicItem(ModItems.SHRAPNEL_ARROW.get());
+        withExistingParent(ModItems.SMOKE_ARROW.getId().getPath(),mcLoc("item/arrow"));
 
 
 

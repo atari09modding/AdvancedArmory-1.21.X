@@ -10,9 +10,11 @@ import net.atari09.atarisadvancedarmory.block.entity.renderer.ArchersTableBlockE
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
+import net.atari09.atarisadvancedarmory.entity.client.BasicCustomArrowRenderer;
 import net.atari09.atarisadvancedarmory.entity.client.BlockProjectileEntityRenderer;
 import net.atari09.atarisadvancedarmory.entity.client.ShrapnelArrowRenderer;
 import net.atari09.atarisadvancedarmory.entity.client.ShrapnelSplinterProjectileRenderer;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.SmokeArrow;
 import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.client.AbilityCooldownDecorator;
@@ -29,7 +31,9 @@ import net.atari09.atarisadvancedarmory.screen.custom.ArchersTableScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.atari09.atarisadvancedarmory.util.ModItemProperties;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.TippableArrowRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
@@ -123,6 +127,7 @@ public class AtarisAdvancedArmory {
             EntityRenderers.register(ModEntities.BLOCK_PROJECTILE_ENTITY.get(), BlockProjectileEntityRenderer::new);
             EntityRenderers.register(ModEntities.SHRAPNEL_ARROW.get(), ShrapnelArrowRenderer::new);
             EntityRenderers.register(ModEntities.SHRAPNEL_SPLINTER.get(), ShrapnelSplinterProjectileRenderer::new);
+            EntityRenderers.register(ModEntities.SMOKE_ARROW.get(), BasicCustomArrowRenderer::new);
 
             event.enqueueWork(()->{
                 PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(res("fly"), 1500,

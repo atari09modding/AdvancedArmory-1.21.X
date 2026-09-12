@@ -27,7 +27,7 @@ public class CustomArrow<T extends AbstractArrow> extends ArrowItem {
     public AbstractArrow createArrow(Level level, ItemStack ammo, LivingEntity shooter, @Nullable ItemStack weapon) {
         AbstractArrow a = arrow.get().create(level);
         Vec3 pos = shooter.position();
-        pos = new Vec3(pos.x,shooter.getEyeY()-1f,pos.z);
+        pos = new Vec3(pos.x,shooter.getEyeY(),pos.z);
         a.setPos(pos);
         a.setOwner(shooter);
         ((AbstractArrowAccessor) a).setFiredFromWeaopn(weapon);

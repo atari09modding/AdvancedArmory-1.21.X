@@ -70,7 +70,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 new ItemStack(Items.SPECTRAL_ARROW,64),
                 Ingredient.of(Items.ARROW),
                 Ingredient.of(Items.GLOW_BERRIES,Items.GLOW_INK_SAC),
-                Ingredient.of(Items.GLOW_BERRIES,Items.GLOW_INK_SAC)
+                Ingredient.EMPTY
+        ).unlockedBy("has_glow_berries",has(Items.GLOW_BERRIES)).save(recipeOutput);
+
+        new ArchersTableRecipeBuilder(
+                new ItemStack(ModItems.SHRAPNEL_ARROW.get(),64),
+                Ingredient.of(Items.ARROW),
+                Ingredient.of(Items.IRON_INGOT),
+                Ingredient.of(Items.GUNPOWDER)
+        ).unlockedBy("has_glow_berries",has(Items.GLOW_BERRIES)).save(recipeOutput);
+
+        new ArchersTableRecipeBuilder(
+                new ItemStack(ModItems.SHRAPNEL_ARROW.get(),64),
+                Ingredient.of(Items.ARROW),
+                Ingredient.of(Items.PAPER),
+                Ingredient.of(Items.GUNPOWDER)
         ).unlockedBy("has_glow_berries",has(Items.GLOW_BERRIES)).save(recipeOutput);
 
 
