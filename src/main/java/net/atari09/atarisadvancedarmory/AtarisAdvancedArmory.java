@@ -10,10 +10,7 @@ import net.atari09.atarisadvancedarmory.block.entity.renderer.ArchersTableBlockE
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
-import net.atari09.atarisadvancedarmory.entity.client.BasicCustomArrowRenderer;
-import net.atari09.atarisadvancedarmory.entity.client.BlockProjectileEntityRenderer;
-import net.atari09.atarisadvancedarmory.entity.client.ShrapnelArrowRenderer;
-import net.atari09.atarisadvancedarmory.entity.client.ShrapnelSplinterProjectileRenderer;
+import net.atari09.atarisadvancedarmory.entity.client.*;
 import net.atari09.atarisadvancedarmory.entity.custom.projectile.SmokeArrow;
 import net.atari09.atarisadvancedarmory.item.ModCreativeModeTabs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
@@ -129,6 +126,7 @@ public class AtarisAdvancedArmory {
             EntityRenderers.register(ModEntities.SHRAPNEL_SPLINTER.get(), ShrapnelSplinterProjectileRenderer::new);
             EntityRenderers.register(ModEntities.SMOKE_ARROW.get(), BasicCustomArrowRenderer::new);
             EntityRenderers.register(ModEntities.ROPE_ARROW.get(), BasicCustomArrowRenderer::new);
+            EntityRenderers.register(ModEntities.ROPE.get(), RopeEntityRenderer::new);
 
             event.enqueueWork(()->{
                 PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(res("fly"), 1500,

@@ -5,11 +5,9 @@ import com.zigythebird.playeranim.animation.PlayerAnimationController;
 import com.zigythebird.playeranim.api.PlayerAnimationAccess;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.client.ScreenShake;
-import net.atari09.atarisadvancedarmory.component.ContainerItemContent;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
-import net.atari09.atarisadvancedarmory.item.custom.QuiverItem;
-import net.atari09.atarisadvancedarmory.mixin.LivingEntityRendererInvoker;
+import net.atari09.atarisadvancedarmory.mixin.EntityRendererInvoker;
 import net.atari09.atarisadvancedarmory.network.payload.QuiverInteractPacket;
 import net.atari09.atarisadvancedarmory.network.payload.ScabbardSwapPacket;
 import net.atari09.atarisadvancedarmory.util.KeyBinding;
@@ -150,7 +148,7 @@ public class ModClientEvents {
         if (holder == null) return;
 
         EntityRenderer<?> renderer = mc.getEntityRenderDispatcher().getRenderer(player);
-        if (!(renderer instanceof LivingEntityRendererInvoker invoker)) return;
+        if (!(renderer instanceof EntityRendererInvoker invoker)) return;
 
         PoseStack poseStack = event.getPoseStack();
         Vec3 camPos = event.getCamera().getPosition();

@@ -11,7 +11,7 @@
     "ProjectileWeaponMixin"
   ],
   "client": [
-    "LivingEntityRendererInvoker"
+    "EntityRendererInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

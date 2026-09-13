@@ -1,5 +1,6 @@
 package net.atari09.atarisadvancedarmory.entity.custom.projectile;
 
+import net.atari09.atarisadvancedarmory.entity.custom.RopeEntity;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.minecraft.network.protocol.game.ClientboundSetEntityLinkPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,12 +28,10 @@ public class RopeArrow extends AbstractArrow {
         super.onHitBlock(result);
         if (this.level().isClientSide()) return;
         Entity owner = this.getOwner();
-        if(owner instanceof Leashable l){
-            l.setLeashedTo(this,true);
-            if (owner instanceof ServerPlayer serverPlayer) {
-                serverPlayer.connection.send(new ClientboundSetEntityLinkPacket(owner, this));
-            }
-        }
+        assert owner != null;
+        RopeEntity e = new RopeEntity(level(),this,owner,this.distanceTo(owner)+3f);
+        e.setPos(this.position());
+        level().addFreshEntity(e);
     }
 
     @Override
