@@ -34,17 +34,26 @@ public abstract class PlayerMixin implements Leashable {
 
     @Unique
     @Nullable
-    private Leashable.LeashData atarisadvancedarmory$leashData;
+    private LeashData atarisadvancedarmory$leashData;
 
     @Override
-    public Leashable.LeashData getLeashData() {
+    public LeashData getLeashData() {
         return this.atarisadvancedarmory$leashData;
     }
 
     @Override
-    public void setLeashData(@Nullable Leashable.LeashData leashData) {
+    public void setLeashData(@Nullable LeashData leashData) {
         this.atarisadvancedarmory$leashData = leashData;
     }
+
+    @Override
+    public void elasticRangeLeashBehaviour(Entity leashHolder, float distance) {
+        if(!((Player)(Object) this).isShiftKeyDown()){
+            Leashable.super.elasticRangeLeashBehaviour(leashHolder, distance);
+        }
+    }
+
+
 
     @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/common/CommonHooks;fireCriticalHit(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/entity/Entity;ZF)Lnet/neoforged/neoforge/event/entity/player/CriticalHitEvent;"))
     private static CriticalHitEvent overrideCrit(Player player, Entity target, boolean vanillaCritical, float damageModifier){
@@ -84,7 +93,7 @@ public abstract class PlayerMixin implements Leashable {
     @SuppressWarnings("unchecked")
     @Inject(method = "tick", at = @At(value = "TAIL"))
     private <E extends Entity & Leashable> void  leashActions(CallbackInfo ci){
-        Leashable.tickLeash(((E)(Object) this);
+        Leashable.tickLeash(((E)(Object) this));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -107,6 +116,8 @@ public abstract class PlayerMixin implements Leashable {
 
         return instance.isSweeping();
     }
+
+
 
 
 }

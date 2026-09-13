@@ -1,5 +1,6 @@
 package net.atari09.atarisadvancedarmory.event;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.zigythebird.playeranim.animation.PlayerAnimationController;
 import com.zigythebird.playeranim.api.PlayerAnimationAccess;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
@@ -8,13 +9,19 @@ import net.atari09.atarisadvancedarmory.component.ContainerItemContent;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.custom.QuiverItem;
+import net.atari09.atarisadvancedarmory.mixin.LivingEntityRendererInvoker;
 import net.atari09.atarisadvancedarmory.network.payload.QuiverInteractPacket;
 import net.atari09.atarisadvancedarmory.network.payload.ScabbardSwapPacket;
 import net.atari09.atarisadvancedarmory.util.KeyBinding;
 import net.atari09.atarisadvancedarmory.util.ModTags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -23,6 +30,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -126,5 +134,37 @@ public class ModClientEvents {
 
 
         }
+    }
+
+    @SubscribeEvent
+    public static void onRenderLevel(RenderLevelStageEvent event) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES) return;
+
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
+        if (player == null) return;
+        if (!mc.options.getCameraType().isFirstPerson()) return; // Third-Person macht das schon selbst
+
+        if (!(player instanceof Leashable leashable)) return;
+        Entity holder = leashable.getLeashHolder();
+        if (holder == null) return;
+
+        EntityRenderer<?> renderer = mc.getEntityRenderDispatcher().getRenderer(player);
+        if (!(renderer instanceof LivingEntityRendererInvoker invoker)) return;
+
+        PoseStack poseStack = event.getPoseStack();
+        Vec3 camPos = event.getCamera().getPosition();
+
+        poseStack.pushPose();
+        // Position relativ zur Kamera - partialTick-Interpolation ggf. anpassen
+        double x = player.getX() - camPos.x;
+        double y = player.getY() - camPos.y;
+        double z = player.getZ() - camPos.z;
+        poseStack.translate(x, y, z);
+
+        MultiBufferSource buffer = mc.renderBuffers().bufferSource();
+        invoker.invokeRenderLeash(player, event.getPartialTick().getGameTimeDeltaTicks(), poseStack, buffer, holder);
+
+        poseStack.popPose();
     }
 }

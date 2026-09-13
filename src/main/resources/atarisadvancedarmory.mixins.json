@@ -6,10 +6,13 @@
     "AbstractArrowAccessor",
     "EnchantCommandMixin",
     "EnchantmentMixin",
+    "EntityMixin",
     "PlayerMixin",
     "ProjectileWeaponMixin"
   ],
-  "client": [],
+  "client": [
+    "LivingEntityRendererInvoker"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
