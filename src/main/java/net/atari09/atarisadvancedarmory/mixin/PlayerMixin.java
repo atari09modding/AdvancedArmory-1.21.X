@@ -94,7 +94,7 @@ public abstract class PlayerMixin implements Leashable, PlayerInputs {
         }
 
         advancedArmory_1_21_X$ropeSwinging = false;
-        advancedArmory_1_21_X$climbDirection = 0;
+
 
     }
 

@@ -135,10 +135,10 @@ public class ModClientEvents {
 
         }
 
-        if(KeyBinding.ROPE_UP_KEY.isDown()){
+        if(KeyBinding.ROPE_DOWN_KEY.isDown()){
             PacketDistributor.sendToServer(new PlayerInputPacket(PlayerInputPacket.PlayerInput.ROPE_DOWN.id()));
         } else if(KeyBinding.ROPE_UP_KEY.isDown()){
-            PacketDistributor.sendToServer(new PlayerInputPacket(PlayerInputPacket.PlayerInput.ROPE_DOWN.id()));
+            PacketDistributor.sendToServer(new PlayerInputPacket(PlayerInputPacket.PlayerInput.ROPE_UP.id()));
         }
     }
 

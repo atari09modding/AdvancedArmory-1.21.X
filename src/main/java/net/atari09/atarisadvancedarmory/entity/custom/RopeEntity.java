@@ -129,12 +129,13 @@ public class RopeEntity extends Entity {
         if(distance >= length) pull(distance);
 
         if(this.getNonStationaryEntity() instanceof PlayerInputs p){
+            float f = 0.1f;
             if(p.isClimbingRopeDown()){
-                this.setLength(length + 0.05f);
-            } else if (p.isClimbingRopeUp()) {
-                this.setLength(length - 0.05f);
-
+                this.setLength(length + f);
+            } else if (p.isClimbingRopeUp() && !(length <= 0.5f)) {
+                this.setLength(length - f);
             }
+            p.setClimbingRope(0);
         }
 
         if(this.getNonStationaryEntity() instanceof Player player){
