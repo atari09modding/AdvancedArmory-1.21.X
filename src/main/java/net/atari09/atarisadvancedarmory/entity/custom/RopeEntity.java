@@ -138,18 +138,10 @@ public class RopeEntity extends Entity {
         double gravity = -eNonStationary.getGravity()*0.98;
 
         if(length <0.1) return;
-        float move = (distance-length);
         assert eStationary != null;
-        Vec3 velocity = eNonStationary.getDeltaMovement().subtract(ropeDeltaMovementForce).add(0,gravity,0);
-        Vec3 cp = eStationary.position().subtract(eNonStationary.position());
-        double factor = Math.clamp(move/distance,0,1);
-        ropeDeltaMovementForce = cp.scale(factor);
 
-        Vec3 overrideMovement = new Vec3(ropeDeltaMovementForce.add(velocity).x, ropeDeltaMovementForce.add(velocity).y, ropeDeltaMovementForce.add(velocity).z);
-
-
-
-        eNonStationary.setDeltaMovement(overrideMovement);
+        Vec3 velocity = eNonStationary.getDeltaMovement();
+        eNonStationary.setDeltaMovement(clampMovementIntoCircle(eStationary.position(),velocity,eNonStationary.position(),length));
 
 
         eNonStationary.hasImpulse = true;
@@ -158,5 +150,11 @@ public class RopeEntity extends Entity {
             serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
         }
 
+    }
+
+    private Vec3 clampMovementIntoCircle(Vec3 center, Vec3 curr, Vec3 playerPos, float radius){
+        if(center.subtract(playerPos.add(curr)).length() < radius) return curr;
+        Vec3 direction = playerPos.add(curr).subtract(center).normalize();
+        return direction.scale(radius);
     }
 }
