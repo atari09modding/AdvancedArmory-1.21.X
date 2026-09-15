@@ -68,6 +68,8 @@
 
   "key.category.atarisadvancedarmory.atari" : "Ataris Advanced Armory",
   "key.atarisadvancedarmory.pull_weapon_out": "Pull Weapon out",
+  "key.atarisadvancedarmory.rope_up": "Climb Rope Up",
+  "key.atarisadvancedarmory.rope_down": "Climb Rope Down",
 
   "atarisadvancedarmory.specialsmithingtemplatetype.none" : "Empty",
   "atarisadvancedarmory.specialsmithingtemplatetype.infernal" : "Infernal",

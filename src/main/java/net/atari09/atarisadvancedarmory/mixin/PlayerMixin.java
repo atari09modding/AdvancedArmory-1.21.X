@@ -38,6 +38,9 @@ public abstract class PlayerMixin implements Leashable, PlayerInputs {
     @Unique
     private boolean advancedArmory_1_21_X$ropeSwinging = false;
 
+    @Unique
+    private int advancedArmory_1_21_X$climbDirection = 0;
+
     @Override
     public LeashData getLeashData() {
         return this.atarisadvancedarmory$leashData;
@@ -91,6 +94,7 @@ public abstract class PlayerMixin implements Leashable, PlayerInputs {
         }
 
         advancedArmory_1_21_X$ropeSwinging = false;
+        advancedArmory_1_21_X$climbDirection = 0;
 
     }
 
@@ -129,6 +133,21 @@ public abstract class PlayerMixin implements Leashable, PlayerInputs {
     @Override
     public void setRopeSwinging(boolean b) {
         this.advancedArmory_1_21_X$ropeSwinging = b;
+    }
+
+    @Override
+    public boolean isClimbingRopeUp() {
+        return advancedArmory_1_21_X$climbDirection == 1;
+    }
+
+    @Override
+    public boolean isClimbingRopeDown() {
+        return advancedArmory_1_21_X$climbDirection == -1;
+    }
+
+    @Override
+    public void setClimbingRope(int i) {
+        advancedArmory_1_21_X$climbDirection = i;
     }
 }
 

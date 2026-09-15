@@ -25,7 +25,9 @@ public record PlayerInputPacket(int id) implements CustomPacketPayload {
     }
 
     public enum PlayerInput {
-        W(1);
+        W(1),
+        ROPE_UP(2),
+        ROPE_DOWN(3);
 
         private final int id;
         PlayerInput(int id){

@@ -54,6 +54,8 @@ public class ModClientEvents {
     @SubscribeEvent
     public static void onKeyRegister(RegisterKeyMappingsEvent event){
         event.register(KeyBinding.PULL_WEAPON_OUT_KEY);
+        event.register(KeyBinding.ROPE_DOWN_KEY);
+        event.register(KeyBinding.ROPE_UP_KEY);
 
     }
 
@@ -131,8 +133,12 @@ public class ModClientEvents {
             }
 
 
+        }
 
-
+        if(KeyBinding.ROPE_UP_KEY.isDown()){
+            PacketDistributor.sendToServer(new PlayerInputPacket(PlayerInputPacket.PlayerInput.ROPE_DOWN.id()));
+        } else if(KeyBinding.ROPE_UP_KEY.isDown()){
+            PacketDistributor.sendToServer(new PlayerInputPacket(PlayerInputPacket.PlayerInput.ROPE_DOWN.id()));
         }
     }
 
