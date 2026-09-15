@@ -1,5 +1,6 @@
 package net.atari09.atarisadvancedarmory.entity.custom;
 
+import net.atari09.atarisadvancedarmory.component.Ropeable;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -9,10 +10,10 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.openjdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -30,7 +31,8 @@ public class RopeEntity extends Entity {
     private UUID stationaryEntityUuid;
     @Nullable private UUID nonStationaryEntityUuid;
     private float length;
-    private Vec3 ropeDeltaMovementForce = new Vec3(0,0,0);
+    private Vec3 position = new Vec3(0,0,0);
+
 
 
     public RopeEntity(Level level, Entity stationaryEntity, Entity nonStationaryEntity, float length) {
@@ -38,6 +40,10 @@ public class RopeEntity extends Entity {
         this.setStationaryEntity(stationaryEntity);
         this.setNonStationaryEntity(nonStationaryEntity);
         this.setLength(length);
+        if(nonStationaryEntity instanceof Ropeable r) {
+            r.setOnRope(true);
+            r.setRopeCenter(stationaryEntity.position());
+        }
     }
 
     public RopeEntity(EntityType<RopeEntity> ropeEntityEntityType, Level level) {
@@ -53,6 +59,7 @@ public class RopeEntity extends Entity {
         this.nonStationaryEntityUuid = entity.getUUID();
         this.entityData.set(DATA_ENTITY2_ID, entity.getId());
     }
+
 
     public void setLength(float len){
         this.length = len;
@@ -99,9 +106,12 @@ public class RopeEntity extends Entity {
         compound.putFloat("length", this.length);
     }
 
+
     @Override
     public void tick() {
         super.tick();
+        if(this.getStationaryEntity().position() != null) this.position = this.getStationaryEntity().position();
+        this.moveTo(position);
         if (this.entityData.get(DATA_ENTITY1_ID) == -1 && this.stationaryEntityUuid != null
                 && this.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
             Entity found = serverLevel.getEntity(this.stationaryEntityUuid);
@@ -118,11 +128,13 @@ public class RopeEntity extends Entity {
             return;
         }
 
+
         float distance = this.getStationaryEntity().distanceTo(this.getNonStationaryEntity());
         if(distance >= length) pull(distance);
 
         if(this.getNonStationaryEntity() instanceof Player player){
             if(player.isShiftKeyDown()){
+                if(player instanceof Ropeable r) r.setOnRope(false);
                 this.discard();
             }
         }
@@ -140,8 +152,38 @@ public class RopeEntity extends Entity {
         if(length <0.1) return;
         assert eStationary != null;
 
-        Vec3 velocity = eNonStationary.getDeltaMovement();
-        eNonStationary.setDeltaMovement(clampMovementIntoCircle(eStationary.position(),velocity,eNonStationary.position(),length));
+        Vec3 velocity = eNonStationary.getDeltaMovement().add(0,gravity*0.2,0);
+        Vec3 center = eStationary.position();
+        Vec3 pos = eNonStationary.position();
+
+        // Radiale Richtung (vom Zentrum zum Spieler)
+        Vec3 radial = pos.subtract(center);
+        double currentDist = radial.length();
+        if (currentDist < 1e-4) {
+            eNonStationary.setDeltaMovement(velocity);
+            return;
+        }
+        Vec3 radialDir = radial.scale(1.0 / currentDist);
+
+        // Nur relevant, wenn wir AM oder ÜBER dem Radius sind
+        if (currentDist >= length) {
+            // Radiale Komponente der Velocity (positiv = bewegt sich nach außen)
+            double radialSpeed = velocity.dot(radialDir);
+            if (radialSpeed > 0) {
+                // Nur die nach-außen-gerichtete Komponente abziehen, Rest (tangential) bleibt erhalten
+                velocity = velocity.subtract(radialDir.scale(radialSpeed));
+            }
+            // Falls schon leicht über dem Radius (durch vorherige Ticks), sanft zurückkorrigieren
+            double overshoot = currentDist - length;
+            if (overshoot > 0) {
+                Vec3 correctedPos = center.add(radialDir.scale(length));
+                eNonStationary.setPos(correctedPos.x, correctedPos.y, correctedPos.z);
+            }
+        }
+
+        eNonStationary.setDeltaMovement(velocity);
+
+
 
 
         eNonStationary.hasImpulse = true;
@@ -152,9 +194,4 @@ public class RopeEntity extends Entity {
 
     }
 
-    private Vec3 clampMovementIntoCircle(Vec3 center, Vec3 curr, Vec3 playerPos, float radius){
-        if(center.subtract(playerPos.add(curr)).length() < radius) return curr;
-        Vec3 direction = playerPos.add(curr).subtract(center).normalize();
-        return direction.scale(radius);
-    }
 }

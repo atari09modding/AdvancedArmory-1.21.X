@@ -5,6 +5,7 @@ import com.zigythebird.playeranim.animation.PlayerAnimationController;
 import com.zigythebird.playeranim.api.PlayerAnimationAccess;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
+import net.atari09.atarisadvancedarmory.component.Ropeable;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.custom.ScytheItem;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -14,11 +15,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.entity.player.SweepAttackEvent;
-import org.spongepowered.asm.mixin.Implements;
-import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,11 +30,16 @@ import javax.annotation.Nullable;
 
 @Mixin(Player.class)
 //@Implements(@Interface(iface = Leashable.class, prefix = "leashable$"))
-public abstract class PlayerMixin implements Leashable {
+public abstract class PlayerMixin implements Leashable, Ropeable {
 
     @Unique
     @Nullable
     private LeashData atarisadvancedarmory$leashData;
+
+    @Unique
+    private boolean isOnRope = false;
+    @Unique
+    private Vec3 ropeCenter;
 
     @Override
     public LeashData getLeashData() {
@@ -117,8 +122,34 @@ public abstract class PlayerMixin implements Leashable {
         return instance.isSweeping();
     }
 
+    @Unique
+    public boolean advancedArmory_1_21_X$isOnRope(){
+        return this.isOnRope;
+    }
 
+    @Unique
+    public void advancedArmory_1_21_X$setOnRope(boolean b){
+        this.isOnRope = b;
+    }
 
+    @Override
+    public boolean isOnRope() {
+        return isOnRope;
+    }
 
+    @Override
+    public void setOnRope(boolean b) {
+        isOnRope = b;
+    }
+
+    @Override
+    public Vec3 getRopeCenter() {
+        return ropeCenter;
+    }
+
+    @Override
+    public void setRopeCenter(Vec3 center) {
+        ropeCenter = center;
+    }
 }
 

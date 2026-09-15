@@ -6,8 +6,10 @@ import com.zigythebird.playeranim.api.PlayerAnimationAccess;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.client.ScreenShake;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
+import net.atari09.atarisadvancedarmory.component.Ropeable;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.mixin.EntityRendererInvoker;
+import net.atari09.atarisadvancedarmory.mixin.PlayerMixin;
 import net.atari09.atarisadvancedarmory.network.payload.QuiverInteractPacket;
 import net.atari09.atarisadvancedarmory.network.payload.ScabbardSwapPacket;
 import net.atari09.atarisadvancedarmory.util.KeyBinding;
@@ -26,10 +28,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.network.PacketDistributor;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -59,6 +58,22 @@ public class ModClientEvents {
 
     }
 
+    public static void onClientTick(ClientTickEvent event){
+        Minecraft mc = Minecraft.getInstance();
+        if(mc.options.keyUp.isDown() && mc.player != null){
+            Player player = mc.player;
+
+            if(player instanceof Ropeable r){
+                if(r.isOnRope() && !player.onGround()){
+                    Vec3 toCenter = r.getRopeCenter().subtract(player.position()).normalize();
+                    Vec3 look = player.getLookAngle();
+                    Vec3 tangential = look.subtract(toCenter.scale(look.dot(toCenter))).normalize();
+                    player.addDeltaMovement(tangential.scale(1));
+                }
+            }
+        }
+    }
+
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event){
@@ -76,6 +91,7 @@ public class ModClientEvents {
                     }
                 }
             }
+
         }
 
         if (KeyBinding.PULL_WEAPON_OUT_KEY.consumeClick()){
