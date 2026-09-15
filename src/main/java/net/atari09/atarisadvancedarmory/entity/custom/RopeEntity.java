@@ -147,7 +147,7 @@ public class RopeEntity extends Entity {
         if(length <0.1) return;
         assert eStationary != null;
 
-        Vec3 velocity = eNonStationary.getDeltaMovement().add(0,gravity*0.2,0);
+        Vec3 velocity = eNonStationary.getDeltaMovement();//.add(0,gravity*0.2,0);
         Vec3 center = eStationary.position();
         Vec3 pos = eNonStationary.position();
 
@@ -173,8 +173,9 @@ public class RopeEntity extends Entity {
             // Falls schon leicht über dem Radius (durch vorherige Ticks), sanft zurückkorrigieren
             double overshoot = currentDist - length;
             if (overshoot > 0) {
-                Vec3 correctedPos = center.add(radialDir.scale(length));
-                eNonStationary.setPos(correctedPos.x, correctedPos.y, correctedPos.z);
+                double correctionStrength = 0.1; // experimentell anpassen, 0.05-0.2 als Startbereich
+                velocity = velocity.subtract(radialDir.scale(overshoot * correctionStrength));
+
             }
         }
 
