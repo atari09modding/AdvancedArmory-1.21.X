@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Leashable;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -17,6 +18,8 @@ public class RopeArrow extends AbstractArrow {
     public RopeArrow(EntityType<? extends AbstractArrow> entityType, Level level) {
         super(entityType, level);
     }
+
+    private boolean canDespawn = false;
 
     @Override
     protected ItemStack getDefaultPickupItem() {
@@ -46,5 +49,19 @@ public class RopeArrow extends AbstractArrow {
                 serverPlayer.connection.send(new ClientboundSetEntityLinkPacket(target, owner));
             }
         }
+    }
+
+    @Override
+    protected boolean tryPickup(Player player) {
+        return false;
+    }
+
+    @Override
+    protected void tickDespawn() {
+        if(canDespawn) super.tickDespawn();
+    }
+
+    public void enableDespawn(){
+        this.canDespawn = true;
     }
 }

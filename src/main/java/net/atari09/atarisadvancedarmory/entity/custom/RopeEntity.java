@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.entity.custom;
 
 import net.atari09.atarisadvancedarmory.component.PlayerInputs;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.RopeArrow;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -141,6 +142,7 @@ public class RopeEntity extends Entity {
         if(this.getNonStationaryEntity() instanceof Player player){
             if(player.isShiftKeyDown()){
                 this.discard();
+                if(this.getStationaryEntity() instanceof RopeArrow r) r.enableDespawn();
             }
         }
 
