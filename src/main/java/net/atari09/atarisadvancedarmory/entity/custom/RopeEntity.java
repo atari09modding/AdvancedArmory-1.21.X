@@ -42,7 +42,6 @@ public class RopeEntity extends Entity {
         this.setLength(length);
         if(nonStationaryEntity instanceof Ropeable r) {
             r.setOnRope(true);
-            r.setRopeCenter(stationaryEntity.position());
         }
     }
 
@@ -112,6 +111,9 @@ public class RopeEntity extends Entity {
         super.tick();
         if(this.getStationaryEntity().position() != null) this.position = this.getStationaryEntity().position();
         this.moveTo(position);
+        if(this.getNonStationaryEntity() instanceof Ropeable r){
+            r.setRopeCenter(position);
+        }
         if (this.entityData.get(DATA_ENTITY1_ID) == -1 && this.stationaryEntityUuid != null
                 && this.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
             Entity found = serverLevel.getEntity(this.stationaryEntityUuid);
