@@ -168,6 +168,7 @@ public class AtarisAdvancedArmory {
             registrar.playToClient(ScreenShakePacket.TYPE,ScreenShakePacket.STREAM_CODEC, ScreenShakePacketHandler::handle);
             registrar.playToServer(ScabbardSwapPacket.TYPE, ScabbardSwapPacket.STREAM_CODEC, ScabbardSwapHandler::handle);
             registrar.playToServer(QuiverInteractPacket.TYPE, QuiverInteractPacket.STREAM_CODEC, QuiverInteractHandler::handle);
+            registrar.playToServer(PlayerInputPacket.TYPE, PlayerInputPacket.STREAM_CODEC, PlayerInputPacketHandler::handle);
         }
 
         @SubscribeEvent

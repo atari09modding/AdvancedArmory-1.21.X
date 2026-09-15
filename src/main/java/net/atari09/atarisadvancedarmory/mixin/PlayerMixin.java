@@ -5,7 +5,7 @@ import com.zigythebird.playeranim.animation.PlayerAnimationController;
 import com.zigythebird.playeranim.api.PlayerAnimationAccess;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
-import net.atari09.atarisadvancedarmory.component.Ropeable;
+import net.atari09.atarisadvancedarmory.component.PlayerInputs;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.item.custom.ScytheItem;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -15,7 +15,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.entity.player.SweepAttackEvent;
@@ -30,16 +29,14 @@ import javax.annotation.Nullable;
 
 @Mixin(Player.class)
 //@Implements(@Interface(iface = Leashable.class, prefix = "leashable$"))
-public abstract class PlayerMixin implements Leashable, Ropeable {
+public abstract class PlayerMixin implements Leashable, PlayerInputs {
 
     @Unique
     @Nullable
     private LeashData atarisadvancedarmory$leashData;
 
     @Unique
-    private boolean isOnRope = false;
-    @Unique
-    private Vec3 ropeCenter;
+    private boolean advancedArmory_1_21_X$ropeSwinging = false;
 
     @Override
     public LeashData getLeashData() {
@@ -93,6 +90,8 @@ public abstract class PlayerMixin implements Leashable, Ropeable {
             }
         }
 
+        advancedArmory_1_21_X$ropeSwinging = false;
+
     }
 
     @SuppressWarnings("unchecked")
@@ -122,34 +121,14 @@ public abstract class PlayerMixin implements Leashable, Ropeable {
         return instance.isSweeping();
     }
 
-    @Unique
-    public boolean advancedArmory_1_21_X$isOnRope(){
-        return this.isOnRope;
-    }
-
-    @Unique
-    public void advancedArmory_1_21_X$setOnRope(boolean b){
-        this.isOnRope = b;
+    @Override
+    public boolean isRopeSwinging() {
+        return advancedArmory_1_21_X$ropeSwinging;
     }
 
     @Override
-    public boolean isOnRope() {
-        return isOnRope;
-    }
-
-    @Override
-    public void setOnRope(boolean b) {
-        isOnRope = b;
-    }
-
-    @Override
-    public Vec3 getRopeCenter() {
-        return ropeCenter;
-    }
-
-    @Override
-    public void setRopeCenter(Vec3 center) {
-        ropeCenter = center;
+    public void setRopeSwinging(boolean b) {
+        this.advancedArmory_1_21_X$ropeSwinging = b;
     }
 }
 

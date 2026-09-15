@@ -1,6 +1,6 @@
 package net.atari09.atarisadvancedarmory.entity.custom;
 
-import net.atari09.atarisadvancedarmory.component.Ropeable;
+import net.atari09.atarisadvancedarmory.component.PlayerInputs;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -13,7 +13,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.openjdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -40,9 +39,6 @@ public class RopeEntity extends Entity {
         this.setStationaryEntity(stationaryEntity);
         this.setNonStationaryEntity(nonStationaryEntity);
         this.setLength(length);
-        if(nonStationaryEntity instanceof Ropeable r) {
-            r.setOnRope(true);
-        }
     }
 
     public RopeEntity(EntityType<RopeEntity> ropeEntityEntityType, Level level) {
@@ -109,11 +105,9 @@ public class RopeEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if(this.getStationaryEntity().position() != null) this.position = this.getStationaryEntity().position();
+        if(this.getStationaryEntity() != null) this.position = this.getStationaryEntity().position();
         this.moveTo(position);
-        if(this.getNonStationaryEntity() instanceof Ropeable r){
-            r.setRopeCenter(position);
-        }
+
         if (this.entityData.get(DATA_ENTITY1_ID) == -1 && this.stationaryEntityUuid != null
                 && this.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
             Entity found = serverLevel.getEntity(this.stationaryEntityUuid);
@@ -136,7 +130,6 @@ public class RopeEntity extends Entity {
 
         if(this.getNonStationaryEntity() instanceof Player player){
             if(player.isShiftKeyDown()){
-                if(player instanceof Ropeable r) r.setOnRope(false);
                 this.discard();
             }
         }
@@ -157,6 +150,8 @@ public class RopeEntity extends Entity {
         Vec3 velocity = eNonStationary.getDeltaMovement().add(0,gravity*0.2,0);
         Vec3 center = eStationary.position();
         Vec3 pos = eNonStationary.position();
+
+
 
         // Radiale Richtung (vom Zentrum zum Spieler)
         Vec3 radial = pos.subtract(center);
@@ -184,6 +179,16 @@ public class RopeEntity extends Entity {
         }
 
         eNonStationary.setDeltaMovement(velocity);
+
+        if(eNonStationary instanceof PlayerInputs p && p.isRopeSwinging()){
+            Vec3 toCenter = center.subtract(eNonStationary.position()).normalize();
+            Vec3 look = eNonStationary.getLookAngle();
+            Vec3 tangential = look.subtract(toCenter.scale(look.dot(toCenter))).normalize();
+            eNonStationary.addDeltaMovement(tangential.scale(0.05));
+        }
+
+
+
 
 
 
