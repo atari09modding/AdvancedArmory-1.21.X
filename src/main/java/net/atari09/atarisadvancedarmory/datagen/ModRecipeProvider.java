@@ -94,6 +94,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 Ingredient.EMPTY
         ).unlockedBy("has_leash",has(Items.GUNPOWDER)).save(recipeOutput);
 
+        new ArchersTableRecipeBuilder(
+                new ItemStack(ModItems.ROPE_ARROW.get(),64),
+                Ingredient.of(Items.ARROW),
+                Ingredient.of(Items.TNT),
+                Ingredient.of(ItemTags.BUTTONS)
+        ).unlockedBy("has_leash",has(Items.GUNPOWDER)).save(recipeOutput);
+
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.SCABBARD.get())
                 .pattern(" SL")

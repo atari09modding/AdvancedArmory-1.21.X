@@ -120,13 +120,7 @@ public class AtarisAdvancedArmory {
         @SubscribeEvent
         static void onClientSetup(FMLClientSetupEvent event) {
             ModItemProperties.addCustomProperties();
-
-            EntityRenderers.register(ModEntities.BLOCK_PROJECTILE_ENTITY.get(), BlockProjectileEntityRenderer::new);
-            EntityRenderers.register(ModEntities.SHRAPNEL_ARROW.get(), ShrapnelArrowRenderer::new);
-            EntityRenderers.register(ModEntities.SHRAPNEL_SPLINTER.get(), ShrapnelSplinterProjectileRenderer::new);
-            EntityRenderers.register(ModEntities.SMOKE_ARROW.get(), BasicCustomArrowRenderer::new);
-            EntityRenderers.register(ModEntities.ROPE_ARROW.get(), BasicCustomArrowRenderer::new);
-            EntityRenderers.register(ModEntities.ROPE.get(), RopeEntityRenderer::new);
+            ModEntityRenderers.register();
 
             event.enqueueWork(()->{
                 PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(res("fly"), 1500,

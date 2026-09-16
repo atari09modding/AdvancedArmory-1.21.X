@@ -3,13 +3,11 @@ package net.atari09.atarisadvancedarmory.entity;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.entity.custom.BlockProjectileEntity;
 import net.atari09.atarisadvancedarmory.entity.custom.RopeEntity;
-import net.atari09.atarisadvancedarmory.entity.custom.projectile.RopeArrow;
-import net.atari09.atarisadvancedarmory.entity.custom.projectile.ShrapnelArrow;
-import net.atari09.atarisadvancedarmory.entity.custom.projectile.ShrapnelSplinterProjectile;
-import net.atari09.atarisadvancedarmory.entity.custom.projectile.SmokeArrow;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -23,17 +21,13 @@ public class ModEntities {
             ()->EntityType.Builder.<BlockProjectileEntity>of((e,level)->new BlockProjectileEntity(e,level, Blocks.DIRT.defaultBlockState(),1), MobCategory.MISC).sized(1.0f,1.0f)
                     .build("block_projectile_entity"));
 
-    public static final Supplier<EntityType<ShrapnelArrow>> SHRAPNEL_ARROW = ENTITY_TYPES.register("shrapnel_arrow",
-            ()->EntityType.Builder.<ShrapnelArrow>of(ShrapnelArrow::new,MobCategory.MISC).sized(0.5f,0.5f)
-                    .build("shrapnel_arrow"));
+    public static final Supplier<EntityType<ShrapnelArrow>> SHRAPNEL_ARROW = arrow("shrapnel_arrow",ShrapnelArrow::new);
 
-    public static final Supplier<EntityType<SmokeArrow>> SMOKE_ARROW = ENTITY_TYPES.register("smoke_arrow",
-            ()->EntityType.Builder.<SmokeArrow>of(SmokeArrow::new,MobCategory.MISC).sized(0.5f,0.5f)
-                    .build("smoke_arrow"));
+    public static final Supplier<EntityType<ExplosiveArrow>> EXPLOSIVE_ARROW = arrow("explosive_arrow",ExplosiveArrow::new);
 
-    public static final Supplier<EntityType<RopeArrow>> ROPE_ARROW = ENTITY_TYPES.register("rope_arrow",
-            ()->EntityType.Builder.<RopeArrow>of(RopeArrow::new,MobCategory.MISC).sized(0.5f,0.5f)
-                    .build("rope_arrow"));
+    public static final Supplier<EntityType<SmokeArrow>> SMOKE_ARROW = arrow("smoke_arrow", SmokeArrow::new);
+
+    public static final Supplier<EntityType<RopeArrow>> ROPE_ARROW = arrow("rope_arrow", RopeArrow::new);
 
     public static final Supplier<EntityType<ShrapnelSplinterProjectile>> SHRAPNEL_SPLINTER = ENTITY_TYPES.register("shrapnel_splinter",
             ()->EntityType.Builder.<ShrapnelSplinterProjectile>of(ShrapnelSplinterProjectile::new,MobCategory.MISC).sized(0.5f,0.5f)
@@ -43,6 +37,10 @@ public class ModEntities {
             ()->EntityType.Builder.<RopeEntity>of(RopeEntity::new,MobCategory.MISC).sized(0.5f,0.5f)
                     .build("rope"));
 
+
+    public  static <T extends AbstractArrow>  Supplier<EntityType<T>> arrow(String name, EntityType.EntityFactory<T> s){
+        return  ENTITY_TYPES.register(name,()->EntityType.Builder.<T>of(s,MobCategory.MISC).sized(0.5f,0.5f).build(name));
+    }
 
     public static void register(IEventBus eventBus){
         ENTITY_TYPES.register(eventBus);

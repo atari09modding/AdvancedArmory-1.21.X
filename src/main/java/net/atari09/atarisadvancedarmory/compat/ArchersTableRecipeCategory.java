@@ -55,7 +55,7 @@ public class ArchersTableRecipeCategory implements IRecipeCategory<ArchersTableR
         builder.addSlot(RecipeIngredientRole.INPUT,32,68).addIngredients(recipe.getIngredients().get(1));
         builder.addSlot(RecipeIngredientRole.INPUT,144,43).addIngredients(recipe.getIngredients().get(2));
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT,103,13).addItemStack(recipe.getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.OUTPUT,103,40).addItemStack(recipe.getResultItem(null));
     }
 
     @SuppressWarnings("removal")
