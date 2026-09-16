@@ -108,7 +108,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         // ARROW
         basicItem(ModItems.SHRAPNEL_ARROW.get());
-        withExistingParent(ModItems.SMOKE_ARROW.getId().getPath(),mcLoc("item/arrow"));
+        basicArrow(ModItems.SMOKE_ARROW);
+        basicItem(ModItems.ROPE_ARROW.get());
 
 
 
@@ -395,6 +396,10 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .transform(ItemDisplayContext.FIXED)
                 .rotation(0,180,0).end()
                 .end();
+    }
+
+    private void basicArrow(DeferredItem item){
+        withExistingParent(item.getId().getPath(),mcLoc("item/arrow"));
     }
 
 }
