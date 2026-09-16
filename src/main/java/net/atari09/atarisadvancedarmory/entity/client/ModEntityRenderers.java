@@ -13,5 +13,6 @@ public class ModEntityRenderers {
         EntityRenderers.register(ModEntities.SMOKE_ARROW.get(), BasicCustomArrowRenderer::new);
         EntityRenderers.register(ModEntities.ROPE_ARROW.get(), BasicCustomArrowRenderer::new);
         EntityRenderers.register(ModEntities.ROPE.get(), RopeEntityRenderer::new);
+        EntityRenderers.register(ModEntities.SHULKER_ARROW.get(), ShulkerArrowRenderer::new);
     }
 }

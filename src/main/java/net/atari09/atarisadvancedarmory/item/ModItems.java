@@ -3,10 +3,7 @@ package net.atari09.atarisadvancedarmory.item;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
-import net.atari09.atarisadvancedarmory.entity.custom.projectile.ExplosiveArrow;
-import net.atari09.atarisadvancedarmory.entity.custom.projectile.RopeArrow;
-import net.atari09.atarisadvancedarmory.entity.custom.projectile.ShrapnelArrow;
-import net.atari09.atarisadvancedarmory.entity.custom.projectile.SmokeArrow;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.*;
 import net.atari09.atarisadvancedarmory.item.custom.*;
 import net.atari09.atarisadvancedarmory.item.custom.arrow.CustomArrow;
 import net.atari09.atarisadvancedarmory.item.util.ElementalProperties;
@@ -191,6 +188,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> EXPLOSIVE_ARROW = ITEMS.register("explosive_arrow",
             ()->new CustomArrow<ExplosiveArrow>(new Item.Properties(), ModEntities.EXPLOSIVE_ARROW));
+
+    public static final DeferredItem<Item> SHULKER_ARROW = ITEMS.register("shulker_arrow",
+            ()->new CustomArrow<ShulkerArrow>(new Item.Properties(), ModEntities.SHULKER_ARROW));
 
     //OTHER
 

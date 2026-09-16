@@ -22,13 +22,10 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 public class ExplosiveArrowRenderer extends ArrowRenderer<ExplosiveArrow> {
 
     public static final ResourceLocation NORMAL_ARROW_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/projectiles/arrow.png");
-    public static final ResourceLocation TEXTURE = AtarisAdvancedArmory.res("textures/entity/white.png");
-    private final SimpleCubeModel cubeModel;
 
 
     public ExplosiveArrowRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.cubeModel = new SimpleCubeModel(context.bakeLayer(SimpleCubeModel.LAYER_LOCATION));
 
     }
 

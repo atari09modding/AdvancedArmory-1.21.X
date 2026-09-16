@@ -28,6 +28,7 @@ public class ModEntities {
     public static final Supplier<EntityType<SmokeArrow>> SMOKE_ARROW = arrow("smoke_arrow", SmokeArrow::new);
 
     public static final Supplier<EntityType<RopeArrow>> ROPE_ARROW = arrow("rope_arrow", RopeArrow::new);
+    public static final Supplier<EntityType<ShulkerArrow>> SHULKER_ARROW = arrow("shulker_arrow", ShulkerArrow::new);
 
     public static final Supplier<EntityType<ShrapnelSplinterProjectile>> SHRAPNEL_SPLINTER = ENTITY_TYPES.register("shrapnel_splinter",
             ()->EntityType.Builder.<ShrapnelSplinterProjectile>of(ShrapnelSplinterProjectile::new,MobCategory.MISC).sized(0.5f,0.5f)

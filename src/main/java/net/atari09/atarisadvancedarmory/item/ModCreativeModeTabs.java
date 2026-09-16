@@ -106,6 +106,7 @@ public static final Supplier<CreativeModeTab> SMITHING_TAB = CREATIVE_MODE_TAB.r
                         output.accept(ModItems.SMOKE_ARROW);
                         output.accept(ModItems.ROPE_ARROW);
                         output.accept(ModItems.EXPLOSIVE_ARROW);
+                        output.accept(ModItems.SHULKER_ARROW);
                     }).build());
 
 
