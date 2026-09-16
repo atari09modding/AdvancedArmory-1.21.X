@@ -98,7 +98,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 new ItemStack(ModItems.ROPE_ARROW.get(),64),
                 Ingredient.of(Items.ARROW),
                 Ingredient.of(Items.TNT),
-                Ingredient.of(ItemTags.BUTTONS)
+                Ingredient.EMPTY
         ).unlockedBy("has_leash",has(Items.GUNPOWDER)).save(recipeOutput);
 
 
