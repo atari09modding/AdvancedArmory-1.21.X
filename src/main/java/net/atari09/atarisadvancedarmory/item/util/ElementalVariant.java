@@ -6,6 +6,7 @@ import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.atari09.atarisadvancedarmory.entity.custom.BlockProjectileEntity;
 import net.atari09.atarisadvancedarmory.network.payload.ScreenShakePacket;
 import net.atari09.atarisadvancedarmory.util.ModTags;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.particles.ParticleTypes;
@@ -210,6 +211,9 @@ public enum ElementalVariant {
                 living.addEffect(new MobEffectInstance(MobEffects.POISON,120,2));
             }
         }
+
+
+
     }
 
     public static void noxious3(ItemStack stack, LivingEntity target, LivingEntity attacker){
