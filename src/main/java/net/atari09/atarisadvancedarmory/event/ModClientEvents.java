@@ -7,6 +7,8 @@ import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.client.ScreenShake;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.item.ModItems;
+import net.atari09.atarisadvancedarmory.item.util.ElementalVariant;
+import net.atari09.atarisadvancedarmory.item.util.ElementalWeapon;
 import net.atari09.atarisadvancedarmory.mixin.EntityRendererInvoker;
 import net.atari09.atarisadvancedarmory.network.payload.PlayerInputPacket;
 import net.atari09.atarisadvancedarmory.network.payload.QuiverInteractPacket;
@@ -32,6 +34,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
+
+import java.util.Objects;
 
 @EventBusSubscriber(modid = AtarisAdvancedArmory.MOD_ID,value = Dist.CLIENT)
 public class ModClientEvents {
@@ -68,10 +72,10 @@ public class ModClientEvents {
 
         if(mc.options.keyUp.isDown() && mc.player != null){
             Player player = mc.player;
-            if(player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.AERIAL_MACE.get()) || player.getItemInHand(InteractionHand.OFF_HAND).is(ModItems.AERIAL_MACE.get())){
-                ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.AERIAL_MACE.get())?player.getItemInHand(InteractionHand.MAIN_HAND):player.getItemInHand(InteractionHand.OFF_HAND);
-                if(stack.has(ModDataComponents.ELEMENTAL_LEVEL)){
-                    if(stack.get(ModDataComponents.ELEMENTAL_LEVEL) >= 3 && player.isFallFlying() && !(player.getDeltaMovement().length() > 3d)){
+            if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ElementalWeapon || player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ElementalWeapon){
+                ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ElementalWeapon ?player.getItemInHand(InteractionHand.MAIN_HAND):player.getItemInHand(InteractionHand.OFF_HAND);
+                if(stack.has(ModDataComponents.ELEMENTAL_LEVEL) && stack.has(ModDataComponents.ELEMENTAL_VARIANT)){
+                    if(stack.get(ModDataComponents.ELEMENTAL_LEVEL) >= 3 && player.isFallFlying() && !(player.getDeltaMovement().length() > 3d) && Objects.equals(stack.get(ModDataComponents.ELEMENTAL_VARIANT), ElementalVariant.AERIAL)){
                         Vec3 movement = player.getLookAngle();
                         player.setDeltaMovement(movement.scale(2));
                     }
