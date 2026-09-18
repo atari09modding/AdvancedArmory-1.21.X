@@ -9,6 +9,8 @@ import net.atari09.atarisadvancedarmory.util.ModTags;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -28,6 +30,7 @@ import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -38,10 +41,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -212,6 +212,15 @@ public enum ElementalVariant {
             }
         }
 
+        ParticleOptions particleOptions = ColorParticleOption.create(
+                ParticleTypes.ENTITY_EFFECT,
+                PotionContents.getColor(Collections.singleton(new MobEffectInstance(MobEffects.POISON))));
+
+        for(double xd = -2; xd <=2; xd+= 0.1){
+            for(double zd = -2; zd <=2; zd+= 0.1){
+                level.addAlwaysVisibleParticle(particleOptions,x+xd,y,z+zd,0,1,0);
+            }
+        }
 
 
     }
