@@ -3,12 +3,11 @@ package net.atari09.atarisadvancedarmory.item.util;
 import com.mojang.serialization.Codec;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
-import net.atari09.atarisadvancedarmory.entity.custom.BlockProjectileEntity;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.BlockProjectileEntity;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.IceSpikesEntity;
 import net.atari09.atarisadvancedarmory.network.payload.ScreenShakePacket;
 import net.atari09.atarisadvancedarmory.util.ModTags;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,18 +16,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.EvokerFangs;
-import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.windcharge.WindCharge;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.context.UseOnContext;
@@ -40,12 +35,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-import java.util.random.RandomGenerator;
 
 public enum ElementalVariant {
     INFERNAL(0, ElementalVariant::infernal1,
@@ -269,7 +260,7 @@ public enum ElementalVariant {
                         if(!(blocked||floating) ||i>20)break;
                         i++;
                     }
-                    Entity ice = new EvokerFangs(level,x,pos.y,z,((float) angle_use),(radius-3)*5,player);
+                    Entity ice = new IceSpikesEntity(level,x,pos.y,z,((float) angle_use),(radius-3)*5,player);
                     level.addFreshEntity(ice);
                 }
             }

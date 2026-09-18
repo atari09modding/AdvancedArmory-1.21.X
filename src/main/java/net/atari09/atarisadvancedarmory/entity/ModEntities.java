@@ -1,7 +1,7 @@
 package net.atari09.atarisadvancedarmory.entity;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
-import net.atari09.atarisadvancedarmory.entity.custom.BlockProjectileEntity;
+import net.atari09.atarisadvancedarmory.entity.custom.projectile.BlockProjectileEntity;
 import net.atari09.atarisadvancedarmory.entity.custom.RopeEntity;
 import net.atari09.atarisadvancedarmory.entity.custom.projectile.*;
 import net.minecraft.core.registries.Registries;

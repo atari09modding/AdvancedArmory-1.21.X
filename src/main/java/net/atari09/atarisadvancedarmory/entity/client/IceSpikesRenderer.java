@@ -15,11 +15,11 @@ import net.minecraft.world.entity.projectile.EvokerFangs;
 
 public class IceSpikesRenderer extends EvokerFangsRenderer {
     private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/illager/evoker_fangs.png");
-    private final EvokerFangsModel<IceSpikesEntity> model;
+    private final IceSpikeModel<IceSpikesEntity> model;
 
     public IceSpikesRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new EvokerFangsModel<>(context.bakeLayer(modelhere.LAYER_LOCATION));
+        this.model = new IceSpikeModel<>(context.bakeLayer(IceSpikeModel.LAYER_LOCATION));
 
     }
 
@@ -36,14 +36,14 @@ public class IceSpikesRenderer extends EvokerFangsRenderer {
             poseStack.pushPose();
             poseStack.mulPose(Axis.YP.rotationDegrees(90.0F - entity.getYRot()));
             poseStack.scale(-f1, -f1, f1);
-            float f2 = 0.03125F;
-            poseStack.translate(0.0, -0.626, 0.0);
+            //float f2 = 0.03125F;
+            poseStack.translate(0.0, -0.626+2.0, 0.0);
             poseStack.scale(0.5F, 0.5F, 0.5F);
             this.model.setupAnim(entity, f, 0.0F, 0.0F, entity.getYRot(), entity.getXRot());
             VertexConsumer vertexconsumer = buffer.getBuffer(this.model.renderType(TEXTURE_LOCATION));
             this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
             poseStack.popPose();
-            super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+            //super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
         }
     }
 }

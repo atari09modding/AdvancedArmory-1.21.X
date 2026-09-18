@@ -1,4 +1,4 @@
-package net.atari09.atarisadvancedarmory.entity.custom;
+package net.atari09.atarisadvancedarmory.entity.custom.projectile;
 
 
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
