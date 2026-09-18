@@ -2,8 +2,6 @@ package net.atari09.atarisadvancedarmory.entity.custom.projectile;
 
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
 import net.atari09.atarisadvancedarmory.mixin.EvokerFangsAccessor;
-import net.minecraft.client.model.EvokerFangsModel;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.EvokerFangs;
@@ -17,7 +15,6 @@ public class IceSpikesEntity extends EvokerFangs {
     }
 
     public IceSpikesEntity(Level level, double x, double y, double z, float yRot, int warmupDelay, LivingEntity owner) {
-        //super(level,x,y,z,yRot,warmupDelay,owner);
         this(ModEntities.ICESPIKE.get(), level);
         ((EvokerFangsAccessor) this).setWarmupDelayTicks(warmupDelay);
         this.setOwner(owner);
