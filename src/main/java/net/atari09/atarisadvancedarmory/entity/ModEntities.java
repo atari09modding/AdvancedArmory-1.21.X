@@ -38,6 +38,11 @@ public class ModEntities {
             ()->EntityType.Builder.<RopeEntity>of(RopeEntity::new,MobCategory.MISC).sized(0.5f,0.5f)
                     .build("rope"));
 
+    public static final Supplier<EntityType<IceSpikesEntity>> ICESPIKE = ENTITY_TYPES.register("ice_spikes",
+            ()->EntityType.Builder.<IceSpikesEntity>of(IceSpikesEntity::new,MobCategory.MISC).sized(0.35f,0.6f)
+                    .build("ice_spikes"));
+
+
 
     public  static <T extends AbstractArrow>  Supplier<EntityType<T>> arrow(String name, EntityType.EntityFactory<T> s){
         return  ENTITY_TYPES.register(name,()->EntityType.Builder.<T>of(s,MobCategory.MISC).sized(0.5f,0.5f).build(name));
