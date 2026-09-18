@@ -212,16 +212,17 @@ public enum ElementalVariant {
             }
         }
 
-        ParticleOptions particleOptions = ColorParticleOption.create(
-                ParticleTypes.ENTITY_EFFECT,
-                PotionContents.getColor(Collections.singleton(new MobEffectInstance(MobEffects.POISON))));
+        if(level instanceof ServerLevel serverLevel){
+            ParticleOptions particleOptions = ColorParticleOption.create(
+                    ParticleTypes.ENTITY_EFFECT,
+                    PotionContents.getColor(Collections.singleton(new MobEffectInstance(MobEffects.POISON))));
 
-        for(double xd = -2; xd <=2; xd+= 0.1){
-            for(double zd = -2; zd <=2; zd+= 0.1){
-                level.addAlwaysVisibleParticle(particleOptions,x+xd,y,z+zd,0,1,0);
+            for(double xd = -2; xd <=2; xd+= 0.1){
+                for(double zd = -2; zd <=2; zd+= 0.1){
+                    serverLevel.sendParticles(particleOptions,((double) x)+xd,y,((double) z)+zd,1,0,0,0,0);
+                }
             }
         }
-
 
     }
 
