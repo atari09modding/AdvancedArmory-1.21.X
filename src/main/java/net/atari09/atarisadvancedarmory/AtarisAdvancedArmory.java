@@ -72,7 +72,6 @@ public class AtarisAdvancedArmory {
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public AtarisAdvancedArmory(IEventBus modEventBus, ModContainer modContainer) throws Exception {
         // Register the commonSetup method for modloading
-        IceFloeNoise.img();
         modEventBus.addListener(this::commonSetup);
 
         // Register ourselves for server and other game events we are interested in.
