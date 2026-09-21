@@ -3,6 +3,8 @@ package net.atari09.atarisadvancedarmory.worldgen.chunkgen;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.worldgen.noise.FastNoiseLite;
+import net.atari09.atarisadvancedarmory.worldgen.noise.IceFloeNoise;
 import net.atari09.atarisadvancedarmory.worldgen.noise.ModNoises;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -19,7 +21,7 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
-//import com.sk89q.worldedit.math.noise.VoronoiNoise;
+
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -34,6 +36,8 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
     private final Holder<NoiseGeneratorSettings> settings;
 
     private final int BASE_HEIGHT = 20;
+
+
 
 
 
@@ -202,10 +206,20 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
                             .getOrCreateRandomFactory(AtarisAdvancedArmory.res("ice_floes"))
                             .at(0, 0, 0)
                             .nextLong();
+                    IceFloeNoise floes = new IceFloeNoise(floeSeed);
 
-                    if(chunk.getBlockState(new BlockPos(x, getSeaLevel(), z)).isEmpty() && isFloe(x,z,floeSeed)){
+                    if(chunk.getBlockState(new BlockPos(x, getSeaLevel(), z)).isEmpty() && floes.isFloe(x,z)){
                         chunk.setBlockState(new BlockPos(x, getSeaLevel(), z), Blocks.PACKED_ICE.defaultBlockState(), false);
+                        if(!floes.isEdge(x,z)){
+                            if(chunk.getBlockState(new BlockPos(x, getSeaLevel()+1, z)).isEmpty()){
+                                chunk.setBlockState(new BlockPos(x, getSeaLevel()+1, z), Blocks.PACKED_ICE.defaultBlockState(), false);
 
+                            }
+                            if(chunk.getBlockState(new BlockPos(x, getSeaLevel()-1, z)).isEmpty()){
+                                chunk.setBlockState(new BlockPos(x, getSeaLevel()-1, z), Blocks.PACKED_ICE.defaultBlockState(), false);
+
+                            }
+                        }
                     }
 
                     // fill with Water if sealevel lower
@@ -216,40 +230,6 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
             }
             return chunk;
         });
-    }
-
-    private static double randVoronoi(long seed, int cx, int cz, int salt) {
-        long h = seed + cx * 0x9E3779B97F4A7C15L + cz * 0xC2B2AE3D27D4EB4FL
-                + salt * 0x165667B19E3779F9L;
-        h = (h ^ (h >>> 30)) * 0xBF58476D1CE4E5B9L;
-        h = (h ^ (h >>> 27)) * 0x94D049BB133111EBL;
-        h ^= (h >>> 31);
-        return (h >>> 40) / (double) (1L << 24); // 0..1
-    }
-
-    private boolean isFloe(int x, int z, long seed) {
-        final int SIZE = 24;       // ungefähre Schollengröße
-        final double GAP = 2.0;    // Breite der Risse
-        final double COVER = 0.75; // Anteil der Zellen mit Eis
-
-        int cx = Math.floorDiv(x, SIZE);
-        int cz = Math.floorDiv(z, SIZE);
-
-        double d1 = Double.MAX_VALUE, d2 = Double.MAX_VALUE;
-        int nearestX = 0, nearestZ = 0;
-
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dz = -1; dz <= 1; dz++) {
-                int ax = cx + dx, az = cz + dz;
-                double px = (ax + randVoronoi(seed, ax, az, 1)) * SIZE;
-                double pz = (az + randVoronoi(seed, ax, az, 2)) * SIZE;
-                double d = Math.hypot(x - px, z - pz);
-                if (d < d1) { d2 = d1; d1 = d; nearestX = ax; nearestZ = az; }
-                else if (d < d2) { d2 = d; }
-            }
-        }
-        if (randVoronoi(seed, nearestX, nearestZ, 3) > COVER) return false;
-        return (d2 - d1) > GAP;
     }
 
     @Override

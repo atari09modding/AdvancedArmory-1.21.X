@@ -13,4 +13,6 @@ public class ModNoises {
     private static ResourceKey<NormalNoise.NoiseParameters> createKey(String key) {
         return ResourceKey.create(Registries.NOISE, AtarisAdvancedArmory.res(key));
     }
+
+
 }
