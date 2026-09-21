@@ -28,6 +28,7 @@ import net.atari09.atarisadvancedarmory.screen.custom.ArchersTableScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScreen;
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.atari09.atarisadvancedarmory.util.ModItemProperties;
+import net.atari09.atarisadvancedarmory.worldgen.chunkgen.ModChunkGenerators;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.TippableArrowRenderer;
@@ -85,14 +86,26 @@ public class AtarisAdvancedArmory {
 
 
         ModItems.register(modEventBus);
+
         ModBlocks.register(modEventBus);
+
         ModEffects.register(modEventBus);
+
         ModEntities.register(modEventBus);
+
         ModBlockEntities.register(modEventBus);
+
         ModCreativeModeTabs.register(modEventBus);
+
         ModRecipes.register(modEventBus);
+
         ModMenuTypes.register(modEventBus);
+
         ModDataComponents.register(modEventBus);
+
+        ModChunkGenerators.register(modEventBus);
+
+
     }
 
     public static ResourceLocation res(String loc) {

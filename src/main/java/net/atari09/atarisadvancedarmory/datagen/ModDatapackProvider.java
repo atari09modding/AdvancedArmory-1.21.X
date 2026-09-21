@@ -1,6 +1,8 @@
 package net.atari09.atarisadvancedarmory.datagen;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.worldgen.dimension.ModDimensions;
+import net.atari09.atarisadvancedarmory.worldgen.noise.ModNoiseSettings;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -12,7 +14,10 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
-    public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder();
+    public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+            .add(Registries.DIMENSION_TYPE, ModDimensions::bootstrapType)
+            .add(Registries.NOISE_SETTINGS, ModNoiseSettings::bootstrap)
+            .add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem);
 
 
 

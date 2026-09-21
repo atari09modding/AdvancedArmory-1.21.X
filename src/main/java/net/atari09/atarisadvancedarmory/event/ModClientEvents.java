@@ -15,9 +15,12 @@ import net.atari09.atarisadvancedarmory.network.payload.QuiverInteractPacket;
 import net.atari09.atarisadvancedarmory.network.payload.ScabbardSwapPacket;
 import net.atari09.atarisadvancedarmory.util.KeyBinding;
 import net.atari09.atarisadvancedarmory.util.ModTags;
+import net.atari09.atarisadvancedarmory.worldgen.dimension.ModDimensions;
+import net.atari09.atarisadvancedarmory.worldgen.dimension.effects.ModDimensionSpecialEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.InteractionHand;
@@ -176,5 +179,9 @@ public class ModClientEvents {
         invoker.invokeRenderLeash(player, event.getPartialTick().getGameTimeDeltaTicks(), poseStack, buffer, holder);
 
         poseStack.popPose();
+    }
+
+    public static void putModDimensionSpecialEffects(RegisterDimensionSpecialEffectsEvent event){
+        event.register(ModDimensionSpecialEffects.ICY_CAVES_EFFECTS, new ModDimensionSpecialEffects.IcyCavesEffects());
     }
 }

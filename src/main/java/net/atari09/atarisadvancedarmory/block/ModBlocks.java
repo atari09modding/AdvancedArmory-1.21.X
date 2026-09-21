@@ -2,8 +2,10 @@ package net.atari09.atarisadvancedarmory.block;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.block.custom.ArchersTableBlock;
+import net.atari09.atarisadvancedarmory.block.custom.PortalBlock;
 import net.atari09.atarisadvancedarmory.block.custom.WeaponSmithPieceBlock;
 import net.atari09.atarisadvancedarmory.item.ModItems;
+import net.atari09.atarisadvancedarmory.worldgen.dimension.ModDimensions;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -28,6 +30,9 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> ARCHERSTABLEBLOCK = registerBlock("archerstable",
             ()->new ArchersTableBlock(BlockBehaviour.Properties.of()));
+
+    public static final DeferredBlock<Block> DEBUGPORTALBLOCK = registerBlock("debugportalblock",
+            ()->new PortalBlock(BlockBehaviour.Properties.of().noLootTable(), ModDimensions.ICY_CAVES_LEVEL_KEY));
 
 
 
