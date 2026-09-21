@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.worldgen.chunkgen;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.atari09.atarisadvancedarmory.worldgen.noise.ModNoises;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.WorldGenRegion;
@@ -55,22 +56,29 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         NormalNoise continentalnessNoise = randomState.getOrCreateNoise(Noises.CONTINENTALNESS);
         NormalNoise jaggednessNoise = randomState.getOrCreateNoise(Noises.JAGGED);
 
+        NormalNoise wallsNoise = randomState.getOrCreateNoise(ModNoises.ICY_CAVES_WALLS);
+        NormalNoise wallsDetailNoise = randomState.getOrCreateNoise(ModNoises.ICY_CAVES_DETAILS_BOTTOM);
+
         double noiseContinentalnessValue = continentalnessNoise.getValue(x ,0, z );
         double noiseJaggedValue = jaggednessNoise.getValue(x ,0, z );
-
-
+        double wallsValue = wallHeightMap(wallsNoise.getValue(x,0,z),-0.2d,0.2d);
+        double wallsValueSmooth = wallHeightMap(wallsNoise.getValue(x,0,z),-0.5d,0.5d);
+        double wallsDetailValue = wallsValue * wallsDetailNoise.getValue(x,0,z);
 
 
         int continentalness = (int)(Math.round(noiseContinentalnessValue *10));
         int jagged = (int)(Math.round(noiseJaggedValue * 8));
 
+        int walls = (int)(Math.round(wallsValue*1000));
+        int wallsSmooth = (int)(Math.round(wallsValueSmooth*80));
+        int wallsDetail = (int)(Math.round(wallsDetailValue*20));
 
 
 
 
 
 
-        return BASE_HEIGHT + continentalness + jagged;
+        return BASE_HEIGHT + continentalness + jagged + walls + wallsDetail + wallsSmooth;
     }
 
 
@@ -80,8 +88,16 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         NormalNoise continentalnessNoise = randomState.getOrCreateNoise(Noises.CONTINENTALNESS);
         NormalNoise jaggednessNoise = randomState.getOrCreateNoise(Noises.JAGGED);
 
+        NormalNoise wallsNoise = randomState.getOrCreateNoise(ModNoises.ICY_CAVES_WALLS);
+        NormalNoise wallsDetailNoise = randomState.getOrCreateNoise(ModNoises.ICY_CAVES_DETAILS_TOP);
+
+
+
         double noiseContinentalnessValue = continentalnessNoise.getValue(x ,0, z );
         double noiseJaggedValue = jaggednessNoise.getValue(x ,0, z );
+        double wallsValue = wallHeightMap(wallsNoise.getValue(x,0,z),-0.2d,0.2d);
+        double wallsValueSmooth = wallHeightMap(wallsNoise.getValue(x,0,z),-0.5d,0.5d);
+        double wallsDetailValue = wallsValue+wallsValueSmooth * wallsDetailNoise.getValue(x,0,z);
 
 
 
@@ -89,9 +105,22 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         int continentalness = (int)(Math.round(noiseContinentalnessValue *10));
         int jagged = (int)(Math.round(noiseJaggedValue * 8));
 
+        int walls = (int)(Math.round(wallsValue*1000));
+        int wallsSmooth = (int)(Math.round(wallsValueSmooth*80));
+        int wallsDetail = (int)(Math.round(wallsDetailValue*20));
 
 
-        return  maxY - (BASE_HEIGHT + continentalness + jagged);
+
+        return  maxY - (BASE_HEIGHT + continentalness + jagged + walls + wallsDetail + wallsSmooth);
+    }
+
+    private double wallHeightMap(double d, double min, double max){
+        if(d >= min && d <=max){
+            double mid =(max+min)/2d;
+            return 0.2d-Math.abs(d-mid);
+        } else {
+            return 0d;
+        }
     }
 
     @Override
