@@ -29,6 +29,7 @@ import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScr
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.atari09.atarisadvancedarmory.util.ModItemProperties;
 import net.atari09.atarisadvancedarmory.worldgen.chunkgen.ModChunkGenerators;
+import net.atari09.atarisadvancedarmory.worldgen.noise.IceFloeNoise;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.TippableArrowRenderer;
@@ -69,8 +70,9 @@ public class AtarisAdvancedArmory {
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
-    public AtarisAdvancedArmory(IEventBus modEventBus, ModContainer modContainer) {
+    public AtarisAdvancedArmory(IEventBus modEventBus, ModContainer modContainer) throws Exception {
         // Register the commonSetup method for modloading
+        IceFloeNoise.img();
         modEventBus.addListener(this::commonSetup);
 
         // Register ourselves for server and other game events we are interested in.

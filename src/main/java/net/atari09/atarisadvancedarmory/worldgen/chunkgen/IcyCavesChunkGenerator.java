@@ -197,7 +197,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
                     for(int y = maxY-1; y>ceilY; y--){
                         chunk.setBlockState(new BlockPos(x, y, z),
                                 Blocks.STONE.defaultBlockState(), false);
-                        //System.out.println("x:"+x+" y:"+y+" z:"+z);
+
                     }
 
 
@@ -208,9 +208,9 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
                             .nextLong();
                     IceFloeNoise floes = new IceFloeNoise(floeSeed);
 
-                    if(chunk.getBlockState(new BlockPos(x, getSeaLevel(), z)).isEmpty() && floes.isFloe(x,z)){
+                    if(chunk.getBlockState(new BlockPos(x, getSeaLevel(), z)).isEmpty() && floes.isFloe(worldX,worldZ)){
                         chunk.setBlockState(new BlockPos(x, getSeaLevel(), z), Blocks.PACKED_ICE.defaultBlockState(), false);
-                        if(!floes.isEdge(x,z)){
+                        if(floes.floeThickness(worldX,worldZ)>1){
                             if(chunk.getBlockState(new BlockPos(x, getSeaLevel()+1, z)).isEmpty()){
                                 chunk.setBlockState(new BlockPos(x, getSeaLevel()+1, z), Blocks.PACKED_ICE.defaultBlockState(), false);
 

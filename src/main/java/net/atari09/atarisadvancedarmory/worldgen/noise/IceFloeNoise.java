@@ -1,5 +1,9 @@
 package net.atari09.atarisadvancedarmory.worldgen.noise;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
 public class IceFloeNoise{
     private static final float FREQ = 0.04f;   // kleiner = größere Schollen
     private static final float GAP = 3f;       // Rissbreite in Blöcken (ungefähr)
@@ -39,14 +43,30 @@ public class IceFloeNoise{
         return edges.GetNoise(p.x, p.y) > -1f + GAP * FREQ;
     }
 
-    public boolean isEdge(int x, int z){
+    private static final float INNER = 3f; // distance from rim to make 2 blocks thick
+
+    public int floeThickness(int x, int z) {
         FastNoiseLite.Vector2 p = new FastNoiseLite.Vector2(x, z);
-        edges.DomainWarp(p); // p ist danach verschoben, beide Noises nutzen es
+        edges.DomainWarp(p);
 
-        // manche Zellen bleiben offenes Wasser
-        if (cells.GetNoise(p.x, p.y) > -1f + 2f * COVER) return false;
+        if (cells.GetNoise(p.x, p.y) > -1f + 2f * COVER) return 0;
 
-        // Abstand zur Zellkante: nahe -1 = direkt am Riss
-        return edges.GetNoise(p.x, p.y) > -2f + GAP * FREQ;
+        float v = edges.GetNoise(p.x, p.y);
+        if (v <= -1f + GAP * FREQ) return 0;                       // Riss
+        if (v <= -1f + (GAP + 2f * INNER) * FREQ) return 1;        // Rand: 1 Block
+        return 2;
+    }
+
+    public static void img() throws Exception {
+        IceFloeNoise n = new IceFloeNoise(12345L);
+        int size = 1024;
+        BufferedImage img = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
+        for (int x = 0; x < size; x++) {
+            for (int z = 0; z < size; z++) {
+                int t = n.floeThickness(x, z);
+                img.setRGB(x, z, t == 0 ? 0x1E4FA0 : t == 1 ? 0xB8E4FF : 0xFFFFFF);
+            }
+        }
+        ImageIO.write(img, "png", new File("floes.png"));
     }
 }
