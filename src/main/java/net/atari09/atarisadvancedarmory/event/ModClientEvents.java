@@ -181,7 +181,9 @@ public class ModClientEvents {
         poseStack.popPose();
     }
 
+    @SubscribeEvent
     public static void putModDimensionSpecialEffects(RegisterDimensionSpecialEffectsEvent event){
+        AtarisAdvancedArmory.LOGGER.info("Registering ModDimensionSpecialEffects");
         event.register(ModDimensionSpecialEffects.ICY_CAVES_EFFECTS, new ModDimensionSpecialEffects.IcyCavesEffects());
     }
 }
