@@ -36,7 +36,7 @@ public class ModNoiseSettings {
                 NoiseGeneratorSettings.overworld(context,false,false).noiseRouter(),
                 SurfaceRuleData.overworld(),
                 new OverworldBiomeBuilder().spawnTarget(),
-                63,
+                32,
                 false,
                 true,
                 true,
