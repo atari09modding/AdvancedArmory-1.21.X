@@ -3,6 +3,7 @@ package net.atari09.atarisadvancedarmory.entity.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.entity.custom.projectile.IceSpikesEntity;
 import net.minecraft.client.model.EvokerFangsModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -14,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.EvokerFangs;
 
 public class IceSpikesRenderer extends EvokerFangsRenderer {
-    private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/illager/evoker_fangs.png");
+    private static final ResourceLocation TEXTURE_LOCATION = AtarisAdvancedArmory.res("textures/entity/ice_spike.png");
     private final IceSpikeModel<IceSpikesEntity> model;
 
     public IceSpikesRenderer(EntityRendererProvider.Context context) {
@@ -34,6 +35,7 @@ public class IceSpikesRenderer extends EvokerFangsRenderer {
             }
 
             poseStack.pushPose();
+            poseStack.mulPose(Axis.XP.rotationDegrees(180));
             poseStack.mulPose(Axis.YP.rotationDegrees(90.0F - entity.getYRot()));
             poseStack.scale(f1, f1, f1);
             //float f2 = 0.03125F;
