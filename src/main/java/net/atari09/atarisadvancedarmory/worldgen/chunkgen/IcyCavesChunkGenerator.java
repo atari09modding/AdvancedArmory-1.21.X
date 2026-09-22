@@ -88,6 +88,14 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         return BASE_HEIGHT + continentalness + jagged + walls + wallsDetail + wallsSmooth;
     }
 
+    private boolean isCave(int x, int y, int z, RandomState random){
+        int caveheight = getSeaLevel()+10;
+
+
+
+        return false;
+    }
+
 
     private int sampleCeiling(int x, int z, RandomState randomState) {
         int maxY = getMinY() + getGenDepth();
@@ -231,6 +239,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
             return chunk;
         });
     }
+
 
     @Override
     public void applyBiomeDecoration(WorldGenLevel level, ChunkAccess chunk, StructureManager structureManager) {
