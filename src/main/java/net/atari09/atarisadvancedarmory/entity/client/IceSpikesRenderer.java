@@ -40,7 +40,7 @@ public class IceSpikesRenderer extends EvokerFangsRenderer {
             poseStack.scale(f1, f1, f1);
             //float f2 = 0.03125F;
             poseStack.translate(0.0, -0.626, 0.0);
-            poseStack.scale(1F, 1F, 1F);
+            poseStack.scale(0.7F, 0.7F, 0.7F);
             this.model.setupAnim(entity, f, 0.0F, 0.0F, entity.getYRot(), entity.getXRot());
             VertexConsumer vertexconsumer = buffer.getBuffer(this.model.renderType(TEXTURE_LOCATION));
             this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
