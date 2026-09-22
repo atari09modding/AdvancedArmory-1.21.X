@@ -296,9 +296,11 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         NormalNoise walls = random.getOrCreateNoise(ModNoises.ICY_CAVES_WALLS);
         NormalNoise wallsDetailTop = random.getOrCreateNoise(ModNoises.ICY_CAVES_DETAILS_TOP);
         NormalNoise wallsDetailBottom = random.getOrCreateNoise(ModNoises.ICY_CAVES_DETAILS_BOTTOM);
+        NormalNoise lowerCaves = random.getOrCreateNoise(ModNoises.ICY_CAVES_LOWER_CAVES);
         info.add("IcyCaves:");
         info.add("Walls:" + walls.getValue(pos.getX(),0,pos.getZ()));
         info.add("WallsDetailTop:" + wallHeightMap(wallsDetailTop.getValue(pos.getX(),0,pos.getZ()),-0.2,0.2));
         info.add("WallsDetailBottom:" + wallsDetailBottom.getValue(pos.getX(),0,pos.getZ()));
+        info.add("LowerCaves" + lowerCaves.getValue(pos.getX(),0,pos.getZ()));
     }
 }
