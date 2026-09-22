@@ -176,7 +176,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         double wallsDetailValue = wallHeightMap(wallsDetailNoise.getValue(x,0,z),-0.5d,0.5d);//* (wallsValue>=0.2d? 1:0);
         int wallsDetail = (int)(Math.round(wallsDetailValue*10));
 
-        return Math.max(maxY - (sampleHeight(x,z,randomState) + wallsDetail), maxY -20) ;
+        return Math.max(maxY - (sampleHeight(x,z,randomState) + wallsDetail), maxY -30) ;
 
     }
 
@@ -226,19 +226,20 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         int chunkX = chunk.getPos().getMinBlockX();
         int chunkZ = chunk.getPos().getMinBlockZ();
 
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int worldX = chunkX + x;
                 int worldZ = chunkZ + z;
-                int surfaceY = sampleHeight(worldX, worldZ,random);
+                int surfaceY = sampleHeightIce(worldX, worldZ,random)-1;
 
-
-                if(inRange(surfaceY,getSeaLevel(),getSeaLevel()+20)){
-                    for(int y = surfaceY; chunk.getBlockState(new BlockPos(worldX,y,worldZ)).is(Blocks.ICE); y--){
-                        if(isDirtPatch(worldX,y,worldZ,random)){
-                            chunk.setBlockState(new BlockPos(x, y, z), Blocks.DIRT.defaultBlockState(), false);
-                        }
+                int y = Math.min(surfaceY, getSeaLevel()+15);
+                while (y > getSeaLevel() && chunk.getBlockState(pos.set(x, y, z)).is(Blocks.ICE)) {
+                    if (isDirtPatch(worldX, y, worldZ, random)) {
+                        chunk.setBlockState(pos, Blocks.DIRT.defaultBlockState(), false);
                     }
+                    y--;
                 }
             }
         }

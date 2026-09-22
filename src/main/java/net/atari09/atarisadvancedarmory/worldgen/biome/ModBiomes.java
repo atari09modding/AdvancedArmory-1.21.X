@@ -6,6 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.placement.MiscOverworldPlacements;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.Musics;
@@ -50,7 +51,12 @@ public class ModBiomes {
                 new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
 
         //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
-        globalOverworldGeneration(biomeBuilder);
+        //BiomeDefaultFeatures.addDefaultCrystalFormations(biomeBuilder);
+        //BiomeDefaultFeatures.addDefaultMonsterRoom(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultUndergroundVariety(biomeBuilder);
+        //BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
+        BiomeDefaultFeatures.addSurfaceFreezing(biomeBuilder);
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, MiscOverworldPlacements.FREEZE_TOP_LAYER);
         //BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
         //BiomeDefaultFeatures.addForestFlowers(biomeBuilder);
         //BiomeDefaultFeatures.addFerns(biomeBuilder);
@@ -59,11 +65,13 @@ public class ModBiomes {
         BiomeDefaultFeatures.addExtraEmeralds(biomeBuilder);
 
 
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.TREES_TAIGA);
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, VegetationPlacements.TREES_TAIGA);
 
         //BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
-        BiomeDefaultFeatures.addRareBerryBushes(biomeBuilder);
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, VegetationPlacements.PATCH_BERRY_RARE);
+
+
 
 
 
