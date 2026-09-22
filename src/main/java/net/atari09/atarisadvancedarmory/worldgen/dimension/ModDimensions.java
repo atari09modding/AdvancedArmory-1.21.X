@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.worldgen.dimension;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.worldgen.biome.ModBiomes;
 import net.atari09.atarisadvancedarmory.worldgen.chunkgen.IcyCavesChunkGenerator;
 import net.atari09.atarisadvancedarmory.worldgen.dimension.effects.ModDimensionSpecialEffects;
 import net.atari09.atarisadvancedarmory.worldgen.noise.ModNoiseSettings;
@@ -58,7 +59,7 @@ public class ModDimensions {
         HolderGetter<NoiseGeneratorSettings> noiseGenSettings = context.lookup(Registries.NOISE_SETTINGS);
 
         IcyCavesChunkGenerator icyCavesChunkGenerator = new IcyCavesChunkGenerator(
-                new FixedBiomeSource(biomeRegistry.getOrThrow(Biomes.ICE_SPIKES)),
+                new FixedBiomeSource(biomeRegistry.getOrThrow(ModBiomes.FROZEN_CAVES)),
                 noiseGenSettings.getOrThrow(ModNoiseSettings.ICY_CAVES)
         );
 

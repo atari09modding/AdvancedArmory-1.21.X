@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.worldgen.noise.FastNoiseLite;
 import net.atari09.atarisadvancedarmory.worldgen.noise.IceFloeNoise;
+import net.atari09.atarisadvancedarmory.worldgen.noise.LowerCavesNoise;
 import net.atari09.atarisadvancedarmory.worldgen.noise.ModNoises;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -24,6 +25,9 @@ import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -68,7 +72,41 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
 
         double noiseContinentalnessValue = continentalnessNoise.getValue(x ,0, z );
         double noiseJaggedValue = jaggednessNoise.getValue(x ,0, z );
+        double wallsValue = wallHeightMap(wallsNoise.getValue(x,0,z),-0.15d,0.15d);
+
+        double wallsValueSmooth = wallHeightMap(wallsNoise.getValue(x,0,z),-0.4d,0.4d);
+
+        double wallsDetailValue = wallHeightMap(wallsDetailNoise.getValue(x,0,z),-0.4d,0.4d) * (wallsValue>=0.2d? 1:0);
+
+
+        int continentalness = (int)(Math.round(noiseContinentalnessValue *10));
+        int jagged = (int)(Math.round(noiseJaggedValue * 8));
+
+        int walls = (int)(Math.round(wallsValue*1000));
+        int wallsSmooth = (int)(Math.round(wallsValueSmooth*100));
+        int wallsDetail = (int)(Math.round(wallsDetailValue*20));
+
+
+
+
+
+
+        return BASE_HEIGHT + continentalness + jagged + walls + wallsDetail + wallsSmooth;
+    }
+
+    private int sampleHeightIce(int x, int z, RandomState randomState) {
+
+
+        NormalNoise continentalnessNoise = randomState.getOrCreateNoise(Noises.CONTINENTALNESS);
+        NormalNoise jaggednessNoise = randomState.getOrCreateNoise(Noises.JAGGED);
+
+        NormalNoise wallsNoise = randomState.getOrCreateNoise(ModNoises.ICY_CAVES_WALLS);
+        NormalNoise wallsDetailNoise = randomState.getOrCreateNoise(ModNoises.ICY_CAVES_DETAILS_BOTTOM);
+
+        double noiseContinentalnessValue = continentalnessNoise.getValue(x ,0, z );
+        double noiseJaggedValue = jaggednessNoise.getValue(x ,0, z );
         double wallsValue = wallHeightMap(wallsNoise.getValue(x,0,z),-0.2d,0.2d);
+
         double wallsValueSmooth = wallHeightMap(wallsNoise.getValue(x,0,z),-0.5d,0.5d);
 
         double wallsDetailValue = wallHeightMap(wallsDetailNoise.getValue(x,0,z),-0.5d,0.5d) * (wallsValue>=0.2d? 1:0);
@@ -88,26 +126,6 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
 
         return BASE_HEIGHT + continentalness + jagged + walls + wallsDetail + wallsSmooth;
     }
-
-    private boolean isCave(int x, int y, int z, RandomState random){
-        int caveheight = getSeaLevel()+10;
-
-        NormalNoise cavesNoise = random.getOrCreateNoise(ModNoises.ICY_CAVES_LOWER_CAVES);
-
-        double cavesValue = cavesNoise.getValue(x,0,z);
-        int cave = 0;
-        if(inRange(cavesValue,-0.1,0.1)){
-            cave = ((int) ((Math.abs(Math.round(cavesValue * 100)))));
-        }
-
-
-        return inRange(y,caveheight-cave,caveheight+cave);
-    }
-
-    private boolean inRange(double d, double min, double max){
-        return min <= d && d <= max;
-    }
-
 
     private int sampleCeiling(int x, int z, RandomState randomState) {
         int maxY = getMinY() + getGenDepth();
@@ -143,13 +161,56 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         return  maxY - (BASE_HEIGHT + continentalness + jagged + walls + wallsDetail + wallsSmooth);
     }
 
-    private double wallHeightMap(double d, double min, double max){
-        if(d >= min && d <=max){
+    private static double wallHeightMap(double d, double min, double max){
+        if(inRange(d,min,max)){
             double mid =(max+min)/2d;
             return max-Math.abs(d-mid);
         } else {
             return 0d;
         }
+    }
+
+    private int icicleCeil(int x, int z, RandomState randomState){
+        int maxY = getMinY() + getGenDepth()-10;
+        NormalNoise wallsDetailNoise = randomState.getOrCreateNoise(ModNoises.ICY_CAVES_DETAILS_TOP);
+        double wallsDetailValue = wallHeightMap(wallsDetailNoise.getValue(x,0,z),-0.5d,0.5d);//* (wallsValue>=0.2d? 1:0);
+        int wallsDetail = (int)(Math.round(wallsDetailValue*10));
+
+        return Math.max(maxY - (sampleHeight(x,z,randomState) + wallsDetail), maxY -20) ;
+
+    }
+
+    private boolean isCave(int x, int y, int z, RandomState random){
+        int caveheight = getSeaLevel()+10;
+
+        long seed = random
+                .getOrCreateRandomFactory(AtarisAdvancedArmory.res("lower_caves"))
+                .at(0, 0, 0)
+                .nextLong();
+        LowerCavesNoise noise = new LowerCavesNoise(seed);
+
+
+
+        double cavesValue = noise.getValue(x,z);
+        int cave = 0;
+
+        if(cavesValue != 0f){
+            cave = ((int) ((Math.round(Math.abs(Math.pow(-cavesValue-0.9,0.5)) * 10))));
+        }
+
+
+        return inRange(y,caveheight-cave,caveheight+cave) && cave != 0;
+    }
+
+    private boolean isDirtPatch(int x, int y, int z, RandomState random){
+        NormalNoise noise = random.getOrCreateNoise(ModNoises.ICY_CAVES_DIRT);
+
+
+        return noise.getValue(x,y,z)>0.5d;
+    }
+
+    private static boolean inRange(double d, double min, double max){
+        return min <= d && d <= max;
     }
 
     @Override
@@ -171,7 +232,14 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
                 int worldZ = chunkZ + z;
                 int surfaceY = sampleHeight(worldX, worldZ,random);
 
-                //here suface stuff later
+
+                if(inRange(surfaceY,getSeaLevel(),getSeaLevel()+20)){
+                    for(int y = surfaceY; chunk.getBlockState(new BlockPos(worldX,y,worldZ)).is(Blocks.ICE); y--){
+                        if(isDirtPatch(worldX,y,worldZ,random)){
+                            chunk.setBlockState(new BlockPos(x, y, z), Blocks.DIRT.defaultBlockState(), false);
+                        }
+                    }
+                }
             }
         }
     }
@@ -188,6 +256,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
 
     @Override
     public CompletableFuture<ChunkAccess> fillFromNoise(Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunk) {
+
         return CompletableFuture.supplyAsync(()->{
             int chunkX = chunk.getPos().getMinBlockX();
             int chunkZ = chunk.getPos().getMinBlockZ();
@@ -197,7 +266,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
                 for (int z = 0; z < 16; z++) {
                     int worldX = chunkX + x;
                     int worldZ = chunkZ + z;
-                    int surfaceY = sampleHeight(worldX, worldZ,randomState);
+                    int surfaceY = sampleHeightIce(worldX, worldZ,randomState);
                     int ceilY = sampleCeiling(worldX,worldZ,randomState);
 
                     //make bedrock floor
@@ -210,14 +279,25 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
 
 
                     for (int y = getMinY()+1; y < surfaceY; y++) {
-                        if(isCave(worldX,y,worldZ,randomState)) continue;
-                        chunk.setBlockState(new BlockPos(x, y, z),
-                                Blocks.STONE.defaultBlockState(), false);
+                        if(isCave(worldX,y,worldZ,randomState)) {
+                            //chunk.setBlockState(new BlockPos(x, y, z), Blocks.REDSTONE_BLOCK.defaultBlockState(), false);
+                            continue;
+                        }
+                        if(y < sampleHeight(worldX,worldZ,randomState)){
+                            chunk.setBlockState(new BlockPos(x, y, z), Blocks.STONE.defaultBlockState(), false);
+                            continue;
+                        }
+                        chunk.setBlockState(new BlockPos(x, y, z), Blocks.ICE.defaultBlockState(), false);
                     }
 
                     for(int y = maxY-1; y>ceilY; y--){
-                        chunk.setBlockState(new BlockPos(x, y, z),
-                                Blocks.STONE.defaultBlockState(), false);
+                        chunk.setBlockState(new BlockPos(x, y, z), Blocks.STONE.defaultBlockState(), false);
+                    }
+
+                    int icicleCeil = icicleCeil(worldX,worldZ,randomState);
+                    for(int y = maxY-1; y>icicleCeil; y--){
+                        if(!chunk.getBlockState(new BlockPos(x, y, z)).isEmpty()) continue;
+                        chunk.setBlockState(new BlockPos(x, y, z), Blocks.ICE.defaultBlockState(), false);
 
                     }
 
@@ -256,7 +336,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
 
     @Override
     public void applyBiomeDecoration(WorldGenLevel level, ChunkAccess chunk, StructureManager structureManager) {
-
+        super.applyBiomeDecoration(level, chunk, structureManager);
     }
 
     @Override
@@ -296,11 +376,14 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         NormalNoise walls = random.getOrCreateNoise(ModNoises.ICY_CAVES_WALLS);
         NormalNoise wallsDetailTop = random.getOrCreateNoise(ModNoises.ICY_CAVES_DETAILS_TOP);
         NormalNoise wallsDetailBottom = random.getOrCreateNoise(ModNoises.ICY_CAVES_DETAILS_BOTTOM);
-        NormalNoise lowerCaves = random.getOrCreateNoise(ModNoises.ICY_CAVES_LOWER_CAVES);
+
         info.add("IcyCaves:");
         info.add("Walls:" + walls.getValue(pos.getX(),0,pos.getZ()));
         info.add("WallsDetailTop:" + wallHeightMap(wallsDetailTop.getValue(pos.getX(),0,pos.getZ()),-0.2,0.2));
         info.add("WallsDetailBottom:" + wallsDetailBottom.getValue(pos.getX(),0,pos.getZ()));
-        info.add("LowerCaves" + lowerCaves.getValue(pos.getX(),0,pos.getZ()));
+        info.add("isCave: "+isCave(pos.getX(),pos.getY(),pos.getZ(),random));
     }
+
+
+
 }
