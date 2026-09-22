@@ -16,6 +16,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.*;
@@ -91,9 +92,20 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
     private boolean isCave(int x, int y, int z, RandomState random){
         int caveheight = getSeaLevel()+10;
 
+        NormalNoise cavesNoise = random.getOrCreateNoise(ModNoises.ICY_CAVES_LOWER_CAVES);
+
+        double cavesValue = cavesNoise.getValue(x,0,z);
+        int cave = 0;
+        if(inRange(cavesValue,-0.1,0.1)){
+            cave = ((int) ((Math.abs(Math.round(cavesValue * 100)))));
+        }
 
 
-        return false;
+        return inRange(y,caveheight-cave,caveheight+cave);
+    }
+
+    private boolean inRange(double d, double min, double max){
+        return min <= d && d <= max;
     }
 
 
@@ -198,6 +210,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
 
 
                     for (int y = getMinY()+1; y < surfaceY; y++) {
+                        if(isCave(x,y,z,randomState)) continue;
                         chunk.setBlockState(new BlockPos(x, y, z),
                                 Blocks.STONE.defaultBlockState(), false);
                     }
@@ -264,7 +277,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
     @Override
     public NoiseColumn getBaseColumn(int x, int z, LevelHeightAccessor height, RandomState random) {
         int surfaceY = sampleHeight(x, z,random);
-        var states = new net.minecraft.world.level.block.state.BlockState[height.getHeight()];
+        var states = new BlockState[height.getHeight()];
         for (int i = 0; i < states.length; i++) {
             int y = height.getMinBuildHeight() + i;
             if (y < surfaceY) {
