@@ -210,7 +210,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
 
 
                     for (int y = getMinY()+1; y < surfaceY; y++) {
-                        if(isCave(x,y,z,randomState)) continue;
+                        if(isCave(worldX,y,worldZ,randomState)) continue;
                         chunk.setBlockState(new BlockPos(x, y, z),
                                 Blocks.STONE.defaultBlockState(), false);
                     }
