@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.worldgen;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.worldgen.modifiers.IcyCavesHeightmapPlacementModifier;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -26,7 +27,7 @@ public class ModPlacedFeatures {
         var configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
         register(context, FROZEN_TAIGA_TREES_PLACED_KEY, configuredFeatures.getOrThrow(TreeFeatures.SPRUCE),
-                List.of(RarityFilter.onAverageOnceEvery(32), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(20),VerticalAnchor.absolute(60)), BiomeFilter.biome()));
+                List.of(RarityFilter.onAverageOnceEvery(32), InSquarePlacement.spread(), IcyCavesHeightmapPlacementModifier.INSTANCE, BiomeFilter.biome()));
 // heightrange placement is probl making the trees float
 
     }

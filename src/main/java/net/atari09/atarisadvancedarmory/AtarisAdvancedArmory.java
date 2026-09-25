@@ -29,6 +29,7 @@ import net.atari09.atarisadvancedarmory.screen.custom.SpecialSmithingTemplateScr
 import net.atari09.atarisadvancedarmory.screen.custom.WeaponSmithScreen;
 import net.atari09.atarisadvancedarmory.util.ModItemProperties;
 import net.atari09.atarisadvancedarmory.worldgen.chunkgen.ModChunkGenerators;
+import net.atari09.atarisadvancedarmory.worldgen.modifiers.ModPlacementModifiers;
 import net.atari09.atarisadvancedarmory.worldgen.noise.IceFloeNoise;
 import net.atari09.atarisadvancedarmory.worldgen.noise.LowerCavesNoise;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
@@ -107,7 +108,9 @@ public class AtarisAdvancedArmory {
 
         ModChunkGenerators.register(modEventBus);
 
-        LowerCavesNoise.img();
+        ModPlacementModifiers.register(modEventBus);
+
+        //LowerCavesNoise.img();
 
     }
 

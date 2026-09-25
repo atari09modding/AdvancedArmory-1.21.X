@@ -94,7 +94,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
         return BASE_HEIGHT + continentalness + jagged + walls + wallsDetail + wallsSmooth;
     }
 
-    private int sampleHeightIce(int x, int z, RandomState randomState) {
+    public int sampleHeightIce(int x, int z, RandomState randomState) {
 
 
         NormalNoise continentalnessNoise = randomState.getOrCreateNoise(Noises.CONTINENTALNESS);
