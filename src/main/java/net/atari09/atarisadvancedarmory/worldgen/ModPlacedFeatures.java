@@ -19,8 +19,7 @@ import java.util.List;
 
 public class ModPlacedFeatures {
 
-    public static final ResourceKey<PlacedFeature> FROZEN_TAIGA_TREES_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, AtarisAdvancedArmory.res("frozen_taiga_trees_placed"));
+    public static final ResourceKey<PlacedFeature> FROZEN_TAIGA_TREES_PLACED_KEY = registerKey("frozen_taiga_trees_placed");
 
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context){
