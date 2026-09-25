@@ -27,7 +27,7 @@ public class ModPlacedFeatures {
 
         register(context, FROZEN_TAIGA_TREES_PLACED_KEY, configuredFeatures.getOrThrow(TreeFeatures.SPRUCE),
                 List.of(RarityFilter.onAverageOnceEvery(32), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(20),VerticalAnchor.absolute(60)), BiomeFilter.biome()));
-
+// heightrange placement is probl making the trees float
 
     }
 
