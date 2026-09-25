@@ -26,8 +26,7 @@ public class ModPlacedFeatures {
         var configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
         register(context, FROZEN_TAIGA_TREES_PLACED_KEY, configuredFeatures.getOrThrow(TreeFeatures.SPRUCE),
-                List.of(RarityFilter.onAverageOnceEvery(32), InSquarePlacement.spread(), IcyCavesHeightmapPlacementModifier.INSTANCE, BiomeFilter.biome()));
-// heightrange placement is probl making the trees float
+                List.of(RarityFilter.onAverageOnceEvery(8), InSquarePlacement.spread(), IcyCavesHeightmapPlacementModifier.INSTANCE, BiomeFilter.biome()));
 
     }
 
