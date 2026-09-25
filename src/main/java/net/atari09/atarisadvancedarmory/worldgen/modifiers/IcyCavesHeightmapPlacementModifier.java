@@ -22,7 +22,7 @@ public class IcyCavesHeightmapPlacementModifier extends PlacementModifier {
         int surfaceY = /* Aufruf deines Generators, siehe unten */
                 ((IcyCavesChunkGenerator) context.generator()).sampleHeightIce(pos.getX(), pos.getZ(), context.getLevel().getLevel().getChunkSource().randomState());
 
-        return Stream.of(new BlockPos(pos.getX(), surfaceY, pos.getZ()));
+        return surfaceY >= context.generator().getSeaLevel()? Stream.of(new BlockPos(pos.getX(), surfaceY, pos.getZ())) : Stream.empty();
     }
 
     @Override
