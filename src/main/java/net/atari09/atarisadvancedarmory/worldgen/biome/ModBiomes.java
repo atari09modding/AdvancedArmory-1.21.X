@@ -1,7 +1,9 @@
 package net.atari09.atarisadvancedarmory.worldgen.biome;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.worldgen.ModPlacedFeatures;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
@@ -16,6 +18,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class ModBiomes {
     public static final ResourceKey<Biome> FROZEN_CAVES  = ResourceKey.create(Registries.BIOME, AtarisAdvancedArmory.res("frozen_caves"));
@@ -36,6 +39,7 @@ public class ModBiomes {
 
     public static Biome frozenCaves(BootstrapContext<Biome> context){
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
+        HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         //spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.GECKO.get(), 2, 3, 5)); spawn creatures here
 
         spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.WOLF, 5, 4, 20));
@@ -56,7 +60,7 @@ public class ModBiomes {
         BiomeDefaultFeatures.addDefaultUndergroundVariety(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
         BiomeDefaultFeatures.addSurfaceFreezing(biomeBuilder);
-        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, MiscOverworldPlacements.FREEZE_TOP_LAYER);
+        biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, MiscOverworldPlacements.FREEZE_TOP_LAYER);
         //BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
         //BiomeDefaultFeatures.addForestFlowers(biomeBuilder);
         //BiomeDefaultFeatures.addFerns(biomeBuilder);
@@ -65,11 +69,11 @@ public class ModBiomes {
         BiomeDefaultFeatures.addExtraEmeralds(biomeBuilder);
 
 
-        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, VegetationPlacements.TREES_TAIGA);
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_STRUCTURES,placedFeatures.getOrThrow(ModPlacedFeatures.FROZEN_TAIGA_TREES_PLACED_KEY) );
 
         //BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
-        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, VegetationPlacements.PATCH_BERRY_RARE);
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_STRUCTURES, VegetationPlacements.PATCH_BERRY_RARE);
 
 
 
@@ -77,8 +81,8 @@ public class ModBiomes {
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(true)
-                .downfall(0.8f)
-                .temperature(0.7f)
+                .downfall(0.9f)
+                .temperature(0.0f)
                 .generationSettings(biomeBuilder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects((new BiomeSpecialEffects.Builder())

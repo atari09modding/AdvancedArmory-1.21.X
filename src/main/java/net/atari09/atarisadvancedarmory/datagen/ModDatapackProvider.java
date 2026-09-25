@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.datagen;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.atari09.atarisadvancedarmory.worldgen.ModPlacedFeatures;
 import net.atari09.atarisadvancedarmory.worldgen.biome.ModBiomes;
 import net.atari09.atarisadvancedarmory.worldgen.dimension.ModDimensions;
 import net.atari09.atarisadvancedarmory.worldgen.noise.ModNoiseSettings;
@@ -19,6 +20,7 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.DIMENSION_TYPE, ModDimensions::bootstrapType)
             .add(Registries.NOISE_SETTINGS, ModNoiseSettings::bootstrap)
             .add(Registries.BIOME, ModBiomes::bootstrap)
+            .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
             .add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem);
 
 
