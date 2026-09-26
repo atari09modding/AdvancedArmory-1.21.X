@@ -60,7 +60,7 @@ public class ModBiomes {
         BiomeDefaultFeatures.addDefaultUndergroundVariety(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
         BiomeDefaultFeatures.addSurfaceFreezing(biomeBuilder);
-        biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, MiscOverworldPlacements.FREEZE_TOP_LAYER);
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, ModPlacedFeatures.FROZEN_SURFACE_PLACED_KEY);
         //BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
         //BiomeDefaultFeatures.addForestFlowers(biomeBuilder);
         //BiomeDefaultFeatures.addFerns(biomeBuilder);
