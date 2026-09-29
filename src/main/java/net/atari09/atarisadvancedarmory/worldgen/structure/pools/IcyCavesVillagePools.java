@@ -27,7 +27,8 @@ public class IcyCavesVillagePools {
         Holder<StructureTemplatePool> empty = poolLookup.getOrThrow(Pools.EMPTY);
 
         context.register(START,new StructureTemplatePool(empty, ImmutableList.of(
-                Pair.of(element("start"),100)
+                Pair.of(element("start"),100),
+                Pair.of(element("start_p2"),100)
         ), StructureTemplatePool.Projection.RIGID));
 
         context.register(HOUSES,new StructureTemplatePool(empty, ImmutableList.of(
