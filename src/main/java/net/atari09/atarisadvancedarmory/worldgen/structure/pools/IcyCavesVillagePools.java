@@ -50,7 +50,14 @@ public class IcyCavesVillagePools {
                 Pair.of(element("connection_5"),80),
                 Pair.of(element("connection_6"),100),
                 Pair.of(element("connection_7"),50),
-                Pair.of(element("connection_8"),150)
+                Pair.of(element("connection_8"),150),
+                Pair.of(element("connection_9"),100),
+                Pair.of(element("connection_10"),100),
+                Pair.of(element("connection_11"),100),
+                Pair.of(element("connection_12"),120),
+                Pair.of(element("connection_13"),80),
+                Pair.of(element("connection_14"),100),
+                Pair.of(element("connection_15"),50)
         ), StructureTemplatePool.Projection.RIGID));//change Rigid to custom one here later
 
     }
