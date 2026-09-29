@@ -352,7 +352,7 @@ public class IcyCavesChunkGenerator extends ChunkGenerator {
 
     @Override
     public int getBaseHeight(int x, int z, Heightmap.Types type, LevelHeightAccessor level, RandomState random) {
-        return sampleHeight(x,z,random);
+        return sampleHeightIce(x,z,random);
     }
 
     @Override

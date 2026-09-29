@@ -6,12 +6,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -28,20 +28,32 @@ public class DataGenerators {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        event.createDatapackRegistryObjects(ModDatapackProvider.BUILDER);
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
+        //generator.addProvider(event.includeServer(),new ModDatapackProvider(packOutput, lookupProvider));
+
         generator.addProvider(event.includeServer(), new LootTableProvider(packOutput, Collections.emptySet(),
-                List.of(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)),lookupProvider));
+                List.of(
+                        new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK),
+                        new LootTableProvider.SubProviderEntry(ModChestLootTableProvider::new, LootContextParamSets.CHEST)
+                ),
+                lookupProvider));
         generator.addProvider(event.includeServer(), new ModRecipeProvider(packOutput, lookupProvider));
 
 
         BlockTagsProvider blockTagsProvider = new ModBlockTagProvider(packOutput,lookupProvider,existingFileHelper);
         generator.addProvider(event.includeServer(), blockTagsProvider);
+
         ItemTagsProvider itemTagsProvider = new ModItemTagProvider(packOutput,lookupProvider,blockTagsProvider.contentsGetter(),existingFileHelper);
         generator.addProvider(event.includeServer(), itemTagsProvider);
 
         EntityTypeTagsProvider entityTypeTagsProvider = new ModEntityTypeTagProvider(packOutput,lookupProvider,existingFileHelper);
         generator.addProvider(event.includeServer(), entityTypeTagsProvider);
+
+
+        BiomeTagsProvider biomeTagsProvider = new ModBiomeTagProvider(packOutput, lookupProvider,existingFileHelper);
+        generator.addProvider(event.includeServer(),biomeTagsProvider);
 
         generator.addProvider(event.includeServer(), new ModDataMapProvider(packOutput,lookupProvider));
 
@@ -49,7 +61,11 @@ public class DataGenerators {
         generator.addProvider(event.includeClient(), new ModItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(packOutput, existingFileHelper));
 
-        generator.addProvider(event.includeServer(), new ModDatapackProvider(packOutput, lookupProvider));
+
+
+
+
+
         generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(packOutput, lookupProvider));
 
         generator.addProvider(event.includeServer(), new ModAdvancmentProvider(packOutput,lookupProvider,existingFileHelper,List.of(new ModAdvancmentProvider.ModAdvancements())));

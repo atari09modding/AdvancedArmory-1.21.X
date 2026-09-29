@@ -8,6 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.VillagePools;
 import net.minecraft.data.worldgen.placement.MiscOverworldPlacements;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
@@ -40,7 +41,6 @@ public class ModBiomes {
     public static Biome frozenCaves(BootstrapContext<Biome> context){
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
         HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
-        //spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.GECKO.get(), 2, 3, 5)); spawn creatures here
 
         spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.WOLF, 5, 4, 20));
         spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.FOX, 3, 2, 5));
@@ -74,8 +74,7 @@ public class ModBiomes {
         //BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
         biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_STRUCTURES, VegetationPlacements.PATCH_BERRY_RARE);
-
-
+        
 
 
 

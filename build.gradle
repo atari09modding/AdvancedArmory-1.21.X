@@ -199,6 +199,8 @@ dependencies {
 
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
     implementation "com.zigythebird.playeranim:PlayerAnimationLibNeo:$pal_version"
+
+
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

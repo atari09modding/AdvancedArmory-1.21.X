@@ -1,10 +1,14 @@
 package net.atari09.atarisadvancedarmory.util;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 
 public class ModTags {
@@ -31,5 +35,13 @@ public class ModTags {
             return ItemTags.create(AtarisAdvancedArmory.res(name));
         }
 
+    }
+
+    public static class Biomes{
+        public static final TagKey<Biome> HAS_VILLAGE_SNOWY_ICY_CAVES = createTag("has_village_snowy_icy_caves");
+
+        private static TagKey<Biome> createTag(String name){
+            return TagKey.create(Registries.BIOME, AtarisAdvancedArmory.res(name));
+        }
     }
 }
