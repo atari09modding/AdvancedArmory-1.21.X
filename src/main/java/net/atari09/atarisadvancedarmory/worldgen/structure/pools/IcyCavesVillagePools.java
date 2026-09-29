@@ -18,6 +18,7 @@ import java.util.function.Function;
 public class IcyCavesVillagePools {
 
     public static  final ResourceKey<StructureTemplatePool> START = ModPools.createKey("icy_caves_village/start");
+    public static  final ResourceKey<StructureTemplatePool> START_P2 = ModPools.createKey("icy_caves_village/start_p2");
     public static  final ResourceKey<StructureTemplatePool> HOUSES = ModPools.createKey("icy_caves_village/houses");
     public static  final ResourceKey<StructureTemplatePool> CONNECTIONS = ModPools.createKey("icy_caves_village/connections");
     public static  final ResourceKey<StructureTemplatePool> CONNECTIONS_NO_LADDER = ModPools.createKey("icy_caves_village/connections_no_ladder");
@@ -27,9 +28,13 @@ public class IcyCavesVillagePools {
         Holder<StructureTemplatePool> empty = poolLookup.getOrThrow(Pools.EMPTY);
 
         context.register(START,new StructureTemplatePool(empty, ImmutableList.of(
-                Pair.of(element("start"),100),
+                Pair.of(element("start"),100)
+        ), StructureTemplatePool.Projection.RIGID));
+
+        context.register(START_P2,new StructureTemplatePool(empty, ImmutableList.of(
                 Pair.of(element("start_p2"),100)
         ), StructureTemplatePool.Projection.RIGID));
+
 
         context.register(HOUSES,new StructureTemplatePool(empty, ImmutableList.of(
                 Pair.of(element("house_1"),80),
