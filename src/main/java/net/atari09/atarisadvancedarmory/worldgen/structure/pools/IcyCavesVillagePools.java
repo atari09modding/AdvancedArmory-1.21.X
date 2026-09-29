@@ -20,6 +20,7 @@ public class IcyCavesVillagePools {
     public static  final ResourceKey<StructureTemplatePool> START = ModPools.createKey("icy_caves_village/start");
     public static  final ResourceKey<StructureTemplatePool> HOUSES = ModPools.createKey("icy_caves_village/houses");
     public static  final ResourceKey<StructureTemplatePool> CONNECTIONS = ModPools.createKey("icy_caves_village/connections");
+    public static  final ResourceKey<StructureTemplatePool> CONNECTIONS_NO_LADDER = ModPools.createKey("icy_caves_village/connections_no_ladder");
 
     public static void bootstrap(BootstrapContext<StructureTemplatePool> context) {
         HolderGetter<StructureTemplatePool> poolLookup = context.lookup(Registries.TEMPLATE_POOL);
@@ -39,24 +40,45 @@ public class IcyCavesVillagePools {
         ), StructureTemplatePool.Projection.RIGID));
 
         context.register(CONNECTIONS,new StructureTemplatePool(empty, ImmutableList.of(
-                Pair.of(element("stand_1"),100),
+                Pair.of(element("stand_1"),80),
                 Pair.of(element("stand_2"),5),
-                Pair.of(element("stand_3"),100),
+                Pair.of(element("stand_3"),80),
                 Pair.of(element("stand_4"),5),
-                Pair.of(element("connection_1"),100),
-                Pair.of(element("connection_2"),100),
-                Pair.of(element("connection_3"),100),
-                Pair.of(element("connection_4"),120),
+                Pair.of(element("connection_1"),80),
+                Pair.of(element("connection_2"),80),
+                Pair.of(element("connection_3"),80),
+                Pair.of(element("connection_4"),100),
                 Pair.of(element("connection_5"),80),
                 Pair.of(element("connection_6"),100),
                 Pair.of(element("connection_7"),50),
                 Pair.of(element("connection_8"),150),
-                Pair.of(element("connection_9"),100),
-                Pair.of(element("connection_10"),100),
-                Pair.of(element("connection_11"),100),
-                Pair.of(element("connection_12"),120),
+                Pair.of(element("connection_9"),80),
+                Pair.of(element("connection_10"),80),
+                Pair.of(element("connection_11"),80),
+                Pair.of(element("connection_12"),100),
                 Pair.of(element("connection_13"),80),
-                Pair.of(element("connection_14"),100),
+                Pair.of(element("connection_14"),80),
+                Pair.of(element("connection_15"),50)
+        ), StructureTemplatePool.Projection.RIGID));//change Rigid to custom one here later
+
+        context.register(CONNECTIONS_NO_LADDER,new StructureTemplatePool(empty, ImmutableList.of(
+                Pair.of(element("stand_1"),80),
+                Pair.of(element("stand_2"),5),
+                Pair.of(element("stand_3"),80),
+                Pair.of(element("stand_4"),5),
+                Pair.of(element("connection_1"),80),
+                Pair.of(element("connection_2"),80),
+                Pair.of(element("connection_3"),80),
+                Pair.of(element("connection_4"),100),
+                Pair.of(element("connection_5"),80),
+                Pair.of(element("connection_6"),100),
+                Pair.of(element("connection_7"),50),
+                Pair.of(element("connection_9"),80),
+                Pair.of(element("connection_10"),80),
+                Pair.of(element("connection_11"),80),
+                Pair.of(element("connection_12"),100),
+                Pair.of(element("connection_13"),80),
+                Pair.of(element("connection_14"),80),
                 Pair.of(element("connection_15"),50)
         ), StructureTemplatePool.Projection.RIGID));//change Rigid to custom one here later
 
