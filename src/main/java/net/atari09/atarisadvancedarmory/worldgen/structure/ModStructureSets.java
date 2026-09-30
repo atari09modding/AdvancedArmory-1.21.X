@@ -23,7 +23,7 @@ public class ModStructureSets {
         context.register(
                 ICY_CAVES_VILLAGES,
                 new StructureSet(
-                        structureLookup.getOrThrow(ModStructures.VILLAGE_SNOWY_ICY_CAVES),
+                        structureLookup.getOrThrow(ModStructures.VILLAGE_HANGING_ICY_CAVES),
                         new RandomSpreadStructurePlacement(34, 8, RandomSpreadType.LINEAR, 982889362)
                 )
         );

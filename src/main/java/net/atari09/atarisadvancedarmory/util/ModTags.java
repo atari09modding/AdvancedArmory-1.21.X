@@ -38,7 +38,7 @@ public class ModTags {
     }
 
     public static class Biomes{
-        public static final TagKey<Biome> HAS_VILLAGE_SNOWY_ICY_CAVES = createTag("has_village_snowy_icy_caves");
+        public static final TagKey<Biome> HAS_VILLAGE_HANGING_ICY_CAVES = createTag("has_village_hanging_icy_caves");
 
         private static TagKey<Biome> createTag(String name){
             return TagKey.create(Registries.BIOME, AtarisAdvancedArmory.res(name));

@@ -33,6 +33,7 @@ import net.atari09.atarisadvancedarmory.worldgen.feature.ModFeatures;
 import net.atari09.atarisadvancedarmory.worldgen.modifiers.ModPlacementModifiers;
 import net.atari09.atarisadvancedarmory.worldgen.noise.IceFloeNoise;
 import net.atari09.atarisadvancedarmory.worldgen.noise.LowerCavesNoise;
+import net.atari09.atarisadvancedarmory.worldgen.structure.processor.ModStructureProcessorTypes;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.TippableArrowRenderer;
@@ -112,6 +113,8 @@ public class AtarisAdvancedArmory {
         ModPlacementModifiers.register(modEventBus);
 
         ModFeatures.register(modEventBus);
+
+        ModStructureProcessorTypes.register(modEventBus);
 
         //LowerCavesNoise.img();
 

@@ -9,6 +9,7 @@ import net.atari09.atarisadvancedarmory.worldgen.noise.ModNoiseSettings;
 import net.atari09.atarisadvancedarmory.worldgen.structure.ModStructureSets;
 import net.atari09.atarisadvancedarmory.worldgen.structure.ModStructures;
 import net.atari09.atarisadvancedarmory.worldgen.structure.pools.ModPools;
+import net.atari09.atarisadvancedarmory.worldgen.structure.processor.ModProcessorLists;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -27,6 +28,7 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.STRUCTURE, ModStructures::bootstrap)
             .add(Registries.STRUCTURE_SET, ModStructureSets::bootstrap)
             .add(Registries.TEMPLATE_POOL, ModPools::bootstrap)
+            .add(Registries.PROCESSOR_LIST, ModProcessorLists::bootstrap)
             .add(Registries.BIOME, ModBiomes::bootstrap)
             .add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem);
 

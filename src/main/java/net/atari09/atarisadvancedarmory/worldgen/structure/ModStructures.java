@@ -2,6 +2,7 @@ package net.atari09.atarisadvancedarmory.worldgen.structure;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
 import net.atari09.atarisadvancedarmory.util.ModTags;
+import net.atari09.atarisadvancedarmory.worldgen.structure.pools.IcyCavesVillagePools;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -17,7 +18,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 
 public class ModStructures {
-    public static final ResourceKey<Structure> VILLAGE_SNOWY_ICY_CAVES = createKey("village_snowy_icy_caves");
+    public static final ResourceKey<Structure> VILLAGE_HANGING_ICY_CAVES = createKey("village_hanging_icy_caves");
 
 
     public static void bootstrap(BootstrapContext<Structure> context){
@@ -25,12 +26,12 @@ public class ModStructures {
         HolderGetter<StructureTemplatePool> templatePoolLookup = context.lookup(Registries.TEMPLATE_POOL);
 
         context.register(
-                VILLAGE_SNOWY_ICY_CAVES,
+                VILLAGE_HANGING_ICY_CAVES,
                 new JigsawStructure(
-                        new Structure.StructureSettings.Builder(biomeLookup.getOrThrow(ModTags.Biomes.HAS_VILLAGE_SNOWY_ICY_CAVES))
+                        new Structure.StructureSettings.Builder(biomeLookup.getOrThrow(ModTags.Biomes.HAS_VILLAGE_HANGING_ICY_CAVES))
                                 .terrainAdapation(TerrainAdjustment.BEARD_THIN)
                                 .build(),
-                        templatePoolLookup.getOrThrow(SnowyVillagePools.START),
+                        templatePoolLookup.getOrThrow(IcyCavesVillagePools.START),
                         6,
                         ConstantHeight.of(VerticalAnchor.absolute(0)),
                         true,

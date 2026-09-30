@@ -17,6 +17,6 @@ public class ModBiomeTagProvider extends BiomeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        tag(ModTags.Biomes.HAS_VILLAGE_SNOWY_ICY_CAVES).add(ModBiomes.FROZEN_CAVES);
+        tag(ModTags.Biomes.HAS_VILLAGE_HANGING_ICY_CAVES).add(ModBiomes.FROZEN_CAVES);
     }
 }
