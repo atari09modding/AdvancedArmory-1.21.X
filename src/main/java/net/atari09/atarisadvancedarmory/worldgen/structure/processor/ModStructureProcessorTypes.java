@@ -14,7 +14,7 @@ public class ModStructureProcessorTypes {
     public static final Supplier<StructureProcessorType<WallAlignMatchingProcessor>> WALL_ALIGN_MATCHING = TYPES.register("wall_align_matching", ()->()-> WallAlignMatchingProcessor.CODEC);
 
     public static final Supplier<StructureProcessorType<WallAlignProcessor>> WALL_ALIGN = TYPES.register("wall_align", ()->()-> WallAlignProcessor.CODEC);
-    public static final Supplier<StructureProcessorType<WallAlignInvertedProcessor>> WALL_ALIGN_INVERTED = TYPES.register("wall_align", ()->()-> WallAlignInvertedProcessor.CODEC);
+    public static final Supplier<StructureProcessorType<WallAlignInvertedProcessor>> WALL_ALIGN_INVERTED = TYPES.register("wall_align_inverted", ()->()-> WallAlignInvertedProcessor.CODEC);
 
     public static void register(IEventBus eventBus){
         TYPES.register(eventBus);

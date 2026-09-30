@@ -22,7 +22,7 @@ public class WallAlignInvertedProcessor extends StructureProcessor {
 
     @Override
     protected StructureProcessorType<?> getType() {
-        return ModStructureProcessorTypes.WALL_ALIGN.get();
+        return ModStructureProcessorTypes.WALL_ALIGN_INVERTED.get();
     }
 
 
