@@ -18,8 +18,6 @@ import org.jetbrains.annotations.Nullable;
 public class WallAlignMatchingProcessor extends StructureProcessor {
     public static final WallAlignMatchingProcessor INSTANCE = new WallAlignMatchingProcessor();
     public static final MapCodec<WallAlignMatchingProcessor> CODEC = MapCodec.unit(INSTANCE);
-    public static final int MAX_SEARCH = 64;
-
 
 
     @Override
@@ -55,7 +53,6 @@ public class WallAlignMatchingProcessor extends StructureProcessor {
         RandomState randomState = worldGenLevel.getLevel().getChunkSource().randomState();
         BlockPos blockPos = relativeBlockInfo.pos();
 
-        /*
         boolean found = false;
         int i = 1;
         do{
@@ -84,34 +81,18 @@ public class WallAlignMatchingProcessor extends StructureProcessor {
                 }
 
             } while (!found);
-        }*/
-
-        int shift = findWallShift(icyGen, randomState, blockPos, direction);
+        }
 
 
 
 
-
-        BlockPos newPos = blockPos.relative(direction,shift);
+        BlockPos newPos = blockPos.relative(direction,i);
         if(direction == Direction.WEST ||direction == Direction.EAST){
-            newPos = newPos.offset(blockPos.getX(),0,0);
+            newPos = newPos.offset(offset.getX(),0,0);
         } else {
-            newPos = newPos.offset(0,0,blockPos.getZ());
+            newPos = newPos.offset(0,0,offset.getZ());
         }
 
         return new StructureTemplate.StructureBlockInfo(newPos, relativeBlockInfo.state(), relativeBlockInfo.nbt());
-    }
-
-    private static int findWallShift(IcyCavesChunkGenerator icyGen, RandomState randomState, BlockPos anchor, Direction direction) {
-        for (int i = 1; i <= MAX_SEARCH; i++) {
-            BlockPos test = anchor.relative(direction, i);
-            int floorY = icyGen.sampleHeightIce(test.getX(), test.getZ(), randomState);
-            int ceilY = icyGen.sampleCeiling(test.getX(), test.getZ(), randomState);
-
-            if (floorY <= anchor.getY() && anchor.getY() <= ceilY) {
-                return i;
-            }
-        }
-        return 0; // nichts gefunden: keine Verschiebung statt Endlosschleife/falscher Wert
     }
 }

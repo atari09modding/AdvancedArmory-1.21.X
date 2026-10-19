@@ -19,7 +19,6 @@ public class WallAlignProcessor extends StructureProcessor {
 
     public static final WallAlignProcessor INSTANCE = new WallAlignProcessor();
     public static final MapCodec<WallAlignProcessor> CODEC = MapCodec.unit(INSTANCE);
-    public static final int MAX_SEARCH = 64;
 
     @Override
     protected StructureProcessorType<?> getType() {
@@ -55,27 +54,43 @@ public class WallAlignProcessor extends StructureProcessor {
         RandomState randomState = worldGenLevel.getLevel().getChunkSource().randomState();
         //BlockPos blockPos = relativeBlockInfo.pos();
 
-        int shift = findWallShift(icyGen, randomState, offset, direction);
+        boolean found = false;
+        int i = 1;
+        do{
+
+            int wallY = icyGen.sampleHeightIce(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState);
+            int ceilY = icyGen.sampleCeiling(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState);
+            if(wallY <=blockPos.getY() && blockPos.getY() <= ceilY){
+                found = true;
+            } else {
+                i++;
+            }
+
+        } while (!found);
+
+        if(icyGen.sampleHeightIce(blockPos.getX(), blockPos.getZ(), randomState)>=blockPos.getY() || icyGen.sampleCeiling(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState)<=blockPos.getY()) {
+            found = false;
+            do{
+
+                int wallY = icyGen.sampleHeightIce(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState);
+                int ceilY = icyGen.sampleCeiling(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState);
+                if(wallY <=blockPos.getY() && blockPos.getY() <= ceilY){
+                    found = true;
+                    i--;
+                } else {
+                    i--;
+                }
+
+            } while (!found);
+        }
 
 
 
 
-        BlockPos newPos = blockPos.relative(direction,shift);
+        BlockPos newPos = blockPos.relative(direction,i);
 
         return new StructureTemplate.StructureBlockInfo(newPos, relativeBlockInfo.state(), relativeBlockInfo.nbt());
     }
 
-    private static int findWallShift(IcyCavesChunkGenerator icyGen, RandomState randomState, BlockPos anchor, Direction direction) {
-        for (int i = 1; i <= MAX_SEARCH; i++) {
-            BlockPos test = anchor.relative(direction, i);
-            int floorY = icyGen.sampleHeightIce(test.getX(), test.getZ(), randomState);
-            int ceilY = icyGen.sampleCeiling(test.getX(), test.getZ(), randomState);
-
-            if (floorY <= anchor.getY() && anchor.getY() <= ceilY) {
-                return i;
-            }
-        }
-        return 0; // nichts gefunden: keine Verschiebung statt Endlosschleife/falscher Wert
-    }
 
 }
