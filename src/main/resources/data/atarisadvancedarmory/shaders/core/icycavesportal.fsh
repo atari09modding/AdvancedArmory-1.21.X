@@ -52,13 +52,13 @@ void main(){
     float y = coords.y - center.y;
 
     float proximity = (pow( x, 2.0 ) / ( a * a ) + pow( y, 2.0 ) / ( b * b ))-1.0;
-
+    //proximity = smoothstep(0.,0.1,proximity);
 
     float alpha_shape = 1.0-proximity;
 
     float alpha = alpha_shape + alpha_pattern;
 
-    fragColor = vec4(0.0,0.0,0.0,alpha);
+    fragColor = vec4(0.027, 0.839, 0.878,alpha);
 }
 
 
