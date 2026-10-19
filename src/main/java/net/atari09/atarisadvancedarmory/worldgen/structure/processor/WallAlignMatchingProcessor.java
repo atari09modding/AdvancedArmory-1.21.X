@@ -58,31 +58,13 @@ public class WallAlignMatchingProcessor extends StructureProcessor {
         do{
 
             int wallY = icyGen.sampleHeightIce(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState);
-            int ceilY = icyGen.sampleCeiling(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState);
-            if(wallY <=blockPos.getY() && blockPos.getY() <= ceilY){
+            if(wallY >=blockPos.getY()){
                 found = true;
             } else {
                 i++;
             }
 
         } while (!found);
-
-        if(icyGen.sampleHeightIce(blockPos.getX(), blockPos.getZ(), randomState)>=blockPos.getY() || icyGen.sampleCeiling(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState)<=blockPos.getY()) {
-            found = false;
-            do{
-
-                int wallY = icyGen.sampleHeightIce(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState);
-                int ceilY = icyGen.sampleCeiling(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState);
-                if(wallY <=blockPos.getY() && blockPos.getY() <= ceilY){
-                    found = true;
-                    i--;
-                } else {
-                    i--;
-                }
-
-            } while (!found);
-        }
-
 
 
 
