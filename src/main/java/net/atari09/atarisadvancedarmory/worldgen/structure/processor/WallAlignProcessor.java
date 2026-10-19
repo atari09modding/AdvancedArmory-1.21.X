@@ -19,6 +19,7 @@ public class WallAlignProcessor extends StructureProcessor {
 
     public static final WallAlignProcessor INSTANCE = new WallAlignProcessor();
     public static final MapCodec<WallAlignProcessor> CODEC = MapCodec.unit(INSTANCE);
+    public static final int MAX_SEARCH = 64;
 
     @Override
     protected StructureProcessorType<?> getType() {
@@ -54,26 +55,27 @@ public class WallAlignProcessor extends StructureProcessor {
         RandomState randomState = worldGenLevel.getLevel().getChunkSource().randomState();
         //BlockPos blockPos = relativeBlockInfo.pos();
 
-        boolean found = false;
-        int i = 1;
-        do{
-
-            int wallY = icyGen.sampleHeightIce(blockPos.relative(direction,i).getX(), blockPos.relative(direction,i).getZ(), randomState);
-            if(wallY >=blockPos.getY()){
-                found = true;
-            } else {
-                i++;
-            }
-
-        } while (!found);
+        int shift = findWallShift(icyGen, randomState, offset, direction);
 
 
 
-        BlockPos newPos = relativeBlockInfo.pos().relative(direction,i);
 
+        BlockPos newPos = blockPos.relative(direction,shift);
 
         return new StructureTemplate.StructureBlockInfo(newPos, relativeBlockInfo.state(), relativeBlockInfo.nbt());
     }
 
+    private static int findWallShift(IcyCavesChunkGenerator icyGen, RandomState randomState, BlockPos anchor, Direction direction) {
+        for (int i = 1; i <= MAX_SEARCH; i++) {
+            BlockPos test = anchor.relative(direction, i);
+            int floorY = icyGen.sampleHeightIce(test.getX(), test.getZ(), randomState);
+            int ceilY = icyGen.sampleCeiling(test.getX(), test.getZ(), randomState);
+
+            if (floorY <= anchor.getY() && anchor.getY() <= ceilY) {
+                return i;
+            }
+        }
+        return 0; // nichts gefunden: keine Verschiebung statt Endlosschleife/falscher Wert
+    }
 
 }
