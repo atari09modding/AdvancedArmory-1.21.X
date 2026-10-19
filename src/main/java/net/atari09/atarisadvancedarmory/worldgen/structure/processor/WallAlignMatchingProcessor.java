@@ -18,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 public class WallAlignMatchingProcessor extends StructureProcessor {
     public static final WallAlignMatchingProcessor INSTANCE = new WallAlignMatchingProcessor();
     public static final MapCodec<WallAlignMatchingProcessor> CODEC = MapCodec.unit(INSTANCE);
+    public static final int MAX_SEARCH = 128;
+
 
 
     @Override
@@ -51,8 +53,24 @@ public class WallAlignMatchingProcessor extends StructureProcessor {
         }
 
         RandomState randomState = worldGenLevel.getLevel().getChunkSource().randomState();
-        BlockPos blockPos = relativeBlockInfo.pos();
 
+
+        int i = findShift(icyGen,pos,direction,randomState); // pos is position in world
+
+
+
+        BlockPos a = relativeBlockInfo.pos(); // position inside of structure
+        BlockPos newPos = a.relative(direction,i);
+        if(direction == Direction.WEST ||direction == Direction.EAST){
+            newPos = newPos.offset(a.getX(),0,0);
+        } else {
+            newPos = newPos.offset(0,0,a.getZ());
+        }
+
+        return new StructureTemplate.StructureBlockInfo(newPos, relativeBlockInfo.state(), relativeBlockInfo.nbt());
+    }
+
+    private int findShift(IcyCavesChunkGenerator icyGen, BlockPos blockPos, Direction direction,RandomState randomState){
         boolean found = false;
         int i = 1;
         do{
@@ -63,18 +81,13 @@ public class WallAlignMatchingProcessor extends StructureProcessor {
             } else {
                 i++;
             }
+            if(i>MAX_SEARCH){
+                found = true;
+                i=0;
+            }
 
         } while (!found);
 
-
-
-        BlockPos newPos = blockPos.relative(direction,i);
-        if(direction == Direction.WEST ||direction == Direction.EAST){
-            newPos = newPos.offset(offset.getX(),0,0);
-        } else {
-            newPos = newPos.offset(0,0,offset.getZ());
-        }
-
-        return new StructureTemplate.StructureBlockInfo(newPos, relativeBlockInfo.state(), relativeBlockInfo.nbt());
+        return i;
     }
 }

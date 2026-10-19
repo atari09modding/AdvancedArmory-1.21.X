@@ -19,6 +19,7 @@ public class WallAlignProcessor extends StructureProcessor {
 
     public static final WallAlignProcessor INSTANCE = new WallAlignProcessor();
     public static final MapCodec<WallAlignProcessor> CODEC = MapCodec.unit(INSTANCE);
+    public static final int MAX_SEARCH = 128;
 
     @Override
     protected StructureProcessorType<?> getType() {
@@ -54,6 +55,17 @@ public class WallAlignProcessor extends StructureProcessor {
         RandomState randomState = worldGenLevel.getLevel().getChunkSource().randomState();
         //BlockPos blockPos = relativeBlockInfo.pos();
 
+        int i = findShift(icyGen,blockPos.offset(blockPos.getX(), blockPos.getY(), blockPos.getZ()),direction,randomState);
+
+
+
+        BlockPos newPos = relativeBlockInfo.pos().relative(direction,i);
+
+
+        return new StructureTemplate.StructureBlockInfo(newPos, relativeBlockInfo.state(), relativeBlockInfo.nbt());
+    }
+
+    private int findShift(IcyCavesChunkGenerator icyGen, BlockPos blockPos, Direction direction,RandomState randomState){
         boolean found = false;
         int i = 1;
         do{
@@ -64,15 +76,14 @@ public class WallAlignProcessor extends StructureProcessor {
             } else {
                 i++;
             }
+            if(i>MAX_SEARCH){
+                found = true;
+                i=0;
+            }
 
         } while (!found);
 
-
-
-        BlockPos newPos = relativeBlockInfo.pos().relative(direction,i);
-
-
-        return new StructureTemplate.StructureBlockInfo(newPos, relativeBlockInfo.state(), relativeBlockInfo.nbt());
+        return i;
     }
 
 
