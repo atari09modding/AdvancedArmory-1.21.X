@@ -94,9 +94,9 @@ public class WallAlignMatchingProcessor extends StructureProcessor {
 
         BlockPos newPos = blockPos.relative(direction,shift);
         if(direction == Direction.WEST ||direction == Direction.EAST){
-            newPos = newPos.offset(offset.getX(),0,0);
+            newPos = newPos.offset(blockPos.getX(),0,0);
         } else {
-            newPos = newPos.offset(0,0,offset.getZ());
+            newPos = newPos.offset(0,0,blockPos.getZ());
         }
 
         return new StructureTemplate.StructureBlockInfo(newPos, relativeBlockInfo.state(), relativeBlockInfo.nbt());
