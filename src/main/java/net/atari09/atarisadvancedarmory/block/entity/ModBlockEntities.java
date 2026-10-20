@@ -23,6 +23,11 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("archerstable_be",() -> BlockEntityType.Builder.of(
                     ArchersTableBlockEntity::new, ModBlocks.ARCHERSTABLEBLOCK.get()).build(null));
 
+    public static final Supplier<BlockEntityType<CustomRenderingPortalBlockEntity>> CUSTOMRENDERINGPORTALBLOCK_BE =
+            BLOCK_ENTITIES.register("customrenderingportalblock_be",()->BlockEntityType.Builder.of(
+                    CustomRenderingPortalBlockEntity::new, ModBlocks.CUSTOMRENDERINGPORTALBLOCK.get()
+            ).build(null));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

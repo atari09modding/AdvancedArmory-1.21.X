@@ -1,9 +1,8 @@
 package net.atari09.atarisadvancedarmory.block;
 
 import net.atari09.atarisadvancedarmory.AtarisAdvancedArmory;
-import net.atari09.atarisadvancedarmory.block.custom.ArchersTableBlock;
-import net.atari09.atarisadvancedarmory.block.custom.PortalBlock;
-import net.atari09.atarisadvancedarmory.block.custom.WeaponSmithPieceBlock;
+import net.atari09.atarisadvancedarmory.block.custom.*;
+import net.atari09.atarisadvancedarmory.block.entity.renderer.CustomPortalRenderConsumers;
 import net.atari09.atarisadvancedarmory.item.ModItems;
 import net.atari09.atarisadvancedarmory.worldgen.dimension.ModDimensions;
 import net.minecraft.world.item.BlockItem;
@@ -13,7 +12,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.atari09.atarisadvancedarmory.block.custom.WeaponSmithBaseBlock;
 
 import java.util.Properties;
 import java.util.function.Supplier;
@@ -30,6 +28,9 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> ARCHERSTABLEBLOCK = registerBlock("archerstable",
             ()->new ArchersTableBlock(BlockBehaviour.Properties.of()));
+
+    public static final DeferredBlock<Block> CUSTOMRENDERINGPORTALBLOCK = registerBlock("customrenderingportalblock",
+            ()->new CustomRenderingPortalBlock(BlockBehaviour.Properties.of().noLootTable().destroyTime(200f), CustomPortalRenderConsumers.DEBUG));
 
     public static final DeferredBlock<Block> DEBUGPORTALBLOCK = registerBlock("debugportalblock",
             ()->new PortalBlock(BlockBehaviour.Properties.of().noLootTable(), ModDimensions.ICY_CAVES_LEVEL_KEY));

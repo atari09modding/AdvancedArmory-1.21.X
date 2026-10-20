@@ -1,6 +1,7 @@
 package net.atari09.atarisadvancedarmory.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import net.atari09.atarisadvancedarmory.block.entity.renderer.CustomPortalRenderConsumers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -11,13 +12,20 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 public class CustomRenderingPortalBlock extends BaseEntityBlock {
 
     public static final MapCodec<CustomRenderingPortalBlock> CODEC = simpleCodec(CustomRenderingPortalBlock::new);
     public static final DirectionProperty FACING;
 
+    private CustomRenderingPortalBlock(Properties properties) {
+        super(properties);
+    }
 
-    protected CustomRenderingPortalBlock(Properties properties) {
+
+    public CustomRenderingPortalBlock(Properties properties, CustomPortalRenderConsumers.CustomPortalRenderConsumer render) {
         super(properties);
     }
 
