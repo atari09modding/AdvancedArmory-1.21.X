@@ -19,14 +19,16 @@ public class CustomRenderingPortalBlock extends BaseEntityBlock {
 
     public static final MapCodec<CustomRenderingPortalBlock> CODEC = simpleCodec(CustomRenderingPortalBlock::new);
     public static final DirectionProperty FACING;
+    public final CustomPortalRenderConsumers.CustomPortalRenderConsumer portalRenderConsumer;
 
     private CustomRenderingPortalBlock(Properties properties) {
-        super(properties);
+        this(properties,CustomPortalRenderConsumers.DEBUG);
     }
 
 
     public CustomRenderingPortalBlock(Properties properties, CustomPortalRenderConsumers.CustomPortalRenderConsumer render) {
         super(properties);
+        this.portalRenderConsumer = render;
     }
 
 

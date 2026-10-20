@@ -14,7 +14,10 @@ public class CustomRenderingPortalBlockEntityRenderer implements BlockEntityRend
     @Override
     public void render(CustomRenderingPortalBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         assert blockEntity.getLevel() != null;
+
         BlockState blockState = blockEntity.getLevel().getBlockState(blockEntity.getBlockPos());
+        if (!(blockState.getBlock() instanceof CustomRenderingPortalBlock block)) return;
+
         Direction direction = blockState.getValue(CustomRenderingPortalBlock.FACING);
         float rot = 0;
         switch (direction){
@@ -24,7 +27,7 @@ public class CustomRenderingPortalBlockEntityRenderer implements BlockEntityRend
         }
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        blockState.
+        block.portalRenderConsumer.run(blockEntity,partialTick,poseStack,bufferSource,packedLight,packedOverlay);
 
     }
 }

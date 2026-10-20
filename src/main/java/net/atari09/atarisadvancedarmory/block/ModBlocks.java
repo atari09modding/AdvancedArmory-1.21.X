@@ -32,6 +32,9 @@ public class ModBlocks {
     public static final DeferredBlock<Block> CUSTOMRENDERINGPORTALBLOCK = registerBlock("customrenderingportalblock",
             ()->new CustomRenderingPortalBlock(BlockBehaviour.Properties.of().noLootTable().destroyTime(200f), CustomPortalRenderConsumers.DEBUG));
 
+    public static final DeferredBlock<Block> ICYCAVESPORTALBLOCK = registerBlock("icycavesportalblock",
+            ()->new CustomRenderingPortalBlock(BlockBehaviour.Properties.of().noLootTable().destroyTime(200f), CustomPortalRenderConsumers.DEBUG));
+
     public static final DeferredBlock<Block> DEBUGPORTALBLOCK = registerBlock("debugportalblock",
             ()->new PortalBlock(BlockBehaviour.Properties.of().noLootTable(), ModDimensions.ICY_CAVES_LEVEL_KEY));
 
