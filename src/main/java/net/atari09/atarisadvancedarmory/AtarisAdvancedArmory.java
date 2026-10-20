@@ -7,6 +7,7 @@ import net.atari09.atarisadvancedarmory.block.ModBlocks;
 import net.atari09.atarisadvancedarmory.block.client.WeaponSmithBaseBlockRenderer;
 import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
 import net.atari09.atarisadvancedarmory.block.entity.renderer.ArchersTableBlockEntityRenderer;
+import net.atari09.atarisadvancedarmory.block.entity.renderer.CustomRenderingPortalBlockEntityRenderer;
 import net.atari09.atarisadvancedarmory.component.ModDataComponents;
 import net.atari09.atarisadvancedarmory.effect.ModEffects;
 import net.atari09.atarisadvancedarmory.entity.ModEntities;
@@ -169,6 +170,7 @@ public class AtarisAdvancedArmory {
         public static void registerBER(EntityRenderersEvent.RegisterRenderers event){
             event.registerBlockEntityRenderer(ModBlockEntities.WEAPONSMITHBLOCK_BE.get(), WeaponSmithBaseBlockRenderer::new);
             event.registerBlockEntityRenderer(ModBlockEntities.ARCHERSTABLE_BE.get(), ArchersTableBlockEntityRenderer::new);
+            event.registerBlockEntityRenderer(ModBlockEntities.CUSTOMRENDERINGPORTALBLOCK_BE.get(), CustomRenderingPortalBlockEntityRenderer::new);
 
         }
 
