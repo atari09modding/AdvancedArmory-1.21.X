@@ -16,40 +16,22 @@ in vec3 vNormal;
 out vec4 fragColor;
 
 void main(){
-    vec2 scroll = vec2(0.4, 0.5);
+    vec2 scroll1 = vec2(0.4, 0.5);
+    vec2 scroll2 = vec2(0.0, 0.5);
     vec2 NoiseScale1 = vec2(0.7,0.7)*0.2;
-
-    vec3 dX = dFdx(worldpos);
-    vec3 dY = dFdy(worldpos);
-
-    // Das Kreuzprodukt gibt uns die perfekt senkrechte Ausrichtung der Fläche!
-    vec3 calcNormal = normalize(cross(dX, dY));
-    vec3 absNormal = abs(calcNormal);
-
-    vec2 coords;
-
-    if (absNormal.y > 0.5) {
-        // Oben/Unten
-        coords = worldpos.xz;
-    } else if (absNormal.x > 0.5) {
-        // Osten/Westen
-        coords = worldpos.yz;
-    } else {
-        // Norden/Süden
-        coords = worldpos.xy;
-    }
+    vec2 NoiseScale2 = vec2(1.5,1.5)*0.2;
 
 
-    float alpha_pattern = texture(NOISE_PATTERN, coords *  NoiseScale1 + GameTime * 500. * scroll).a;
+    float alpha_pattern = texture(NOISE_PATTERN, texCoord0 *  NoiseScale1 + GameTime * 500. * scroll1).a;
 
 
-    vec2 center = vec2(0.5,0.5);
+    vec2 center = vec2(0.5,1);
 
-    float a = 1.0;
-    float b = 2.0;
+    float a = 0.5;
+    float b = 1;
 
-    float x = coords.x - center.x;
-    float y = coords.y - center.y;
+    float x = texCoord0.x - center.x;
+    float y = texCoord0.y - center.y;
 
     float proximity = (pow( x, 2.0 ) / ( a * a ) + pow( y, 2.0 ) / ( b * b ))-1.0;
     //proximity = smoothstep(0.,0.1,proximity);
@@ -58,7 +40,12 @@ void main(){
 
     float alpha = alpha_shape + alpha_pattern;
 
-    fragColor = vec4(0.027, 0.839, 0.878,alpha);
+    float add_blue = 0.0;
+    add_blue = clamp(0.9-proximity,0.0,1.0) * texture(NOISE_PATTERN, texCoord0 *  NoiseScale2 + GameTime * 500. * scroll2).a;
+
+    vec3 color = vec3(0.027, 0.839, 0.878+add_blue);
+
+    fragColor = vec4(color,alpha);
 }
 
 

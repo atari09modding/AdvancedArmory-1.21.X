@@ -10,11 +10,17 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 public class CustomRenderingPortalBlockEntityRenderer implements BlockEntityRenderer<CustomRenderingPortalBlockEntity> {
 
     public CustomRenderingPortalBlockEntityRenderer(BlockEntityRendererProvider.Context context){
 
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(CustomRenderingPortalBlockEntity blockEntity) {
+        return new AABB(blockEntity.getBlockPos()).inflate(5f);
     }
 
     @Override
@@ -27,13 +33,15 @@ public class CustomRenderingPortalBlockEntityRenderer implements BlockEntityRend
         Direction direction = blockState.getValue(CustomRenderingPortalBlock.FACING);
         float rot = 0;
         switch (direction){
-            case EAST -> rot = 90;
-            case SOUTH -> rot = 180;
             case WEST -> rot = 270;
+            case SOUTH -> rot = 180;
+            case EAST -> rot = 90;
         }
+        poseStack.translate(0.5f,0f,0.5f);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        poseStack.translate(-0.5f,0f,-0.5f);
 
-        System.out.println("aaa");
+
         block.portalRenderConsumer.run(blockEntity,partialTick,poseStack,bufferSource,packedLight,packedOverlay);
 
     }

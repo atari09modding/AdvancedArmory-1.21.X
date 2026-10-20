@@ -1,6 +1,8 @@
 package net.atari09.atarisadvancedarmory.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import net.atari09.atarisadvancedarmory.block.entity.CustomRenderingPortalBlockEntity;
+import net.atari09.atarisadvancedarmory.block.entity.ModBlockEntities;
 import net.atari09.atarisadvancedarmory.block.entity.renderer.CustomPortalRenderConsumers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,7 +41,7 @@ public class CustomRenderingPortalBlock extends BaseEntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new CustomRenderingPortalBlockEntity(pos,state);
     }
 
 
