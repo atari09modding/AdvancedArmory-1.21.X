@@ -25,6 +25,7 @@ public class ModRenderTypes extends RenderType {
             RenderType.CompositeState.builder()
                     .setShaderState(ICY_CAVES_PORTAL_SHADER_STATE)
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)//makes transparent places on the shader still have clouds/water
                     .setTextureState(new RenderStateShard.TextureStateShard(NOISE_PATTERN_FROSTY,false,false))
                     .createCompositeState(false)
     );

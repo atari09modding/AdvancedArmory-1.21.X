@@ -24,10 +24,10 @@ public class CustomPortalRenderConsumers {
         Matrix4f mat = poseStack.last().pose();
 
 
-        vc.addVertex(mat,0,1,1).setUv(0,0);
-        vc.addVertex(mat,0,3,1).setUv(0,2);
+        vc.addVertex(mat,0,1,1).setUv(-2,-2);
+        vc.addVertex(mat,0,3,1).setUv(-2,2);
         vc.addVertex(mat,1,3,1).setUv(2,2);
-        vc.addVertex(mat,1,1,1).setUv(2,0);
+        vc.addVertex(mat,1,1,1).setUv(2,-2);
 
 
 
